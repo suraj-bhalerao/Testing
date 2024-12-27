@@ -18,6 +18,10 @@ Follow the steps below to get started with the project and contribute effectivel
 
 ## Getting Started
 1. Fork owner repository:
+   By clicking on the owner's repository, You will find a button to fork.
+   ```img
+   
+
 
 2. Clone the repository:
    ```bash
