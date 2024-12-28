@@ -2,10 +2,12 @@ package com.aepl.pages;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -32,8 +34,10 @@ public class ChangeMobilePage {
 	private By deleteActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][2]");
 	private By paginationNextButton = By.xpath("//li[@class=\"pagination-next ng-star-inserted\"");
 	private By paginationPreviousButton = By.xpath("//li[@class=\"pagination-previous ng-star-inserted\"]");
-	private By pageHeader = By.cssSelector("h4.h4ssssss.text-cente.mt-1");
 	
+	// URL's
+	private static final String EXP_URL = "http://20.219.88.214:6102/change-mobile-view/66e00f6cfd52c8a4d8f06702";
+
 	// Methods Goes here
 	public void clickNavBar() {
 		// Wait for the navigation bar links to be visible
@@ -69,52 +73,115 @@ public class ChangeMobilePage {
 	public boolean checkSearchBox(String iccid, List<String> expectedHeaders) {
 		try {
 			WebElement search = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
+
+			logger.info("Taking table heading before the search");
+			List<WebElement> actualHeaders = wait
+					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
+
+			logger.info("Trying to clicking on search box and search something");
 			search.click();
 			search.clear();
 			search.sendKeys(iccid);
 			search.sendKeys(Keys.ENTER);
 
-			// Validate table headers after search
-			List<WebElement> actualHeaders = wait
-					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
+			logger.info("Taking table heading after the search");
 			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
 					.collect(Collectors.toList());
 
-			return actualHeaderTexts.equals(expectedHeaders);
+			return actualHeaderTexts.equals(expectedHeaders) ? true : false;
 		} catch (Exception e) {
 			logger.error("Error during search or header validation", e);
 			throw new RuntimeException("Search or validation failed", e);
 		}
 	}
-	
-/*
-	 TODO : Later think on this
-		public void checkTableHeading() {
-			// Check table heading is as expected here and validate
-		}
-*/
+
+	/*
+	 * TODO : Later think on this public void checkTableHeading() { // Check table
+	 * heading is as expected here and validate }
+	 */
 	public void clickEyeActionButton() {
-		logger.info("Locating the eye action button...");
-		try {
-			WebElement eyeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeActionButtons));
-			logger.info("Eye action button located. Clicking on it.");
-			eyeButton.click();
-			logger.info("Performing actions on the navigated page...");
-			Thread.sleep(2000);
-			driver.navigate().back();
-			logger.info("Navigated back to the original page.");
-		} catch (Exception e) {
-			logger.error("An error occurred while interacting with the eye action button.", e);
-			throw new RuntimeException("Failed to process the eye action button.", e);
-		}
+	    logger.info("Locating the eye action button...");
+	    try {
+	        WebElement eyeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeActionButtons));
+	        logger.info("Eye action button located. Clicking on it.");
+	        eyeButton.click();
+	        
+	        logger.info("Performing actions on the navigated page...");
+	        // Adding a more structured way to wait and validate navigation
+	        wait.until(ExpectedConditions.urlContains(EXP_URL));
+
+	        logger.info("Page validation successful. Navigating back.");
+	        driver.navigate().back();
+	        wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox)); 
+	        logger.info("Navigated back to the original page.");
+	    } catch (Exception e) {
+	        logger.error("An error occurred while interacting with the eye action button.", e);
+	        throw new RuntimeException("Failed to process the eye action button.", e);
+	    }
 	}
 
-	public void clickDeleteActionButton() {
-		// Click on delete button, validate alert and come back
+
+	public boolean clickDeleteActionButton() {
+	    logger.info("Attempting to click the Delete Button...");
+	    try {
+	        WebElement deleteButton = wait.until(ExpectedConditions.visibilityOfElementLocated(deleteActionButtons));
+	        if (deleteButton.isEnabled() && deleteButton.isDisplayed()) {
+	            deleteButton.click();
+	            logger.info("Delete Button clicked. Validating alert...");
+	            
+	            Alert alert = driver.switchTo().alert();
+	            String alertText = alert.getText();
+	            logger.info("Alert text: " + alertText);
+
+	            if (alertText.contains("Are you sure you want to delete?")) {
+//	                alert.accept(); // Not accepting the alert to delete the item
+	                logger.info("Alert accepted.");
+	                driver.navigate().back();
+	                return true;
+	            } else {
+	                logger.warn("Unexpected alert text: " + alertText);
+	                alert.dismiss(); 
+	                return false; 
+	            }
+	        }
+	    } catch (NoSuchElementException e) {
+	        logger.error("Delete Button not found: " + e.getMessage());
+	    } catch (Exception e) {
+	        logger.error("An error occurred while clicking Delete Button: " + e.getMessage());
+	    }
+	    return false; 
 	}
+
 
 	public void checkPagination() {
-		// Click on pagination next and previous buttons and validate it
-		// NOTE : First click next button and then previous.,
+	    logger.info("Checking pagination functionality...");
+
+	    try {
+	        WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(paginationNextButton));
+	        if (nextButton.isDisplayed() && nextButton.isEnabled()) {
+	            logger.info("Next button located. Clicking on it.");
+	            nextButton.click();
+	            
+	            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnNextPage")));
+	            logger.info("Successfully navigated to the next page.");
+	        } else {
+	            logger.warn("Next button is not clickable.");
+	            return;
+	        }
+
+	        WebElement previousButton = wait.until(ExpectedConditions.elementToBeClickable(paginationPreviousButton));
+	        if (previousButton.isDisplayed() && previousButton.isEnabled()) {
+	            logger.info("Previous button located. Clicking on it.");
+	            previousButton.click();
+	            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnPreviousPage")));
+	            logger.info("Successfully navigated back to the previous page.");
+	        } else {
+	            logger.warn("Previous button is not clickable.");
+	        }
+	    } catch (Exception e) {
+	        logger.error("An error occurred while testing pagination.", e);
+	        throw new RuntimeException("Pagination test failed.", e);
+	    }
 	}
+
 }

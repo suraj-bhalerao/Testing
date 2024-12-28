@@ -1,13 +1,7 @@
-# Ignore Eclipse files
-.classpath
-.project
-.settings/
-
-# Ignore test results (e.g., TestNG, JUnit, etc.)
-test-output/
-test-results/
-logs/
-screenshots/
+# === General ===
+# Ignore system files
+.DS_Store
+Thumbs.db
 
 # Ignore IDE-specific files
 *.iml
@@ -24,6 +18,11 @@ target/
 *.out
 *.class
 
+# Ignore Eclipse files
+.classpath
+.project
+.settings/
+
 # === Sensitive or Config Files ===
 # Ignore properties and configuration files (if sensitive)
 src/main/resources/*.properties
@@ -32,6 +31,20 @@ src/main/resources/*.properties
 # Ignore Git specific files
 *.orig
 *.rej
+
+# === OS-Specific ===
+# MacOS
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~ 
+.nfs*
 
 # === Logs and Temp Files ===
 *.log
@@ -46,3 +59,18 @@ coverage/
 *.lcov
 *.clover
 coverage-final.json
+
+# Ignore build tools
+node_modules/
+dist/
+build/
+
+# Ignore Python virtual environment
+venv/
+.env/
+
+# Ignore test results (e.g., TestNG, JUnit, etc.)
+test-output/
+
+# Ignore merge conflict files
+*.orig
