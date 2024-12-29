@@ -75,3 +75,6 @@ git checkout main                     # Switch back to main
 git pull origin main                  # Update local main
 git merge feature/new-button          # Merge the new branch
 git push origin main                  # Push the changes
+```
+
+## Changes
