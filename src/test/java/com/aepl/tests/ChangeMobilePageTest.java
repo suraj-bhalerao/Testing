@@ -34,7 +34,7 @@ public class ChangeMobilePageTest extends TestBase {
 		try {
 			logger.info("Executing Login: " + testCaseName);
 			loginPage.enterUsername("suraj.bhalerao@accoladeelectronics.com").enterPassword("cqf9tnvl").clickLogin();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			captureScreenshot(testCaseName);
 		}
@@ -114,8 +114,81 @@ public class ChangeMobilePageTest extends TestBase {
 	}
 
 	@Test(priority = 5)
-	public void testActionButtons() {
+	public void testEyeButtons() {
+		String testCaseName = "Test Eye Action Button";
+		String expectedResult = "Successfully viewed item and navigated back";
+		String actualResult = "";
+		String result = "";
+
+		logger.info("Executing test case: " + testCaseName);
+		try {
 			changeMobile.clickEyeActionButton();
+			actualResult = "Successfully viewed item and navigated back";
+			result = "PASS";
+		} catch (Exception e) {
+			actualResult = "Failed to view item and navigate back: " + e.getMessage();
+			result = "FAIL";
+			logger.error("Test failed: " + e.getMessage());
+
+			captureScreenshot(testCaseName);
+			logger.error("Screenshot captured for failure: ");
+		}
+
+		logger.info("Writing results to Excel...");
+		excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+	}
+
+	@Test(priority = 6)
+	public void testDeleteButtons() {
+		String testCaseName = "Test Delete Action Button";
+		String expectedResult = "Alert handled successfully";
+		String actualResult;
+		String result;
+
+		logger.info("Executing test case: " + testCaseName);
+
+		try {
+			if (changeMobile.clickDeleteActionButton()) {
+				actualResult = "Alert handled successfully";
+				result = "PASS";
+			} else {
+				actualResult = "Failed to handle alert or delete button";
+				result = "FAIL";
+			}
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			result = "FAIL";
+			logger.error("An error occurred during the test: " + e.getMessage());
+			captureScreenshot(testCaseName);
+			logger.info("Screenshot captured for failure: ");
+		}
+
+		logger.info("Writing results to Excel...");
+		excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+	}
+
+	@Test(priority = 7)
+	public void testPaginationButtons() {
+		String testCaseName = "Test Pagination Buttons";
+		String expectedResult = "Successfully navigated using pagination buttons";
+		String actualResult = "";
+		String result = "";
+
+		logger.info("Executing test case: " + testCaseName);
+		try {
+			changeMobile.checkPagination();
+			actualResult = "Successfully navigated using pagination buttons";
+			result = "PASS";
+		} catch (Exception e) {
+			actualResult = "Failed to navigate using pagination buttons: " + e.getMessage();
+			result = "FAIL";
+
+			captureScreenshot(testCaseName);
+			logger.error("Screenshot captured for failure: ");
+		}
+
+		logger.info("Writing results to Excel...");
+		excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 	}
 
 }
