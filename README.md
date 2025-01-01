@@ -1,7 +1,8 @@
-# Testing
-**Author:** Suraj Bhalerao 
-**Date of Creation:** 01/01/2025 
-**Purpose:** A repository of the ATCU 4G Web Project automation using Selenium, Java, and TestNG.
+# ATCU4G Automation Project
+
+**Author:** Suraj Bhalerao  
+**Date of Creation:** 01/01/2025  
+**Purpose:** A repository for automating the ATCU 4G Web Project using Selenium, Java, and TestNG. This project is designed to streamline testing processes, ensure application reliability, and provide an efficient framework for maintaining high-quality code standards.
 
 ---
 
@@ -12,7 +13,7 @@
 2.  **Clone the Repository (Local Setup):** Open your terminal and navigate to your desired project directory. Clone the repository using:
 
     ```bash
-    git clone <repository_url>
+    	git clone <repository_url>
     ```
     **Note:** Replace `<repository_url>` with the URL of the project you want to clone to your local repository.
 
