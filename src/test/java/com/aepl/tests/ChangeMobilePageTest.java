@@ -36,7 +36,7 @@ public class ChangeMobilePageTest extends TestBase {
 			loginPage.enterUsername("suraj.bhalerao@accoladeelectronics.com").enterPassword("cqf9tnvl").clickLogin();
 		} catch (Exception e) {
 			e.printStackTrace();
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class ChangeMobilePageTest extends TestBase {
 			logger.warn("Error");
 			e.printStackTrace();
 			actualURL = driver.getCurrentUrl();
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		}
@@ -80,7 +80,7 @@ public class ChangeMobilePageTest extends TestBase {
 					expectedURL, actualURL);
 		} catch (Exception e) {
 			logger.error("Error encountered in test case '{}'.", testCaseName, e);
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
@@ -104,7 +104,7 @@ public class ChangeMobilePageTest extends TestBase {
 			logger.info("Search functionality executed. Headers match status: {}", headersMatch);
 		} catch (Exception e) {
 			logger.error("Error encountered in test case: {}", testCaseName, e);
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
 			// Writing results to Excel
@@ -130,7 +130,7 @@ public class ChangeMobilePageTest extends TestBase {
 			result = "FAIL";
 			logger.error("Test failed: " + e.getMessage());
 
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			logger.error("Screenshot captured for failure: ");
 		}
 
@@ -159,7 +159,7 @@ public class ChangeMobilePageTest extends TestBase {
 			actualResult = "Exception occurred: " + e.getMessage();
 			result = "FAIL";
 			logger.error("An error occurred during the test: " + e.getMessage());
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			logger.info("Screenshot captured for failure: ");
 		}
 
@@ -182,8 +182,7 @@ public class ChangeMobilePageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Failed to navigate using pagination buttons: " + e.getMessage();
 			result = "FAIL";
-
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			logger.error("Screenshot captured for failure: ");
 		}
 

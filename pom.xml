@@ -16,6 +16,7 @@
 	</properties>
 
 	<dependencies>
+	
 		<!-- JUnit (Update to a modern version like JUnit 4 or JUnit 5) -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -95,6 +96,8 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.32</version>
 		</dependency>
+		
+		<!-- Extent Reporter (Used for the adding extend report)-->
 		<dependency>
 		    <groupId>com.aventstack</groupId>
 		    <artifactId>extentreports</artifactId>

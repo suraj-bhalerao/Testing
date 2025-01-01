@@ -6,6 +6,7 @@ import org.testng.ITestResult;
 
 import com.aepl.reports.ExtentManager;
 import com.aepl.reports.ExtentTestManager;
+import com.aepl.util.CommonMethod;
 import com.aventstack.extentreports.Status;
 
 public class TestListener implements ITestListener {
@@ -24,11 +25,16 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         ExtentTestManager.getTest().log(Status.FAIL, "Test Failed: " + result.getThrowable());
         
+        // Added the screenshot logic to the listeners so that it can take SS on every test failure
+        CommonMethod.captureScreenshot(result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         ExtentTestManager.getTest().log(Status.SKIP, "Test Skipped");
+        
+        // Added the screenshot logic to the listeners so that it can take SS on every test failure
+        CommonMethod.captureScreenshot(result.getMethod().getMethodName());
     }
 
     @Override

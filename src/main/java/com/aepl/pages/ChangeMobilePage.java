@@ -32,8 +32,8 @@ public class ChangeMobilePage {
 	private By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 	private By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 	private By deleteActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][2]");
-	private By paginationNextButton = By.xpath("//li[@class=\"pagination-next ng-star-inserted\"");
-	private By paginationPreviousButton = By.xpath("//li[@class=\"pagination-previous ng-star-inserted\"]");
+	private By paginationNextButton = By.xpath("//li[@class=\\\"pagination-next ng-star-inserted\\\""); 
+	private By paginationPreviousButton = By.xpath("//li[@class=\\\"pagination-previous ng-star-inserted\\\"]"); 
 	
 	// URL's
 	private static final String EXP_URL = "http://20.219.88.214:6102/change-mobile-view/66e00f6cfd52c8a4d8f06702";
