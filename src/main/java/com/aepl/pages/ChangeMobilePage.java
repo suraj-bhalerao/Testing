@@ -40,24 +40,21 @@ public class ChangeMobilePage {
 
 	// Methods Goes here
 	public void clickNavBar() {
-		// Wait for the navigation bar links to be visible
 		List<WebElement> navBarLinks = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(navBarLink));
 
 		boolean isClicked = false;
 		for (WebElement link : navBarLinks) {
 			if (link.getText().equalsIgnoreCase("Device Utility")) {
 				link.click();
-//				System.out.println("Clicked On Element On Nav: " +link.getAccessibleName());
 				isClicked = true;
 				break;
 			}
 		}
-
 		if (!isClicked) {
 			throw new RuntimeException("Failed to find and click on 'Device Utility' in the navigation bar.");
 		}
 	}
-
+	
 	public String clickDropDownOption() {
 		// Click on the element 'changeMobile' and return the current URL
 		try {

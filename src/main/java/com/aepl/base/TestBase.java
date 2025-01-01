@@ -33,13 +33,15 @@ public class TestBase {
 		logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
 	}
 
-	@AfterClass
-	public void tearDown() {
-		if (driver != null) {
-			logger.info("Closing the browser.");
-			driver.quit();
-		}
-	}
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            logger.info("Closing the browser after all test classes.");
+            driver.quit();
+        } else {
+            logger.warn("Driver was null; no browser to close.");
+        }
+    }
 
 	public void captureScreenshot(String testCaseName) {
 		
