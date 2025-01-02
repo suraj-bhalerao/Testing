@@ -8,6 +8,8 @@ import org.openqa.selenium.interactions.Actions;
 
 /**
  * @author Suraj_Bhalerao
+ * @version 1.0
+ * 
  * 
  * Class: DragAndDropActions
  * --------------------------

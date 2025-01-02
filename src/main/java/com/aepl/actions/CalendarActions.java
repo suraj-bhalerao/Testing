@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * @author Suraj_Bhalerao
+ * @version 1.0
  * 
  * 
  * The CalendarActions class provides utility methods to interact with calendar components on web pages.
