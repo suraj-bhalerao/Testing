@@ -16,13 +16,7 @@ public class CalendarActions {
 		this.driver = driver;
 		this.wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
 	}
-
-	/**
-	 * Select a date from a calendar widget.
-	 *
-	 * @param calendarLocator The locator for the calendar element.
-	 * @param targetDate      The date to select in "dd-MM-yyyy" format.
-	 */
+	
 	public void selectDate(By calendarLocator, String targetDate) {
 		// Open the calendar widget
 		WebElement calendarElement = wait.until(ExpectedConditions.elementToBeClickable(calendarLocator));
