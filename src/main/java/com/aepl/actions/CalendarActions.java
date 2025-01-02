@@ -1,5 +1,6 @@
 package com.aepl.actions;
 
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,5 +42,9 @@ public class CalendarActions {
 		By dayLocator = By.xpath("//td[text()='" + day + "']");
 		WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(dayLocator));
 		dayElement.click();
+	}
+	
+	public void demo () {
+	
 	}
 }
