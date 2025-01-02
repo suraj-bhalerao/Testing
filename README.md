@@ -2,7 +2,6 @@
 
 **Author:** Suraj Bhalerao  
 **Date of Creation:** 01/01/2025  
-**Purpose:** A repository for automating the ATCU 4G Web Project using Selenium, Java, and TestNG. This project is designed to streamline testing processes, ensure application reliability, and provide an efficient framework for maintaining high-quality code standards.
 
 ---
 
