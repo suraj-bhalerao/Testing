@@ -42,5 +42,8 @@ public class CalendarActions {
 		WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(dayLocator));
 		dayElement.click();
 	}
-	
+	public void dj (){
+	System.out.println();
+		
+	}
 }
