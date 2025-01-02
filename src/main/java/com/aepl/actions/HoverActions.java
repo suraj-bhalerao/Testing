@@ -7,6 +7,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 /**
+ * @author Suraj_Bhalerao
+ * @version 1.0
+ * 
+ * 
  * The HoverActions class provides utility methods for performing hover actions
  * on web elements using Selenium WebDriver.
  * 
@@ -32,8 +36,6 @@ import org.openqa.selenium.interactions.Actions;
  *   <li>Captures errors and exceptions for troubleshooting.</li>
  * </ul>
  * 
- * @author Suraj_Bhalerao
- * @version 1.0
  */
 public class HoverActions {
     private WebDriver driver;
