@@ -1,5 +1,6 @@
 package com.aepl.actions;
 
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,13 +17,7 @@ public class CalendarActions {
 		this.driver = driver;
 		this.wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
 	}
-
-	/**
-	 * Select a date from a calendar widget.
-	 *
-	 * @param calendarLocator The locator for the calendar element.
-	 * @param targetDate      The date to select in "dd-MM-yyyy" format.
-	 */
+	
 	public void selectDate(By calendarLocator, String targetDate) {
 		// Open the calendar widget
 		WebElement calendarElement = wait.until(ExpectedConditions.elementToBeClickable(calendarLocator));
@@ -47,5 +42,9 @@ public class CalendarActions {
 		By dayLocator = By.xpath("//td[text()='" + day + "']");
 		WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(dayLocator));
 		dayElement.click();
+	}
+	
+	public void demo () {
+		System.out.println("Hello");
 	}
 }
