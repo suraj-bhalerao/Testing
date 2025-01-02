@@ -16,6 +16,7 @@ public class CalendarActions {
 
 	private static final Logger logger = LogManager.getLogger(CalendarActions.class);
 
+	
 	public CalendarActions(WebDriver driver) {
 		this.driver = driver;
 		this.wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
