@@ -1,13 +1,12 @@
 package com.aepl.actions;
 
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class CalendarActions {
 	private WebDriver driver;
@@ -44,7 +43,4 @@ public class CalendarActions {
 		dayElement.click();
 	}
 	
-	public void demo () {
-		System.out.println("Hello");
-	}
 }
