@@ -1,6 +1,8 @@
 package com.aepl.actions;
 import java.time.Duration;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,7 +44,4 @@ public class CalendarActions {
 		dayElement.click();
 	}
 	
-	public void demo () {
-		System.out.println("Hello");
-	}
 }
