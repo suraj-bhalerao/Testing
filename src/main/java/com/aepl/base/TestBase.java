@@ -33,23 +33,23 @@ public class TestBase {
 		logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
 	}
 
-    @AfterClass
-    public void tearDown() {
-        if (driver != null) {
-            logger.info("Closing the browser after all test classes.");
-            driver.quit();
-        } else {
-            logger.warn("Driver was null; no browser to close.");
-        }
-    }
+	@AfterClass
+	public void tearDown() {
+		if (driver != null) {
+			logger.info("Closing the browser after all test classes.");
+			driver.quit();
+		} else {
+			logger.warn("Driver was null; no browser to close.");
+		}
+	}
 
 	public void captureScreenshot(String testCaseName) {
-		
+
 		if (driver == null) {
 			System.err.println("Driver is null, unable to capture screenshot.");
 			return;
 		}
-		
+
 		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String screenshotName = testCaseName + "_" + timestamp + ".png";
 

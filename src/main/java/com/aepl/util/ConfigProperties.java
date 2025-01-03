@@ -12,7 +12,7 @@ public class ConfigProperties {
 	private static final Logger logger = LogManager.getLogger(ConfigProperties.class);
 
 	private static Properties properties;
-	private static String environment; // Current environment
+	private static String environment; 
 	private static final String CONFIG_FILE_FORMAT = "src/main/resources/%s.config.properties";
 
 	private ConfigProperties() {
@@ -42,7 +42,6 @@ public class ConfigProperties {
 		}
 
 		String value = properties.getProperty(key);
-//		System.out.println("++++++++++++++++++++++++" + value);
 
 		if (value != null) {
 			logger.debug("Property [{}] = [{}]", key, value);
