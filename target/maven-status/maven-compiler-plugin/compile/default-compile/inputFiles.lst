@@ -1,3 +1,8 @@
+D:\Testing\testing_updated\src\main\java\com\aepl\actions\CalendarActions.java
+D:\Testing\testing_updated\src\main\java\com\aepl\actions\DragAndDropActions.java
+D:\Testing\testing_updated\src\main\java\com\aepl\actions\HoverActions.java
+D:\Testing\testing_updated\src\main\java\com\aepl\actions\LocationActions.java
+D:\Testing\testing_updated\src\main\java\com\aepl\actions\MouseActions.java
 D:\Testing\testing_updated\src\main\java\com\aepl\base\TestBase.java
 D:\Testing\testing_updated\src\main\java\com\aepl\constants\Constants.java
 D:\Testing\testing_updated\src\main\java\com\aepl\listeners\TestListener.java
@@ -21,6 +26,7 @@ D:\Testing\testing_updated\src\main\java\com\aepl\pages\UserRolePage.java
 D:\Testing\testing_updated\src\main\java\com\aepl\pages\VehicleEOLPage.java
 D:\Testing\testing_updated\src\main\java\com\aepl\reports\ExtentManager.java
 D:\Testing\testing_updated\src\main\java\com\aepl\reports\ExtentTestManager.java
+D:\Testing\testing_updated\src\main\java\com\aepl\util\CommonMethod.java
 D:\Testing\testing_updated\src\main\java\com\aepl\util\ConfigProperties.java
 D:\Testing\testing_updated\src\main\java\com\aepl\util\ExcelUtility.java
 D:\Testing\testing_updated\src\main\java\com\aepl\util\WebDriverFactory.java
