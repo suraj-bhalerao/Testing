@@ -5,7 +5,7 @@
 
 ---
 
-## Initial Setup (One-Time)
+## Initial Setup (One-Time) 
 
 1.  **Get the Repository URL:** Copy the repository URL (HTTPS or SSH).
 
