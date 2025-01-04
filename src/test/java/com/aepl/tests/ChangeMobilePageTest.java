@@ -3,7 +3,6 @@ package com.aepl.tests;
 import java.util.Arrays;
 import java.util.List;
 
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
