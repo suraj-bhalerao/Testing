@@ -85,6 +85,7 @@ public class TestBase {
         logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
     }
 
+    
     /**
      * Cleans up the WebDriver instance and closes the browser session.
      * <p>
