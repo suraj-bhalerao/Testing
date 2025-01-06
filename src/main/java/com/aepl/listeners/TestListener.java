@@ -111,7 +111,7 @@ public class TestListener implements ITestListener {
     	}
     	
         ExtentManager.createInstance();
-        ExtentTestManager.getTest().log(Status.INFO, "Test Suite Started: " + context.getName());
+//        ExtentTestManager.getTest().log(Status.INFO, "Test Suite Started: " + context.getName());
     }
 
     /**
@@ -126,3 +126,4 @@ public class TestListener implements ITestListener {
         ExtentManager.flush();
     }
 }
+
