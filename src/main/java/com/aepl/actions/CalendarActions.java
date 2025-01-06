@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
- * @author Suraj_Bhalerao
+ * @author Dhananjay Jagtap
  * @version 1.0
  * 
  * 
