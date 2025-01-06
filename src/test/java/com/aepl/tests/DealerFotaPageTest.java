@@ -27,14 +27,15 @@ public class DealerFotaPageTest extends TestBase {
 	@Test(priority = 1)
 	public void login() {
 		loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
-				.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
+				.enterPassword(ConfigProperties.getProperty("valid.password"))
+				.clickLogin();
 	}
 
 	@Test(priority = 2)
 	public void testClickNavBar() {
 		logger.info("Executing the 'Dealer FOTA PAGE'");
 		String testCaseName = "Clicking on the dealer fota page";
-		String expectedResult = ConfigProperties.getProperty("dashboard.url");
+		String expectedResult = ConfigProperties.getProperty("dealer.fota");
 		String actualResult = "";
 		String result;
 		try {
@@ -46,12 +47,34 @@ public class DealerFotaPageTest extends TestBase {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		} catch (Exception e) {
 			logger.warn("Error");
-			e.printStackTrace();
 			actualResult = driver.getCurrentUrl();
 			captureScreenshot(testCaseName);
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
-		logger.info("Successfully clicked on the 'Dealer FOTA' nav Bar");
 	}
+
+	@Test(priority = 3)
+	public void testclickAddApprovedFileButton() {
+		logger.info("Testing the app approved file button is working");
+		String testCaseName = "Test Add Approved File Button";
+		String expectedResult = ConfigProperties.getProperty("upload.csv");
+		String actualResult = "";
+		String result = "";
+
+		try {
+			dealerFota.clickAddApprovedFileButton();
+			actualResult = driver.getCurrentUrl();
+			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		} catch (Exception e) {
+			logger.warn("Error in the Dealer Fota Page - Add Approved File");
+			actualResult = driver.getCurrentUrl();
+			captureScreenshot(testCaseName);
+			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
 }
