@@ -48,7 +48,7 @@ public class DealerFotaPageTest extends TestBase {
 		} catch (Exception e) {
 			logger.warn("Error");
 			actualResult = driver.getCurrentUrl();
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName); 
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
@@ -71,7 +71,7 @@ public class DealerFotaPageTest extends TestBase {
 		} catch (Exception e) {
 			logger.warn("Error in the Dealer Fota Page - Add Approved File");
 			actualResult = driver.getCurrentUrl();
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}

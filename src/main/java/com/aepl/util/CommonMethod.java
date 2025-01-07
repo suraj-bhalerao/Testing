@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -13,11 +15,13 @@ import org.openqa.selenium.WebDriver;
 public class CommonMethod {
 
 	private static WebDriver driver = WebDriverFactory.getWebDriver(ConfigProperties.getProperty("browser.type"));
+	private static Logger logger = LogManager.getLogger(CommonMethod.class);
 
+	
+	// Screenshot logic
 	public static void captureScreenshot(String testCaseName) {
-
 		if (driver == null) {
-			System.err.println("Driver is null, unable to capture screenshot.");
+			logger.error("Driver is null, unable to capture screenshot.");
 			return;
 		}
 
@@ -28,14 +32,10 @@ public class CommonMethod {
 
 		try {
 			File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
 			FileUtils.copyFile(screenshot, new File(screenshotPath));
-
-			System.out.println("Screenshot captured: " + screenshotPath);
-
+			logger.info("Screenshot captured: " + screenshotPath);
 		} catch (IOException e) {
-			System.err.println("Failed to capture screenshot for test case: " + testCaseName);
-			e.printStackTrace();
+			logger.error("Failed to capture screenshot for test case: " + testCaseName, e);
 		}
 	}
 }

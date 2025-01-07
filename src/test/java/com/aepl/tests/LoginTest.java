@@ -50,13 +50,13 @@ public class LoginTest extends TestBase {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedErrorMessage, "Login success", "Pass");
 		} catch (TimeoutException e) {
 			logger.error("Timeout occurred waiting for dashboard or error message.", e);
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedErrorMessage, "Page did not load as expected",
 					"Fail");
 			Assert.fail("Page did not load as expected.");
 		} catch (Exception e) {
 			logger.error("Unexpected error in test case: " + testCaseName, e);
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedErrorMessage, "Unexpected error: " + e.getMessage(),
 					"Fail");
 			Assert.fail("Unexpected error: " + e.getMessage());
