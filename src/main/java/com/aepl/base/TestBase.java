@@ -84,6 +84,7 @@ public class TestBase {
      * Ensures that the browser is properly closed after all test methods in the class are executed.
      * If the WebDriver instance is null, logs a warning.
      */
+    
     @AfterClass
     public void tearDown() {
         if (driver != null) {
