@@ -15,6 +15,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aepl.constants.Constants;
+
 public class ChangeMobilePage {
 	private WebDriver driver;
 	private WebDriverWait wait;
@@ -32,11 +34,8 @@ public class ChangeMobilePage {
 	private By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 	private By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 	private By deleteActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][2]");
-	private By paginationNextButton = By.xpath("//li[@class=\\\"pagination-next ng-star-inserted\\\""); 
-	private By paginationPreviousButton = By.xpath("//li[@class=\\\"pagination-previous ng-star-inserted\\\"]"); 
-	
-	// URL's
-	private static final String EXP_URL = "http://20.219.88.214:6102/change-mobile-view/66e00f6cfd52c8a4d8f06702";
+	private By paginationNextButton = By.xpath("//li[@class=\\\"pagination-next ng-star-inserted\\\"");
+	private By paginationPreviousButton = By.xpath("//li[@class=\\\"pagination-previous ng-star-inserted\\\"]");
 
 	// Methods Goes here
 	public void clickNavBar() {
@@ -54,7 +53,7 @@ public class ChangeMobilePage {
 			throw new RuntimeException("Failed to find and click on 'Device Utility' in the navigation bar.");
 		}
 	}
-	
+
 	public String clickDropDownOption() {
 		// Click on the element 'changeMobile' and return the current URL
 		try {
@@ -97,88 +96,86 @@ public class ChangeMobilePage {
 	 * heading is as expected here and validate }
 	 */
 	public void clickEyeActionButton() {
-	    logger.info("Locating the eye action button...");
-	    try {
-	        WebElement eyeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeActionButtons));
-	        logger.info("Eye action button located. Clicking on it.");
-	        eyeButton.click();
-	        
-	        logger.info("Performing actions on the navigated page...");
-	        // Adding a more structured way to wait and validate navigation
-	        wait.until(ExpectedConditions.urlContains(EXP_URL));
+		logger.info("Locating the eye action button...");
+		try {
+			WebElement eyeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeActionButtons));
+			logger.info("Eye action button located. Clicking on it.");
+			eyeButton.click();
 
-	        logger.info("Page validation successful. Navigating back.");
-	        driver.navigate().back();
-	        wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox)); 
-	        logger.info("Navigated back to the original page.");
-	    } catch (Exception e) {
-	        logger.error("An error occurred while interacting with the eye action button.", e);
-	        throw new RuntimeException("Failed to process the eye action button.", e);
-	    }
+			logger.info("Performing actions on the navigated page...");
+			// Adding a more structured way to wait and validate navigation
+			wait.until(ExpectedConditions.urlContains(Constants.CHANGE_MOBILE_VIEW));
+
+			logger.info("Page validation successful. Navigating back.");
+			driver.navigate().back();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
+			logger.info("Navigated back to the original page.");
+		} catch (Exception e) {
+			logger.error("An error occurred while interacting with the eye action button.", e);
+			throw new RuntimeException("Failed to process the eye action button.", e);
+		}
 	}
-
 
 	public boolean clickDeleteActionButton() {
-	    logger.info("Attempting to click the Delete Button...");
-	    try {
-	        WebElement deleteButton = wait.until(ExpectedConditions.visibilityOfElementLocated(deleteActionButtons));
-	        if (deleteButton.isEnabled() && deleteButton.isDisplayed()) {
-	            deleteButton.click();
-	            logger.info("Delete Button clicked. Validating alert...");
-	            
-	            Alert alert = driver.switchTo().alert();
-	            String alertText = alert.getText();
-	            logger.info("Alert text: " + alertText);
+		logger.info("Attempting to click the Delete Button...");
+		try {
+			WebElement deleteButton = wait.until(ExpectedConditions.visibilityOfElementLocated(deleteActionButtons));
+			if (deleteButton.isEnabled() && deleteButton.isDisplayed()) {
+				deleteButton.click();
+				logger.info("Delete Button clicked. Validating alert...");
 
-	            if (alertText.contains("Are you sure you want to delete?")) {
+				Alert alert = driver.switchTo().alert();
+				String alertText = alert.getText();
+				logger.info("Alert text: " + alertText);
+
+				if (alertText.contains("Are you sure you want to delete?")) {
 //	                alert.accept(); // Not accepting the alert to delete the item
-	                logger.info("Alert accepted.");
-	                driver.navigate().back();
-	                return true;
-	            } else {
-	                logger.warn("Unexpected alert text: " + alertText);
-	                alert.dismiss(); 
-	                return false; 
-	            }
-	        }
-	    } catch (NoSuchElementException e) {
-	        logger.error("Delete Button not found: " + e.getMessage());
-	    } catch (Exception e) {
-	        logger.error("An error occurred while clicking Delete Button: " + e.getMessage());
-	    }
-	    return false; 
+					logger.info("Alert accepted.");
+					driver.navigate().back();
+					return true;
+				} else {
+					logger.warn("Unexpected alert text: " + alertText);
+					alert.dismiss();
+					return false;
+				}
+			}
+		} catch (NoSuchElementException e) {
+			logger.error("Delete Button not found: " + e.getMessage());
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking Delete Button: " + e.getMessage());
+		}
+		return false;
 	}
 
-
 	public void checkPagination() {
-	    logger.info("Checking pagination functionality...");
+		logger.info("Checking pagination functionality...");
 
-	    try {
-	        WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(paginationNextButton));
-	        if (nextButton.isDisplayed() && nextButton.isEnabled()) {
-	            logger.info("Next button located. Clicking on it.");
-	            nextButton.click();
-	            
-	            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnNextPage")));
-	            logger.info("Successfully navigated to the next page.");
-	        } else {
-	            logger.warn("Next button is not clickable.");
-	            return;
-	        }
+		try {
+			WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(paginationNextButton));
+			if (nextButton.isDisplayed() && nextButton.isEnabled()) {
+				logger.info("Next button located. Clicking on it.");
+				nextButton.click();
 
-	        WebElement previousButton = wait.until(ExpectedConditions.elementToBeClickable(paginationPreviousButton));
-	        if (previousButton.isDisplayed() && previousButton.isEnabled()) {
-	            logger.info("Previous button located. Clicking on it.");
-	            previousButton.click();
-	            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnPreviousPage")));
-	            logger.info("Successfully navigated back to the previous page.");
-	        } else {
-	            logger.warn("Previous button is not clickable.");
-	        }
-	    } catch (Exception e) {
-	        logger.error("An error occurred while testing pagination.", e);
-	        throw new RuntimeException("Pagination test failed.", e);
-	    }
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnNextPage")));
+				logger.info("Successfully navigated to the next page.");
+			} else {
+				logger.warn("Next button is not clickable.");
+				return;
+			}
+
+			WebElement previousButton = wait.until(ExpectedConditions.elementToBeClickable(paginationPreviousButton));
+			if (previousButton.isDisplayed() && previousButton.isEnabled()) {
+				logger.info("Previous button located. Clicking on it.");
+				previousButton.click();
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnPreviousPage")));
+				logger.info("Successfully navigated back to the previous page.");
+			} else {
+				logger.warn("Previous button is not clickable.");
+			}
+		} catch (Exception e) {
+			logger.error("An error occurred while testing pagination.", e);
+			throw new RuntimeException("Pagination test failed.", e);
+		}
 	}
 
 }

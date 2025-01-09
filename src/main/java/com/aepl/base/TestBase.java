@@ -1,16 +1,7 @@
 package com.aepl.base;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -93,6 +84,7 @@ public class TestBase {
      * Ensures that the browser is properly closed after all test methods in the class are executed.
      * If the WebDriver instance is null, logs a warning.
      */
+    
     @AfterClass
     public void tearDown() {
         if (driver != null) {
@@ -119,23 +111,23 @@ public class TestBase {
      * 
      * @param testCaseName the name of the test case for which the screenshot is captured.
      */
-    public void captureScreenshot(String testCaseName) {
-        if (driver == null) {
-            logger.error("Driver is null, unable to capture screenshot.");
-            return;
-        }
-
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String screenshotName = testCaseName + "_" + timestamp + ".png";
-
-        String screenshotPath = "screenshots/" + screenshotName;
-
-        try {
-            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(screenshot, new File(screenshotPath));
-            logger.info("Screenshot captured: " + screenshotPath);
-        } catch (IOException e) {
-            logger.error("Failed to capture screenshot for test case: " + testCaseName, e);
-        }
-    }
+//    public void captureScreenshot(String testCaseName) {
+//        if (driver == null) {
+//            logger.error("Driver is null, unable to capture screenshot.");
+//            return;
+//        }
+//
+//        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String screenshotName = testCaseName + "_" + timestamp + ".png";
+//
+//        String screenshotPath = "screenshots/" + screenshotName;
+//
+//        try {
+//            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+//            FileUtils.copyFile(screenshot, new File(screenshotPath));
+//            logger.info("Screenshot captured: " + screenshotPath);
+//        } catch (IOException e) {
+//            logger.error("Failed to capture screenshot for test case: " + testCaseName, e);
+//        }
+//    }
 }

@@ -62,7 +62,7 @@ public class DeviceModelPageTest extends TestBase {
 
 		} catch (Exception e) {
 			logger.error("Failed to navigate and click on 'Device Utility'", e);
-			captureScreenshot(testCaseName);
+//			captureScreenshot(testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, "Expected: Click on 'Device Utility'",
 					"Actual: " + e.getMessage(), "Fail");
 			Assert.fail("Test failed: " + e.getMessage());
