@@ -32,7 +32,9 @@ public class ChangeMobilePageTest extends TestBase {
 		String testCaseName = "Login Test In Change Mobile";
 		try {
 			logger.info("Executing Login: " + testCaseName);
-			loginPage.enterUsername("suraj.bhalerao@accoladeelectronics.com").enterPassword("cqf9tnvl").clickLogin();
+			loginPage.enterUsername("suraj.bhalerao@accoladeelectronics.com")
+			.enterPassword("cqf9tnvl")
+			.clickLogin();
 		} catch (Exception e) {
 			e.printStackTrace();
 //			captureScreenshot(testCaseName);
