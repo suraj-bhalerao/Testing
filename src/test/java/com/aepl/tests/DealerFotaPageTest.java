@@ -77,4 +77,8 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
+	@Test(priority = 4)
+	public void testAddNewFileAndValidate() {
+		dealerFota.addNewFileAndValidate();
+	}
 }
