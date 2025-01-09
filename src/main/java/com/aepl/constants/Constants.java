@@ -106,4 +106,9 @@ public interface Constants {
         "User Not Found", 
         "login Failed due to Incorrect email or password" 
     };
-}
+    String UIN_No = "ACON4IA202200012694";
+    String IMEI = "868274066912694";
+    String ICCID = "89916490634626390748";
+    		
+    }
+
