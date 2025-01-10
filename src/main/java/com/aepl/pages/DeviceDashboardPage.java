@@ -14,6 +14,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aepl.constants.Constants;
+
 public class DeviceDashboardPage {
 	private WebDriver driver;
 	private WebDriverWait wait;
@@ -77,6 +79,7 @@ public class DeviceDashboardPage {
 			isClickable = true;
 			break;
 		}
+		driver.navigate().to("http://20.219.88.214:6102/vehicle-eol-batch");
 
 		if (!isEnabled && !isClickable) {
 			throw new RuntimeException("Failed");
@@ -95,26 +98,52 @@ public class DeviceDashboardPage {
 				System.out.println("Total Production Devices text is not visible or enabled.");
 			}
 
-			// Locate "Download Report" button
-			WebElement downloadReportButton = driver.findElement(
-					By.xpath("//button[@class='btn btn-outline-primary w-50 float-right ng-star-inserted']"));
-			if (downloadReportButton.isDisplayed() && downloadReportButton.isEnabled()) {
-				downloadReportButton.click();
-				System.out.println("Download Report button clicked.");
-			} else {
-				System.out.println("Download Report button is not clickable or not visible.");
-			}
+			
+			/*
+			 * // Locate "Download Report" button WebElement ViewButton =
+			 * driver.findElement(
+			 * By.xpath("//button[@class='mat-tooltip-trigger fas fa-eye']")); if
+			 * (ViewButton.isDisplayed() && ViewButton.isEnabled()) { ViewButton.click();
+			 * System.out.println("Download Report button clicked."); } else {
+			 * System.out.println("Download Report button is not clickable or not visible."
+			 * ); }
+			 */
 
 			// Locate "Search input field"
 			WebElement searchInputField = driver
 					.findElement(By.xpath("//input[@placeholder='Search and Press Enter']"));
 			if (searchInputField.isDisplayed() && searchInputField.isEnabled()) {
-				searchInputField.sendKeys("ACONAI20220012694");
+				searchInputField.sendKeys(Constants.UIN_No);
 				searchInputField.sendKeys(Keys.ENTER); // Or use searchInputField.sendKeys(Keys.ENTER);
 				System.out.println("Search completed.");
 			} else {
 				System.out.println("Search input field is not visible or enabled.");
 			}
+			
+			WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@aria-label='Next page']")));
+			if (nextButton.isDisplayed() && nextButton.isEnabled()) {
+				logger.info("Next button located. Clicking on it.");
+				nextButton.click();
+
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnNextPage")));
+				logger.info("Successfully navigated to the next page.");
+			} else {
+				logger.warn("Next button is not clickable.");
+				return;
+			}
+
+			WebElement previousButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@aria-label='Previous page']")));
+			if (previousButton.isDisplayed() && previousButton.isEnabled()) {
+				logger.info("Previous button located. Clicking on it.");
+				previousButton.click();
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//expectedElementOnPreviousPage")));
+				logger.info("Successfully navigated back to the previous page.");
+			} else {
+				logger.warn("Previous button is not clickable.");
+			}
+		
+		
+			
 
 		} catch (NoSuchElementException e) {
 			System.out.println("Element not found: " + e.getMessage());
@@ -123,6 +152,9 @@ public class DeviceDashboardPage {
 		} catch (Exception e) {
 			System.out.println("An unexpected error occurred: " + e.getMessage());
 		}
-	}
 
+	}
 }
+
+
+
