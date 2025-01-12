@@ -27,8 +27,7 @@ public class DealerFotaPageTest extends TestBase {
 	@Test(priority = 1)
 	public void login() {
 		loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
-				.enterPassword(ConfigProperties.getProperty("valid.password"))
-				.clickLogin();
+				.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
 	}
 
 	@Test(priority = 2)
@@ -71,7 +70,6 @@ public class DealerFotaPageTest extends TestBase {
 		} catch (Exception e) {
 			logger.warn("Error in the Dealer Fota Page - Add Approved File");
 			actualResult = driver.getCurrentUrl();
-//			captureScreenshot(testCaseName);
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
@@ -79,6 +77,33 @@ public class DealerFotaPageTest extends TestBase {
 
 	@Test(priority = 4)
 	public void testAddNewFileAndValidate() {
-		dealerFota.addNewFileAndValidate();
+	    logger.info("Testing the add new file feature");
+
+	    String testCaseName = "Testing new file added and validating it";
+	    String expectedToastMessage = "File uploaded successfully"; 
+	    String actualMessage = "";
+	    String result = "";
+
+	    try {
+	        boolean isFileValidated = dealerFota.addNewFileAndValidate(expectedToastMessage);
+	        System.out.println(isFileValidated);
+	        
+	        if (isFileValidated) {
+	            result = "Pass";
+	            actualMessage = "File uploaded and validated successfully";
+	            logger.info("Test case passed: " + testCaseName);
+	        } else {
+	            result = "Fail";
+	            actualMessage = "File validation failed";
+	            logger.error("Test case failed: " + testCaseName);
+	        }
+	    } catch (Exception e) {
+	        result = "Fail";
+	        actualMessage = e.getMessage();
+	        logger.error("Exception occurred during test execution: " + testCaseName, e);
+	    } finally {
+	        excelUtility.writeTestDataToExcel(testCaseName, expectedToastMessage, actualMessage, result);
+	    }
 	}
+
 }

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.random.RandomGenerator;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -13,6 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.aepl.util.CommonMethod;
 
 public class DealearFotaPage {
 	private WebDriver driver;
@@ -32,7 +35,9 @@ public class DealearFotaPage {
 	private By fileNameInput = By.tagName("input");
 	private By saveFileButton = By.xpath("//button[@class='btn btn-primary w-100']");
 	private By tableRowsLocator = By.xpath("//tr[@class=\"odd text-center ng-star-inserted\"]");
-
+	private By toastLocator = By.id("cdk-overlay-1");
+	
+	
 	// Methods goes here
 	public void clickNavBar() {
 		List<WebElement> navBarLinks = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(navBarLink));
@@ -73,53 +78,59 @@ public class DealearFotaPage {
 		}
 	}
 
-	public void addNewFileAndValidate() {
-		// File Adding
-		logger.info("Trying to add the new file");
-		WebElement inputBox = wait.until(ExpectedConditions.visibilityOfElementLocated(fileNameInput));
-		WebElement fileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(saveFileButton));
+	public boolean addNewFileAndValidate(String expectedToastMessage) {
+	    logger.info("Trying to add the new file");
 
-		String fileName = "Test File";
-		logger.info("Entering file name in the input box");
-		inputBox.sendKeys(Keys.ENTER);
-		inputBox.sendKeys(fileName);
+	    // File Adding
+	    try {
+	        WebElement inputBox = wait.until(ExpectedConditions.visibilityOfElementLocated(fileNameInput));
+	        WebElement fileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(saveFileButton));
 
-		String dateTimeFormat = "MM/dd/yyyy, hh:mm:ss a";
-		SimpleDateFormat formatter = new SimpleDateFormat(dateTimeFormat);
-		String capturedDateTime = formatter.format(new Date());
+	        String fileName = CommonMethod.randomStringGen();
+	        inputBox.sendKeys(Keys.ENTER);
+	        inputBox.sendKeys(fileName);
 
-		logger.info("Clicking on the save file button");
-		fileBtn.click();
+	        String dateTimeFormat = "MM/dd/yyyy, hh:mm:ss a";
+	        SimpleDateFormat formatter = new SimpleDateFormat(dateTimeFormat);
+	        String capturedDateTime = formatter.format(new Date());
 
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			logger.error("Thread interrupted while waiting for table update", e);
-		}
+	        logger.info("Clicking on the save file button");
+	        fileBtn.click();
 
-		logger.info("Validating the uploaded file in the table");
-		List<WebElement> tableRows = driver.findElements(tableRowsLocator);
-		boolean isFileValidated = false;
+	        // Capture toast message
+	        WebElement toastElement = wait.until(ExpectedConditions.visibilityOfElementLocated(toastLocator)); // Replace `toastLocator` with the actual toast locator
+	        String actualToastMessage = toastElement.getText();
+	        logger.info("Captured toast message: " + actualToastMessage);
 
-		for (WebElement row : tableRows) {
-			List<WebElement> cells = row.findElements(By.tagName("td"));
+	        // Validate toast message
+	        if (!expectedToastMessage.equals(actualToastMessage)) {
+	            logger.error("Expected toast message: " + expectedToastMessage + ", but found: " + actualToastMessage);
+	            throw new RuntimeException("Toast message validation failed");
+	        }
 
-			if (cells.size() > 0) {
-				String rowFileName = cells.get(1).getText();
-				String rowDateTime = cells.get(2).getText();
+	        // Validate file in the table
+	        Thread.sleep(2000); // Adjust as per application behavior
+	        List<WebElement> tableRows = driver.findElements(tableRowsLocator); // Replace `tableRowsLocator` with the table row locator
+	        for (WebElement row : tableRows) {
+	            List<WebElement> cells = row.findElements(By.tagName("td"));
+	            if (cells.size() > 0) {
+	                String rowFileName = cells.get(1).getText();
+	                String rowDateTime = cells.get(2).getText();
+	                logger.info("File Name: " + rowFileName + ", Date Time: " + rowDateTime);
 
-				System.out.println("File Name : " + rowFileName + " Date: " + rowDateTime);
-				if (fileName.equals(rowFileName) && capturedDateTime.equals(rowDateTime)) {
-					logger.info("File name and date-time validated successfully in the table");
-					isFileValidated = true;
-					break;
-				}
-			}
-		}
+	                if (fileName.equals(rowFileName) && capturedDateTime.equals(rowDateTime)) {
+	                    logger.info("File and date-time validated successfully in the table");
+	                    return true;
+	                }
+	            }
+	        }
+	    } catch (Exception e) {
+	        logger.error("An error occurred while adding or validating the file", e);
+	        throw new RuntimeException("File addition or validation failed", e);
+	    }
 
-		if (!isFileValidated) {
-			logger.error("File validation failed. File name or date-time not found in the table");
-			throw new RuntimeException("File validation failed");
-		}
+	    logger.error("File validation failed. File name or date-time not found in the table");
+	    return false;
 	}
+
 }
