@@ -36,9 +36,6 @@ public class DeviceDashboardPage {
 	private By tableHeadings;
 	private WebElement searchBox;
 
-	// URL's
-	private static final String EXP_URL = "http://20.219.88.214:6102/change-mobile-view/66e00f6cfd52c8a4d8f06702";
-
 	// Methods Goes here
 
 	public void CheckKPICard() {

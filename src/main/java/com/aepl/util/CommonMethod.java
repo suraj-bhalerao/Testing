@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -26,7 +27,6 @@ public class CommonMethod {
 
 	private static WebDriver driver = WebDriverFactory.getWebDriver(ConfigProperties.getProperty("browser.type"));
 	private static Logger logger = LogManager.getLogger(CommonMethod.class);
-	
 	
 	public static By searchBox = By.xpath("//input[@placeholder=\"Search and Press Enter\"]");
 	private By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
@@ -53,6 +53,7 @@ public class CommonMethod {
 			logger.error("Failed to capture screenshot for test case: " + testCaseName, e);
 		}
 	}
+
 	
 	public boolean checkSearchBox(String iccid, List<String> expectedHeaders) {
 		this.driver = driver;
@@ -104,5 +105,22 @@ public class CommonMethod {
 		
 		
 		
+	
+
+
+
+	// Random String Generator
+	public static String randomStringGen() {
+		int length = 10; 
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		Random random = new Random();
+		StringBuilder randomString = new StringBuilder();
+
+		for (int i = 0; i < length; i++) {
+			int index = random.nextInt(characters.length());
+			randomString.append(characters.charAt(index));
+		}
+		return randomString.toString();
 	}
+}
 
