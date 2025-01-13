@@ -26,10 +26,8 @@ public class DealerFotaPageTest extends TestBase {
 
 	@Test(priority = 1)
 	public void login() {
-		loginPage
-			.enterUsername(ConfigProperties.getProperty("valid.username"))
-			.enterPassword(ConfigProperties.getProperty("valid.password"))
-			.clickLogin();
+		loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
+				.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
 	}
 
 	@Test(priority = 2)
@@ -54,7 +52,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-//	@Test(priority = 3)
+	@Test(priority = 3)
 	public void testclickAddApprovedFileButton() {
 		logger.info("Testing the app approved file button is working");
 		String testCaseName = "Test Add Approved File Button";
@@ -76,35 +74,35 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-//	@Test(priority = 4)
+	@Test(priority = 4)
 	public void testAddNewFileAndValidate() {
-	    logger.info("Testing the add new file feature");
+		logger.info("Testing the add new file feature");
 
-	    String testCaseName = "Testing new file added and validating it";
-	    String expectedToastMessage = "File uploaded successfully"; 
-	    String actualMessage = "";
-	    String result = "";
+		String testCaseName = "Testing new file added and validating it";
+		String expectedToastMessage = "File uploaded successfully";
+		String actualMessage = "";
+		String result = "";
 
-	    try {
-	        boolean isFileValidated = dealerFota.addNewFileAndValidate(expectedToastMessage);
-	        System.out.println(isFileValidated);
-	        
-	        if (isFileValidated) {
-	            result = "Pass";
-	            actualMessage = "File uploaded and validated successfully";
-	            logger.info("Test case passed: " + testCaseName);
-	        } else {
-	            result = "Fail";
-	            actualMessage = "File validation failed";
-	            logger.error("Test case failed: " + testCaseName);
-	        }
-	    } catch (Exception e) {
-	        result = "Fail";
-	        actualMessage = e.getMessage();
-	        logger.error("Exception occurred during test execution: " + testCaseName, e);
-	    } finally {
-	        excelUtility.writeTestDataToExcel(testCaseName, expectedToastMessage, actualMessage, result);
-	    }
+		try {
+			boolean isFileValidated = dealerFota.addNewFileAndValidate(expectedToastMessage);
+			System.out.println(isFileValidated);
+
+			if (isFileValidated) {
+				result = "Pass";
+				actualMessage = "File uploaded and validated successfully";
+				logger.info("Test case passed: " + testCaseName);
+			} else {
+				result = "Fail";
+				actualMessage = "File validation failed";
+				logger.error("Test case failed: " + testCaseName);
+			}
+		} catch (Exception e) {
+			result = "Fail";
+			actualMessage = e.getMessage();
+			logger.error("Exception occurred during test execution: " + testCaseName, e);
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedToastMessage, actualMessage, result);
+		}
 	}
 
 }

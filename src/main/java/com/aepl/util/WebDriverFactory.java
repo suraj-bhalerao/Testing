@@ -35,10 +35,23 @@ public class WebDriverFactory {
 	}
 
 
+//	private static WebDriver getChromeDriver() {
+//		WebDriverManager.chromedriver().setup();
+//		return new ChromeDriver();
+//	}
+	
 	private static WebDriver getChromeDriver() {
-		WebDriverManager.chromedriver().setup();
-		return new ChromeDriver();
+	    String specificVersion = "127.0.6778.265"; 
+	    try {
+	        WebDriverManager.chromedriver().driverVersion(specificVersion).setup();
+	        logger.info("Setting up ChromeDriver version: " + specificVersion);
+	        return new ChromeDriver();
+	    } catch (Exception e) {
+	        logger.error("Error initializing ChromeDriver version: " + specificVersion, e);
+	        throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
+	    }
 	}
+
 
 	private static WebDriver getFirefoxDriver() {
 		WebDriverManager.firefoxdriver().setup();

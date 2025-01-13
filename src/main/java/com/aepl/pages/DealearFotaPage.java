@@ -35,8 +35,7 @@ public class DealearFotaPage {
 	private By saveFileButton = By.xpath("//button[@class='btn btn-primary w-100']");
 	private By tableRowsLocator = By.xpath("//tr[@class=\"odd text-center ng-star-inserted\"]");
 	private By toastLocator = By.id("cdk-overlay-1");
-	
-	
+
 	// Methods goes here
 	public void clickNavBar() {
 		List<WebElement> navBarLinks = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(navBarLink));
@@ -78,54 +77,56 @@ public class DealearFotaPage {
 	}
 
 	public boolean addNewFileAndValidate(String expectedToastMessage) {
-	    logger.info("Trying to add the new file");
+		logger.info("Trying to add the new file");
 
-	    try {
-	        WebElement inputBox = wait.until(ExpectedConditions.visibilityOfElementLocated(fileNameInput));
-	        WebElement fileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(saveFileButton));
+		try {
+			WebElement inputBox = wait.until(ExpectedConditions.visibilityOfElementLocated(fileNameInput));
+			WebElement fileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(saveFileButton));
 
-	        String fileName = CommonMethod.randomStringGen();
-	        inputBox.sendKeys(Keys.ENTER);
-	        inputBox.sendKeys(fileName);
+			String fileName = CommonMethod.randomStringGen();
+			inputBox.sendKeys(Keys.ENTER);
+			inputBox.sendKeys(fileName);
 
-	        String dateTimeFormat = "MM/dd/yyyy, hh:mm:ss a";
-	        SimpleDateFormat formatter = new SimpleDateFormat(dateTimeFormat);
-	        String capturedDateTime = formatter.format(new Date());
+			String dateTimeFormat = "MM/dd/yyyy, hh:mm:ss a";
+			SimpleDateFormat formatter = new SimpleDateFormat(dateTimeFormat);
+			String capturedDateTime = formatter.format(new Date());
 
-	        logger.info("Clicking on the save file button");
-	        fileBtn.click();
+			logger.info("Clicking on the save file button");
+			fileBtn.click();
 
-	        WebElement toastElement = wait.until(ExpectedConditions.visibilityOfElementLocated(toastLocator));
-	        String actualToastMessage = toastElement.getText();
-	        logger.info("Captured toast message: " + actualToastMessage);
+			// Validate Toast Message
+			WebElement toastElement = wait.until(ExpectedConditions.visibilityOfElementLocated(toastLocator));
+			String actualToastMessage = toastElement.getText(); // Ensure toastLocator is correct
+			logger.info("Captured toast message: " + actualToastMessage);
 
-	        if (!expectedToastMessage.equals(actualToastMessage)) {
-	            logger.error("Expected toast message: " + expectedToastMessage + ", but found: " + actualToastMessage);
-	            throw new RuntimeException("Toast message validation failed");
-	        }
+			if (!expectedToastMessage.equals(actualToastMessage)) {
+				logger.error("Expected toast message: " + expectedToastMessage + ", but found: " + actualToastMessage);
+				throw new RuntimeException("Toast message validation failed");
+			}
 
-	        Thread.sleep(2000); 
-	        List<WebElement> tableRows = driver.findElements(tableRowsLocator); 
-	        for (WebElement row : tableRows) {
-	            List<WebElement> cells = row.findElements(By.tagName("td"));
-	            if (cells.size() > 0) {
-	                String rowFileName = cells.get(1).getText();
-	                String rowDateTime = cells.get(2).getText();
-	                logger.info("File Name: " + rowFileName + ", Date Time: " + rowDateTime);
+			// Validate File in the Table
+			Thread.sleep(2000); // Replace with explicit waits if possible
+			List<WebElement> tableRows = driver.findElements(tableRowsLocator);
+			for (WebElement row : tableRows) {
+				List<WebElement> cells = row.findElements(By.tagName("td"));
+				if (cells.size() > 0) {
+					String rowFileName = cells.get(1).getText();
+					String rowDateTime = cells.get(2).getText();
+					logger.info("File Name: " + rowFileName + ", Date Time: " + rowDateTime);
 
-	                if (fileName.equals(rowFileName) && capturedDateTime.equals(rowDateTime)) {
-	                    logger.info("File and date-time validated successfully in the table");
-	                    return true;
-	                }
-	            }
-	        }
-	    } catch (Exception e) {
-	        logger.error("An error occurred while adding or validating the file", e);
-	        throw new RuntimeException("File addition or validation failed", e);
-	    }
+					if (fileName.equals(rowFileName) && capturedDateTime.equals(rowDateTime)) {
+						logger.info("File and date-time validated successfully in the table");
+						return true;
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error("An error occurred while adding or validating the file", e);
+			throw new RuntimeException("File addition or validation failed", e);
+		}
 
-	    logger.error("File validation failed. File name or date-time not found in the table");
-	    return false;
+		logger.error("File validation failed. File name or date-time not found in the table");
+		return false;
 	}
 
 }
