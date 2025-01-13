@@ -85,7 +85,7 @@ public class TestBase {
      * If the WebDriver instance is null, logs a warning.
      */
     
-    @AfterClass
+//    @AfterClass
     public void tearDown() {
         if (driver != null) {
             logger.info("Closing the browser after all test classes.");

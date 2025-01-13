@@ -378,7 +378,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		logger.info("Executing the test Click on Ticket details of Ticket Information option test case:" + testCaseName);
 		try {
 			logger.info("Attempting  to click on the Ticket Information option...");
-			myais140tickets.ClickTicketInformation(1);
+			myais140tickets.ClickTicketInformation();
 			actualURL = driver.getCurrentUrl();
 			expectedURL = actualURL;
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
