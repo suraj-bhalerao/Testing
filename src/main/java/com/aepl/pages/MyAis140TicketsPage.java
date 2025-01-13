@@ -69,15 +69,12 @@ public class MyAis140TicketsPage {
 
 	private By overlay = By.cssSelector(".overlay");
 	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
-//	private By Arrow = By.xpath("//*[contains(@class,'crm_head_b d-flex text-center justify-content-between')]");
-	
 	private By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]"); 
+	private By TicketNumber = By.id("mat-input-22");
+	private By TicketCreate = By.id("mat-input-23");
+	private By TicketAssigned = By.id("mat-input-24");
 
-//	private By Arrow = By.xpath("(//*[contains(@class,'crm_head_b d-flex text-center justify-content-between')])[1]"); // Base locator
-
-	// URL's
-//		private static final String EXP_URL = "http://20.219.88.214:6102/my-ticket-details/";
-
+	
 	public String generateRandomString(int length) {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();
@@ -409,5 +406,79 @@ public class MyAis140TicketsPage {
 		        logger.error("Error while handling the new window/tab.", e);
 		        throw new RuntimeException("Failed to interact with the new window/tab.", e);
 		    }
-}
+	}
+	
+	public void TicketNumber() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+
+			// Wait for the element to be visible
+			WebElement ticketNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketNumber));
+
+			// Scroll the element into view if necessary
+    	js.executeScript("arguments[0].scrollIntoView(true);", ticketNumberElement);
+
+    	// Simulate a click using JavaScript if the element is not natively clickable
+    	js.executeScript("arguments[0].click();", ticketNumberElement);
+
+    	// Retrieve the "value" attribute
+    	String inputValue = ticketNumberElement.getAttribute("value");
+    
+    	// Print Ticket Information
+    	System.out.println("\u001B[1m\u001B[34mTicket Information:\u001B[0m");
+    	System.out.println("\u001B[1m\u001B[35mTicket Number:\u001B[0m " + inputValue);
+
+    	// Highlight the element for visual verification
+    	js.executeScript("arguments[0].style.border='5px solid yellow';", ticketNumberElement);
+
+		} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Number.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Number.", e);
+		}
+	}
+	
+	public void TicketCretedTime() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+
+			// Wait for the element to be visible
+			WebElement ticketCreateTimeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketCreate));
+			// Scroll the element into view if necessary
+    	js.executeScript("arguments[0].scrollIntoView(true);", ticketCreateTimeElement);
+    	// Simulate a click using JavaScript if the element is not natively clickable
+    	js.executeScript("arguments[0].click();", ticketCreateTimeElement);
+    	// Retrieve the "value" attribute
+    	String inputValue = ticketCreateTimeElement.getAttribute("value");   
+    	// Print Ticket Information
+    	System.out.println("\u001B[1m\u001B[35mTicket Created Time & Date :\u001B[0m " + inputValue);
+    	// Highlight the element for visual verification
+    	js.executeScript("arguments[0].style.border='5px solid yellow';", ticketCreateTimeElement);
+		} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Created Time & Date.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Created Time & Date.", e);
+		}
+	}
+	
+	public void TicketAssignedTime() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+	    	js.executeScript("window.scrollBy(0,2)");
+			// Wait for the element to be visible
+			WebElement ticketAssignTimeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketAssigned));
+			// Scroll the element into view if necessary
+    	js.executeScript("arguments[0].scrollIntoView(true);", ticketAssignTimeElement);
+
+    	// Simulate a click using JavaScript if the element is not natively clickable
+    	js.executeScript("arguments[0].click();", ticketAssignTimeElement);
+    	// Retrieve the "value" attribute
+    	String inputValue = ticketAssignTimeElement.getAttribute("value");   
+    	// Print Ticket Information
+    	System.out.println("\u001B[1m\u001B[35mTicket Assigned Time & Date :\u001B[0m " + inputValue);
+    	// Highlight the element for visual verification
+    	js.executeScript("arguments[0].style.border='5px solid yellow';", ticketAssignTimeElement);
+		} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Assigned Time & Date.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Assigned Time & Date.", e);
+		}
+	}
 }
