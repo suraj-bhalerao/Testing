@@ -88,7 +88,7 @@ public class DealerFotaPageTest extends TestBase {
 			System.out.println(isFileValidated);
 
 			if (isFileValidated) {
-				result = "Pass";
+				result = "Pass";  
 				actualMessage = "File uploaded and validated successfully";
 				logger.info("Test case passed: " + testCaseName);
 			} else {
