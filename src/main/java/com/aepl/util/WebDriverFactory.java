@@ -46,8 +46,8 @@ public class WebDriverFactory {
 	        throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
 	    }
 	}
-
-
+	
+	// getting firefox driver
 	private static WebDriver getFirefoxDriver() {
 		WebDriverManager.firefoxdriver().setup();
 		return new FirefoxDriver();
