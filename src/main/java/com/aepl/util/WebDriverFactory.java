@@ -33,12 +33,6 @@ public class WebDriverFactory {
 		logger.info(browserName + " WebDriver initialized.");
 		return driver;
 	}
-
-
-//	private static WebDriver getChromeDriver() {
-//		WebDriverManager.chromedriver().setup();
-//		return new ChromeDriver();
-//	}
 	
 	private static WebDriver getChromeDriver() {
 	    String specificVersion = "127.0.6778.265"; 
