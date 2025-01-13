@@ -142,9 +142,7 @@ public class DeviceDashboardPage {
 				logger.warn("Previous button is not clickable.");
 			}
 		
-		
 			
-
 		} catch (NoSuchElementException e) {
 			System.out.println("Element not found: " + e.getMessage());
 		} catch (StaleElementReferenceException e) {
