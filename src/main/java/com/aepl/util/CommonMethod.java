@@ -26,7 +26,9 @@ public class CommonMethod {
 
 	private static WebDriver driver = WebDriverFactory.getWebDriver(ConfigProperties.getProperty("browser.type"));
 	private static Logger logger = LogManager.getLogger(CommonMethod.class);
-	private By searchBox = By.xpath("//input[@placeholder=\"Search and Press Enter\"]");
+	
+	
+	public static By searchBox = By.xpath("//input[@placeholder=\"Search and Press Enter\"]");
 	private By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 	private By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 	private WebDriverWait wait;

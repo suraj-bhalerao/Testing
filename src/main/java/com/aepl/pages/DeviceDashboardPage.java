@@ -3,6 +3,7 @@ package com.aepl.pages;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aepl.constants.Constants;
+import com.aepl.util.CommonMethod;
 
 public class DeviceDashboardPage {
 	private WebDriver driver;
@@ -27,9 +29,12 @@ public class DeviceDashboardPage {
 	}
 
 	//Locators Goes here
+	
 	private By KPICard = By.xpath("//span[@class='value']");
 	private By DeviceModelWise = By.xpath("//button[@class='btn btn-outline-primary float-right']");
 	private By GraphEnability = By.xpath("//span[@class='white_card_header']");
+	private By tableHeadings;
+	private WebElement searchBox;
 
 	// URL's
 	private static final String EXP_URL = "http://20.219.88.214:6102/change-mobile-view/66e00f6cfd52c8a4d8f06702";
@@ -110,11 +115,10 @@ public class DeviceDashboardPage {
 			 */
 
 			// Locate "Search input field"
-			WebElement searchInputField = driver
-					.findElement(By.xpath("//input[@placeholder='Search and Press Enter']"));
-			if (searchInputField.isDisplayed() && searchInputField.isEnabled()) {
-				searchInputField.sendKeys(Constants.UIN_No);
-				searchInputField.sendKeys(Keys.ENTER); // Or use searchInputField.sendKeys(Keys.ENTER);
+			WebElement search = wait.until(ExpectedConditions.elementToBeClickable(searchBox));
+			if (search.isDisplayed() && search.isEnabled()) {
+				search.sendKeys(Constants.UIN_No);
+				search.sendKeys(Keys.ENTER); // Or use searchInputField.sendKeys(Keys.ENTER);
 				System.out.println("Search completed.");
 			} else {
 				System.out.println("Search input field is not visible or enabled.");
@@ -142,7 +146,6 @@ public class DeviceDashboardPage {
 				logger.warn("Previous button is not clickable.");
 			}
 		
-			
 		} catch (NoSuchElementException e) {
 			System.out.println("Element not found: " + e.getMessage());
 		} catch (StaleElementReferenceException e) {
@@ -152,7 +155,55 @@ public class DeviceDashboardPage {
 		}
 
 	}
+	
+	public boolean TotalProdDeviceDetails(List<String> expectedHeaders) {
+		try
+		{
+		WebElement details= wait.until(ExpectedConditions.visibilityOfElementLocated(CommonMethod.searchBox));
+			logger.info("Taking table heading before the search");
+			
+			List<WebElement> actualHeaders = wait
+					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
+			logger.info("Trying to clicking on search box and search something");
+			details.click();
+			details.clear();
+			details.sendKeys(Constants.IMEI);
+			details.sendKeys(Keys.ENTER);
+			
+			logger.info("Taking table heading after the search");
+			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
+					.collect(Collectors.toList());
+
+			return actualHeaderTexts.equals(expectedHeaders) ? true : false;
+		} catch (Exception e) {
+			logger.error("Error during search or header validation", e);
+			throw new RuntimeException("Search or validation failed", e);
+		}
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
+}
+
+
 
 
 
