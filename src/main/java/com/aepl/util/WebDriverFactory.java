@@ -34,6 +34,7 @@ public class WebDriverFactory {
 		return driver;
 	}
 	
+	// getting web driver 
 	private static WebDriver getChromeDriver() {
 	    String specificVersion = "127.0.6778.265"; 
 	    try {
