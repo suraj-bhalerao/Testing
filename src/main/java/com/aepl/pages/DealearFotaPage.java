@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.random.RandomGenerator;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -81,7 +80,6 @@ public class DealearFotaPage {
 	public boolean addNewFileAndValidate(String expectedToastMessage) {
 	    logger.info("Trying to add the new file");
 
-	    // File Adding
 	    try {
 	        WebElement inputBox = wait.until(ExpectedConditions.visibilityOfElementLocated(fileNameInput));
 	        WebElement fileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(saveFileButton));
@@ -97,20 +95,17 @@ public class DealearFotaPage {
 	        logger.info("Clicking on the save file button");
 	        fileBtn.click();
 
-	        // Capture toast message
-	        WebElement toastElement = wait.until(ExpectedConditions.visibilityOfElementLocated(toastLocator)); // Replace `toastLocator` with the actual toast locator
+	        WebElement toastElement = wait.until(ExpectedConditions.visibilityOfElementLocated(toastLocator));
 	        String actualToastMessage = toastElement.getText();
 	        logger.info("Captured toast message: " + actualToastMessage);
 
-	        // Validate toast message
 	        if (!expectedToastMessage.equals(actualToastMessage)) {
 	            logger.error("Expected toast message: " + expectedToastMessage + ", but found: " + actualToastMessage);
 	            throw new RuntimeException("Toast message validation failed");
 	        }
 
-	        // Validate file in the table
-	        Thread.sleep(2000); // Adjust as per application behavior
-	        List<WebElement> tableRows = driver.findElements(tableRowsLocator); // Replace `tableRowsLocator` with the table row locator
+	        Thread.sleep(2000); 
+	        List<WebElement> tableRows = driver.findElements(tableRowsLocator); 
 	        for (WebElement row : tableRows) {
 	            List<WebElement> cells = row.findElements(By.tagName("td"));
 	            if (cells.size() > 0) {

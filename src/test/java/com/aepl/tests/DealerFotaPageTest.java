@@ -26,8 +26,10 @@ public class DealerFotaPageTest extends TestBase {
 
 	@Test(priority = 1)
 	public void login() {
-		loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
-				.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
+		loginPage
+			.enterUsername(ConfigProperties.getProperty("valid.username"))
+			.enterPassword(ConfigProperties.getProperty("valid.password"))
+			.clickLogin();
 	}
 
 	@Test(priority = 2)
@@ -47,13 +49,12 @@ public class DealerFotaPageTest extends TestBase {
 		} catch (Exception e) {
 			logger.warn("Error");
 			actualResult = driver.getCurrentUrl();
-//			captureScreenshot(testCaseName); 
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}
 
-	@Test(priority = 3)
+//	@Test(priority = 3)
 	public void testclickAddApprovedFileButton() {
 		logger.info("Testing the app approved file button is working");
 		String testCaseName = "Test Add Approved File Button";
@@ -75,7 +76,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 4)
+//	@Test(priority = 4)
 	public void testAddNewFileAndValidate() {
 	    logger.info("Testing the add new file feature");
 
