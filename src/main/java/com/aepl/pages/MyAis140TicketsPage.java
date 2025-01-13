@@ -5,10 +5,12 @@ import static io.restassured.RestAssured.given;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,11 +69,11 @@ public class MyAis140TicketsPage {
 
 	private By overlay = By.cssSelector(".overlay");
 	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
+//	private By Arrow = By.xpath("//*[contains(@class,'crm_head_b d-flex text-center justify-content-between')]");
+	
+	private By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]"); 
 
-//	private By Arrow = By.xpath("/html/body/app-root/app-my-activations-details-page/div/form/div/div[2]/div/div/div[1]/h6");
-//	private By Arrow = By.cssSelector("app-my-activations-details-page div div:nth-child(2)"); // Example update
-
-	private By Arrow = By.cssSelector("app-my-activations-details-page div > div"); // Base locator
+//	private By Arrow = By.xpath("(//*[contains(@class,'crm_head_b d-flex text-center justify-content-between')])[1]"); // Base locator
 
 	// URL's
 //		private static final String EXP_URL = "http://20.219.88.214:6102/my-ticket-details/";
@@ -374,37 +376,38 @@ public class MyAis140TicketsPage {
 		}
 	}
 
-	public void ClickTicketInformation(int index) {
-		try {
-			// Wait for the overlay to disappear
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	public void ClickTicketInformation() {
+		int tabIndex=1;
+		  try {
+		        // Wait for the overlay to disappear (if any)
+		        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//		        wait.until(ExpectedConditions.invisibilityOfElementLocated(Arrow));
+		        
+		        String originalTab = driver.getWindowHandle(); 
+		        logger.info("Original tab handle stored: " + originalTab);
 
-			// Wait for all matching elements
-			List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(Arrow));
+		        Set<String> allTabs = driver.getWindowHandles();
+		        ArrayList<String> tabList = new ArrayList<>(allTabs);
 
-			if (index >= 1 && index < elements.size()) {
-				WebElement elementToClick = elements.get(index);
-				wait.until(ExpectedConditions.elementToBeClickable(elementToClick)).click();
+		        if (tabIndex < 0 || tabIndex >= tabList.size()) {
+		            logger.error("Invalid tab index: " + tabIndex + ". Total tabs open: " + tabList.size());
+		            throw new RuntimeException("Invalid tab index: " + tabIndex);
+		        }
 
-				logger.info("Successfully clicked on the Ticket Information button at index " + index);
-			} else {
-				throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for the available elements.");
-			}
-		} catch (Exception e) {
-			logger.error("Error while clicking the Ticket Information button.", e);
-			throw new RuntimeException("Failed to click the Ticket Information button.", e);
-		}
+		        String targetTab = tabList.get(tabIndex);
+		        logger.info("Switching to tab with index: " + tabIndex + ", handle: " + targetTab);
+		        driver.switchTo().window(targetTab);
+ 
+		        // Wait for the particular element in the new tab to be clickable
+		        WebElement elementToClickInNewTab = wait.until(ExpectedConditions.elementToBeClickable(Arrow));
+		        elementToClickInNewTab.click();
+		        logger.info("Successfully clicked the element in the new tab.");
 
-		// Find and click the element
-//		        WebElement TicketArrow = wait.until(ExpectedConditions.visibilityOfElementLocated(Arrow));
-////		        WebElement TicketArrow = wait.until(ExpectedConditions.elementToBeClickable(Arrow));
-//		     // Click the element
-//		        TicketArrow.click();
-//		        logger.info("Successfully clicked on the Ticket Information button.");
-////		        Thread.sleep(5000);
-//		    } catch (Exception e) {
-//		        logger.error("Error while clicking the Ticket Information Option button.", e);
-//		        throw new RuntimeException("Failed to click the Ticket Information Option button.", e);
-//		    }
-	}
+		        // Perform further actions in the new tab if needed
+
+		    } catch (Exception e) {
+		        logger.error("Error while handling the new window/tab.", e);
+		        throw new RuntimeException("Failed to interact with the new window/tab.", e);
+		    }
+}
 }

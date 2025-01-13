@@ -3,11 +3,16 @@ package com.aepl.util;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+
 import java.time.Duration;
+
+import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Random;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -122,5 +127,29 @@ public class CommonMethod {
 		}
 		return randomString.toString();
 	}
+	
+	public static String switchToTabByIndex(WebDriver driver, int tabIndex) {
+        String originalTab = driver.getWindowHandle(); 
+        logger.info("Original tab handle stored: " + originalTab);
+
+        Set<String> allTabs = driver.getWindowHandles();
+        ArrayList<String> tabList = new ArrayList<>(allTabs);
+
+        if (tabIndex < 0 || tabIndex >= tabList.size()) {
+            logger.error("Invalid tab index: " + tabIndex + ". Total tabs open: " + tabList.size());
+            throw new RuntimeException("Invalid tab index: " + tabIndex);
+        }
+
+        String targetTab = tabList.get(tabIndex);
+        logger.info("Switching to tab with index: " + tabIndex + ", handle: " + targetTab);
+        driver.switchTo().window(targetTab);
+
+        return originalTab; 
+    }
+	
+	public static void switchBackToOriginalTab(WebDriver driver, String originalTab) {
+        logger.info("Switching back to the original tab: " + originalTab);
+        driver.switchTo().window(originalTab);
+    }
 }
 

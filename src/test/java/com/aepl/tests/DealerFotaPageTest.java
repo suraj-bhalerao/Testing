@@ -47,7 +47,6 @@ public class DealerFotaPageTest extends TestBase {
 		} catch (Exception e) {
 			logger.warn("Error");
 			actualResult = driver.getCurrentUrl();
-//			captureScreenshot(testCaseName); 
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
@@ -77,33 +76,33 @@ public class DealerFotaPageTest extends TestBase {
 
 	@Test(priority = 4)
 	public void testAddNewFileAndValidate() {
-	    logger.info("Testing the add new file feature");
+		logger.info("Testing the add new file feature");
 
-	    String testCaseName = "Testing new file added and validating it";
-	    String expectedToastMessage = "File uploaded successfully"; 
-	    String actualMessage = "";
-	    String result = "";
+		String testCaseName = "Testing new file added and validating it";
+		String expectedToastMessage = "File uploaded successfully";
+		String actualMessage = "";
+		String result = "";
 
-	    try {
-	        boolean isFileValidated = dealerFota.addNewFileAndValidate(expectedToastMessage);
-	        System.out.println(isFileValidated);
-	        
-	        if (isFileValidated) {
-	            result = "Pass";
-	            actualMessage = "File uploaded and validated successfully";
-	            logger.info("Test case passed: " + testCaseName);
-	        } else {
-	            result = "Fail";
-	            actualMessage = "File validation failed";
-	            logger.error("Test case failed: " + testCaseName);
-	        }
-	    } catch (Exception e) {
-	        result = "Fail";
-	        actualMessage = e.getMessage();
-	        logger.error("Exception occurred during test execution: " + testCaseName, e);
-	    } finally {
-	        excelUtility.writeTestDataToExcel(testCaseName, expectedToastMessage, actualMessage, result);
-	    }
+		try {
+			boolean isFileValidated = dealerFota.addNewFileAndValidate(expectedToastMessage);
+			System.out.println(isFileValidated);
+
+			if (isFileValidated) {
+				result = "Pass";  
+				actualMessage = "File uploaded and validated successfully";
+				logger.info("Test case passed: " + testCaseName);
+			} else {
+				result = "Fail";
+				actualMessage = "File validation failed";
+				logger.error("Test case failed: " + testCaseName);
+			}
+		} catch (Exception e) {
+			result = "Fail";
+			actualMessage = e.getMessage();
+			logger.error("Exception occurred during test execution: " + testCaseName, e);
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedToastMessage, actualMessage, result);
+		}
 	}
 
 }
