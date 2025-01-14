@@ -55,6 +55,54 @@ public class DealerFotaPageTest extends TestBase {
 	}
 
 	@Test(priority = 3)
+	public void testCheckPagination() {
+	    logger.info("Testing pagination functionality.");
+	    String testCaseName = "Pagination Test";
+	    String expectedMessage = "Pagination validated successfully.";
+	    String actualMessage = "";
+	    String result = "";
+
+	    try {
+	        dealerFota.checkPagination();
+	        actualMessage = expectedMessage;
+	        result = "Pass";
+	        logger.info("Test case passed: " + testCaseName);
+	    } catch (Exception e) {
+	        actualMessage = e.getMessage();
+	        result = "Fail";
+	        logger.error("Test case failed: " + testCaseName, e);
+	    } finally {
+	        excelUtility.writeTestDataToExcel(testCaseName, expectedMessage, actualMessage, result);
+	    }
+	}
+
+
+	@Test(priority = 4)
+	public void testClickSearchAndTable() {
+		String testCaseName = "Test Search Box and Table Headings";
+		String expectedMessage = "Search box and table headings validated successfully.";
+		String actualMessage = "";
+		String result = "";
+
+		try {
+			logger.info("Executing test case: " + testCaseName);
+
+			dealerFota.clickSearchAndTable();
+
+			actualMessage = expectedMessage;
+			result = "Pass";
+			logger.info("Test case passed: " + testCaseName);
+		} catch (Exception e) {
+			CommonMethod.captureScreenshot(testCaseName);
+			actualMessage = e.getMessage();
+			result = "Fail";
+			logger.error("Test case failed: " + testCaseName, e);
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedMessage, actualMessage, result);
+		}
+	}
+
+	@Test(priority = 5)
 	public void testclickAddApprovedFileButton() {
 		logger.info("Testing the app approved file button is working");
 		String testCaseName = "Test Add Approved File Button";
@@ -77,7 +125,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 4)
+	@Test(priority = 6)
 	public void testAddNewFileAndValidate() {
 		logger.info("Testing the add new file feature");
 
@@ -109,7 +157,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 5)
+	@Test(priority = 7)
 	public void testSearchBtnAndTableHeadings() {
 		logger.info("Testing the search button and validating table headings");
 		String testCaseName = "Testing search box and validate table headings";
@@ -139,7 +187,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 6)
+	@Test(priority = 8)
 	public void testdeleteActionBtn() {
 		String testCaseName = "Test Delete Action Button";
 		String expectedMessage = "Clicked on the delete button";

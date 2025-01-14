@@ -21,11 +21,15 @@ import com.aepl.util.CommonMethod;
 public class DealearFotaPage {
 	private WebDriver driver;
 	private WebDriverWait wait;
+
+	@SuppressWarnings("unused")
+	private CommonMethod commMethod;
 	private static final Logger logger = LogManager.getLogger(DealearFotaPage.class);
 
 	public DealearFotaPage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		commMethod = new CommonMethod(driver);
 		logger.info("Initialized the driver and wait ");
 	}
 
@@ -36,13 +40,17 @@ public class DealearFotaPage {
 	private By fileNameInput = By.tagName("input");
 	private By saveFileButton = By.xpath("//button[@class='btn btn-primary w-100']");
 	private By tableRowsLocator = By.xpath("//tr[@class=\"odd text-center ng-star-inserted\"]");
-//	private By toastLocator = By.id("cdk-overlay-1");
+	//private By toastLocator = By.id("cdk-overlay-1");
 	private By searchBox = By.name("searchInput");
 	private By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 	private By deleteBtn = By.xpath("//i[@class=\"mat-tooltip-trigger fas fa-trash pl-3 ng-star-inserted\"]");
-
+	private By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	private By prevBtn = By.xpath("//li[@class=\"pagination-previous disabled ng-star-inserted\"]");
+	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	
 	// Global variables goes here
 	String fileNameToSearch;
+	
 
 	// Methods goes here
 	public void clickNavBar() {
@@ -70,6 +78,50 @@ public class DealearFotaPage {
 		} catch (Exception e) {
 			logger.error("Error while clicking on Change Mobile option.", e);
 			throw new RuntimeException("Failed to click on Change Mobile option", e);
+		}
+	}
+
+	public void checkPagination() {
+		try {
+			logger.info("Starting pagination validation using CommonMethod.");
+
+			logger.info("Validating the presence of next, previous, and active buttons.");
+			wait.until(ExpectedConditions.visibilityOfElementLocated(nextBtn));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(prevBtn));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(activeBtn));
+			
+			CommonMethod.checkPagination(nextBtn, prevBtn, activeBtn);
+
+			logger.info("Pagination validation completed successfully.");
+		} catch (Exception e) {
+			logger.error("Error occurred during pagination validation.", e);
+			throw new RuntimeException("Pagination validation failed due to an exception.", e);
+		}
+	}
+
+	public void clickSearchAndTable() {
+		logger.info("Starting validation of search box functionality and table headings.");
+
+		String input = "ACON4NA202200082103";
+		List<String> expectedTableHeaders = Arrays.asList("Sr.No.", "File Name", "UIN Number", "VIN Number",
+				"Flashing Status", "Created At");
+
+		try {
+			logger.info("Input value for search: " + input);
+			logger.info("Expected table headers: " + expectedTableHeaders);
+
+			boolean isValidationSuccessful = CommonMethod.checkSearchBoxWithTableHeadings(input, expectedTableHeaders);
+
+			if (isValidationSuccessful) {
+				logger.info("Search box functionality and table headings validated successfully.");
+			} else {
+				logger.error("Validation failed: Table headings do not match the expected values.");
+				throw new RuntimeException("Validation of search and table headings failed.");
+			}
+		} catch (Exception e) {
+			logger.error("An error occurred during the search and table headings validation process.", e);
+			CommonMethod.captureScreenshot("clickSearchAndTable");
+			throw new RuntimeException("Search and table headings validation failed due to an exception.", e);
 		}
 	}
 
