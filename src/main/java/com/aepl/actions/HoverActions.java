@@ -6,37 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-/**
- * @author Suraj_Bhalerao
- * @version 1.0
- * 
- * 
- * The HoverActions class provides utility methods for performing hover actions
- * on web elements using Selenium WebDriver.
- * 
- * <p>
- * Features:
- * <ul>
- *   <li>Allows hovering over specific web elements.</li>
- *   <li>Leverages Selenium's Actions class for complex interactions.</li>
- *   <li>Includes robust logging using Log4j for debugging and tracking actions.</li>
- * </ul>
- * 
- * <p>
- * Dependencies:
- * <ul>
- *   <li>Selenium WebDriver</li>
- *   <li>Apache Log4j</li>
- * </ul>
- * 
- * <p>
- * Logging:
- * <ul>
- *   <li>Logs detailed information about actions performed.</li>
- *   <li>Captures errors and exceptions for troubleshooting.</li>
- * </ul>
- * 
- */
 public class HoverActions {
     private WebDriver driver;
     private Actions actions;

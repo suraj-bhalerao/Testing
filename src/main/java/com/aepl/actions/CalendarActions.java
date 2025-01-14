@@ -10,27 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-/**
- * @author Dhananjay Jagtap
- * @version 1.0
- * 
- * 
- * The CalendarActions class provides utility methods to interact with calendar components on web pages.
- * It allows for the selection of specific dates by navigating through the calendar and choosing the target day.
- * 
- * Features:
- * - Waits for the calendar element to become clickable before interacting with it.
- * - Navigates through months and years to locate the target date.
- * - Selects the specified day from the calendar.
- * 
- * Dependencies:
- * - Selenium WebDriver for browser automation.
- * - WebDriverWait for handling dynamic waits.
- * 
- * Logging:
- * - Uses Apache Log4j for logging actions and errors.
- */
-
 public class CalendarActions {
 	private WebDriver driver;
 	private WebDriverWait wait;

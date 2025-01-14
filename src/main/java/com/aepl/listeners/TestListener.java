@@ -10,26 +10,6 @@ import com.aepl.reports.ExtentTestManager;
 import com.aepl.util.CommonMethod;
 import com.aventstack.extentreports.Status;
 
-/**
- * TestListener class implements the ITestListener interface to handle events during
- * the test lifecycle in TestNG. This includes actions on test start, success, failure, 
- * and skip events, as well as setup and teardown operations for the test suite.
- *
- * <p>
- * Key Responsibilities:
- * <ul>
- *   <li>Logs test statuses (PASS, FAIL, SKIP) to the Extent Report.</li>
- *   <li>Captures screenshots for failed and skipped tests to aid debugging.</li>
- *   <li>Initializes and flushes Extent Report at the start and end of the test suite.</li>
- * </ul>
- *
- * <p>
- * Usage:
- * <ul>
- *   <li>Add this class as a listener in the TestNG configuration file (testng.xml).</li>
- *   <li>Ensure the required utility classes (ExtentManager, ExtentTestManager, and CommonMethod) are properly configured.</li>
- * </ul>
- */
 public class TestListener extends TestBase implements ITestListener {
 
     /**

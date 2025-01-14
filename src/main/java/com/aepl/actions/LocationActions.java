@@ -11,29 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-/**
- * @author Suraj_Bhalerao
- * @version 1.0
- * 
- * 
- * The LocationActions class provides utility methods for interacting with 
- * dynamic location selection fields in web applications using Selenium WebDriver.
- * 
- * <p>
- * Features:
- * <ul>
- *   <li>Allows typing into an input field to trigger dynamic location suggestions.</li>
- *   <li>Selects a location from the displayed suggestions based on a match.</li>
- *   <li>Includes robust error handling and logging for better traceability.</li>
- * </ul>
- * <p>
- * Logging:
- * <ul>
- *   <li>Logs detailed information about the input and suggestions processing.</li>
- *   <li>Captures errors and exceptions for troubleshooting.</li>
- * </ul>
- * 
- */
 public class LocationActions {
     private WebDriver driver;
     private WebDriverWait wait;
