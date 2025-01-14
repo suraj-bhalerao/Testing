@@ -28,8 +28,8 @@ public class DeviceDashboardPage {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
-	//Locators Goes here
-	
+	// Locators Goes here
+
 	private By KPICard = By.xpath("//span[@class='value']");
 	private By DeviceModelWise = By.xpath("//button[@class='btn btn-outline-primary float-right']");
 	private By GraphEnability = By.xpath("//span[@class='white_card_header']");
@@ -100,7 +100,6 @@ public class DeviceDashboardPage {
 				System.out.println("Total Production Devices text is not visible or enabled.");
 			}
 
-			
 			/*
 			 * // Locate "Download Report" button WebElement ViewButton =
 			 * driver.findElement(
@@ -120,8 +119,9 @@ public class DeviceDashboardPage {
 			} else {
 				System.out.println("Search input field is not visible or enabled.");
 			}
-			
-			WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@aria-label='Next page']")));
+
+			WebElement nextButton = wait
+					.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@aria-label='Next page']")));
 			if (nextButton.isDisplayed() && nextButton.isEnabled()) {
 				logger.info("Next button located. Clicking on it.");
 				nextButton.click();
@@ -133,7 +133,8 @@ public class DeviceDashboardPage {
 				return;
 			}
 
-			WebElement previousButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@aria-label='Previous page']")));
+			WebElement previousButton = wait
+					.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@aria-label='Previous page']")));
 			if (previousButton.isDisplayed() && previousButton.isEnabled()) {
 				logger.info("Previous button located. Clicking on it.");
 				previousButton.click();
@@ -142,7 +143,7 @@ public class DeviceDashboardPage {
 			} else {
 				logger.warn("Previous button is not clickable.");
 			}
-		
+
 		} catch (NoSuchElementException e) {
 			System.out.println("Element not found: " + e.getMessage());
 		} catch (StaleElementReferenceException e) {
@@ -152,13 +153,12 @@ public class DeviceDashboardPage {
 		}
 
 	}
-	
+
 	public boolean TotalProdDeviceDetails(List<String> expectedHeaders) {
-		try
-		{
-		WebElement details= wait.until(ExpectedConditions.visibilityOfElementLocated(CommonMethod.searchBox));
+		try {
+			WebElement details = wait.until(ExpectedConditions.visibilityOfElementLocated(CommonMethod.searchBox));
 			logger.info("Taking table heading before the search");
-			
+
 			List<WebElement> actualHeaders = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
 			logger.info("Trying to clicking on search box and search something");
@@ -166,7 +166,7 @@ public class DeviceDashboardPage {
 			details.clear();
 			details.sendKeys(Constants.IMEI);
 			details.sendKeys(Keys.ENTER);
-			
+
 			logger.info("Taking table heading after the search");
 			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
 					.collect(Collectors.toList());
@@ -176,31 +176,6 @@ public class DeviceDashboardPage {
 			logger.error("Error during search or header validation", e);
 			throw new RuntimeException("Search or validation failed", e);
 		}
-	
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}
 }
-}
-
-
-
-
-

@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import com.aepl.base.TestBase;
 import com.aepl.pages.DealearFotaPage;
 import com.aepl.pages.LoginPage;
+import com.aepl.util.CommonMethod;
 import com.aepl.util.ConfigProperties;
 import com.aepl.util.ExcelUtility;
 
@@ -46,6 +47,7 @@ public class DealerFotaPageTest extends TestBase {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		} catch (Exception e) {
 			logger.warn("Error");
+			CommonMethod.captureScreenshot(testCaseName);
 			actualResult = driver.getCurrentUrl();
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
@@ -67,6 +69,7 @@ public class DealerFotaPageTest extends TestBase {
 			logger.info("Result is : " + result);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		} catch (Exception e) {
+			CommonMethod.captureScreenshot(testCaseName);
 			logger.warn("Error in the Dealer Fota Page - Add Approved File");
 			actualResult = driver.getCurrentUrl();
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
@@ -88,7 +91,7 @@ public class DealerFotaPageTest extends TestBase {
 			System.out.println(isFileValidated);
 
 			if (isFileValidated) {
-				result = "Pass";  
+				result = "Pass";
 				actualMessage = "File uploaded and validated successfully";
 				logger.info("Test case passed: " + testCaseName);
 			} else {
@@ -97,6 +100,7 @@ public class DealerFotaPageTest extends TestBase {
 				logger.error("Test case failed: " + testCaseName);
 			}
 		} catch (Exception e) {
+			CommonMethod.captureScreenshot(testCaseName);
 			result = "Fail";
 			actualMessage = e.getMessage();
 			logger.error("Exception occurred during test execution: " + testCaseName, e);
@@ -105,4 +109,52 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
+	@Test(priority = 5)
+	public void testSearchBtnAndTableHeadings() {
+		logger.info("Testing the search button and validating table headings");
+		String testCaseName = "Testing search box and validate table headings";
+		String expectedMessage = "Table heading matched";
+		String actualMessage = "";
+		String result = "";
+
+		try {
+			boolean isValidated = dealerFota.searchBtnAndTableHeadings();
+
+			if (isValidated) {
+				actualMessage = "Search button and table headings validated successfully";
+				result = "Pass";
+				logger.info("Test case passed: " + testCaseName);
+			} else {
+				actualMessage = "Search button or table headings validation failed";
+				result = "Fail";
+				logger.error("Test case failed: " + testCaseName);
+			}
+		} catch (Exception e) {
+			CommonMethod.captureScreenshot(testCaseName);
+			actualMessage = e.getMessage();
+			result = "Fail";
+			logger.error("Exception occurred during test execution: " + testCaseName, e);
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedMessage, actualMessage, result);
+		}
+	}
+
+	@Test(priority = 6)
+	public void testdeleteActionBtn() {
+		String testCaseName = "Test Delete Action Button";
+		String expectedMessage = "Clicked on the delete button";
+		String actualMessage = "";
+		String result = "";
+		try {
+			String msg = dealerFota.deleteActionBtn();
+			actualMessage = msg;
+			result = "PASS";
+		} catch (Exception e) {
+			actualMessage = e.getMessage();
+			result = "FAIL";
+			CommonMethod.captureScreenshot(testCaseName);
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedMessage, actualMessage, result);
+		}
+	}
 }

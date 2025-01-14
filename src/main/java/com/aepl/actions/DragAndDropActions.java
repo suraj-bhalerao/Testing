@@ -6,44 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-/**
- * @author Suraj_Bhalerao
- * @version 1.0
- * 
- * 
- * Class: DragAndDropActions
- * --------------------------
- * Provides utility methods to perform drag-and-drop actions using Selenium WebDriver.
- * 
- * Methods:
- * --------
- * - `dragAndDrop(WebElement source, WebElement target)`:
- *     Performs a drag-and-drop action from the source element to the target element.
- *     - Logs the start and end of the operation, including meaningful details about the elements.
- *     - Handles any exceptions and rethrows them for further handling.
- * 
- * - `dragAndDropByOffset(WebElement source, int xOffset, int yOffset)`:
- *     Drags the source element by a specified offset in the x and y directions.
- *     - Validates the input and logs the operation details.
- *     - Handles exceptions in a consistent manner.
- * 
- * - `getElementDescription(WebElement element)`:
- *     A private utility method to provide a meaningful description of a WebElement,
- *     including its tag name and text content.
- * 
- * Logging:
- * --------
- * Logs are generated using Apache Log4j to track the flow of operations and errors.
- * 
- * Exception Handling:
- * -------------------
- * Methods validate their inputs and handle errors appropriately to avoid silent failures.
- */
-
-
-/**
- * Utility class to handle drag-and-drop actions using Selenium WebDriver.
- */
 public class DragAndDropActions {
 	private WebDriver driver;
 	private Actions actions;
