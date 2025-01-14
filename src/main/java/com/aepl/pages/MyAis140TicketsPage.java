@@ -79,6 +79,8 @@ public class MyAis140TicketsPage {
 	private By TicketRemark = By.id("mat-input-28");
 	private By TicketGenrate = By.id("mat-input-29");
 	private By TicketDesc = By.id("mat-input-30");
+	private By DeviceInfo = By.className("crm_head_b");
+	private By UINNumber = By.id("mat-input-31");
 
 	
 	public String generateRandomString(int length) {
@@ -401,8 +403,8 @@ public class MyAis140TicketsPage {
 		        elementToClickInNewTab.click();
 		        logger.info("Successfully clicked the Ticket Information of the new tab.");
 		    } catch (Exception e) {
-		        logger.error("Error while handling the new window/tab.", e);
-		        throw new RuntimeException("Failed to interact with the new window/tab.", e);
+		        logger.error("Error while clicking the new window/tab.", e);
+		        throw new RuntimeException("Failed to clicking with the new window/tab.", e);
 		    }
 	}
 	
@@ -550,38 +552,49 @@ public class MyAis140TicketsPage {
 		}
 	}
 	
-	public By getArrowByIndex(int index) {
-	    return By.xpath("(//div[@class='thumb ng-star-inserted'])[" + index + "]");
+	public void ClickDeviceInformation() {
+		try {
+			// Wait for the elements to be clickable
+			List<WebElement> deviceList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(DeviceInfo));
+			int indexToClick = 1; // Change this to the desired index
+			// Check if the index is valid
+			if (indexToClick >= 0 && indexToClick < deviceList.size()) {
+				WebElement elementToClick = deviceList.get(indexToClick);
+				// Wait until the specific element is clickable
+				wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
+				// Click the element
+				elementToClick.click();
+				// Log or perform additional actions after clicking
+				System.out.println("\u001B[1m\u001B[34mDevice Information Clicked \u001B[0m ");
+				// Optionally, add a delay for visual confirmation (avoid in real tests)
+				Thread.sleep(2000);
+				} else {
+					System.err.println("Invalid index: " + indexToClick + ". Total elements found: " + deviceList.size());
+					throw new IllegalArgumentException("Index out of bounds for Device list.");
+				}
+			} catch (Exception e) {
+				logger.error("Error while clicking with Device Information elements.", e);
+				throw new RuntimeException("Failed to clicking with Device Information.", e);
+			}
 	}
 	
-	public void ClickDeviceInformation() {
-		int tabIndex=1;
-		  try {
-//		        // Wait for the overlay to disappear (if any)
-//		        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-//		        wait.until(ExpectedConditions.invisibilityOfElementLocated(Arrow));		        
-//		        String originalTab = driver.getWindowHandle(); 
-//		        logger.info("Original tab handle stored: " + originalTab);
-//		        Set<String> allTabs = driver.getWindowHandles();
-//		        ArrayList<String> tabList = new ArrayList<>(allTabs);
-//		        if (tabIndex < 0 || tabIndex >= tabList.size()) {
-//		            logger.error("Invalid tab index: " + tabIndex + ". Total tabs open: " + tabList.size());
-//		            throw new RuntimeException("Invalid tab index: " + tabIndex);		    
-//		            }
-//		        String targetTab = tabList.get(tabIndex);
-//		        logger.info("Switching to tab with index: " + tabIndex + ", handle: " + targetTab);
-//		        driver.switchTo().window(targetTab);
-//		        // Wait for the particular element in the new tab to be clickable
-//		        
-//		        int desiredIndex = 2; // 1-based index for the desired element
-		       
-		        WebElement elementToClickInNewTab1 = wait.until(ExpectedConditions.elementToBeClickable(Arrow));
-//		        WebElement elementToClickInNewTab = driver.findElement(getArrowByIndex(desiredIndex));
-		        elementToClickInNewTab1.click();
-		        logger.info("Successfully clicked the Device Information of the new tab.");
-		    } catch (Exception e) {
-		        logger.error("Error while clicking on the Device Information Tab.", e);
-		        throw new RuntimeException("Failed to clicking on the Device Information Tab.", e);
-		    }
+	public String DeviceUINNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceUINElement = wait.until(ExpectedConditions.visibilityOfElementLocated(UINNumber));
+			js.executeScript("arguments[0].click();", deviceUINElement);
+			String inputValue = deviceUINElement.getAttribute("value");   
+			
+			// Print Ticket Information
+	    	System.out.println("\u001B[1m\u001B[34mDevice Information:\u001B[0m");
+			System.out.println("\u001B[1m\u001B[35mUIN Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceUINElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for UIN Number.", e);
+			throw new RuntimeException("Failed to read Ticket Information for UIN Number.", e);
+		}
+		return "inputValue";
 	}
+	
 }

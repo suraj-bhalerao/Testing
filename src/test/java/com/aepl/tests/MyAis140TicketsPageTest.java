@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder;
 
 import groovy.time.Duration;
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
 
 public class MyAis140TicketsPageTest extends TestBase {
@@ -30,6 +31,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 	private MyAis140TicketsPage myais140tickets;
 	private WebDriverWait wait;
 	public static String Ticket_No;
+	private String uinNo;
 
 	@Override
 	@BeforeClass
@@ -43,6 +45,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 
 	private By SearchBox = By
 			.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
+	
 
 	@Test(priority = 1)
 	public void testRequestBodyWithRandomValuesCRMData() {
@@ -154,8 +157,20 @@ public class MyAis140TicketsPageTest extends TestBase {
 		// Use Gson to pretty print the JSON request body
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String prettyJson = gson.toJson(gson.fromJson(requestBodyCRM, Object.class));
+		
+		// Parse the `requestBodyCRM` string into a JSONArray
+        JSONArray parsedArray = new JSONArray(requestBodyCRM);
 
-		System.out.println("Request Body:");
+        // Extract the desired key value (e.g., "UIN_NO") from the first object
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            uinNo = firstObject.getString("UIN_NO"); // Extract "UIN_NO"
+            System.out.println("Extracted UIN_NO from Request Body: " + uinNo);
+        } else {
+            System.out.println("JSON Array is empty in the request body.");
+        }
+
+		System.out.println("Request Body:");		
 		System.out.println(prettyJson);
 		String requestBody1 = responseCRM.getBody().prettyPrint();
 	}
@@ -222,7 +237,6 @@ public class MyAis140TicketsPageTest extends TestBase {
 	}
 
 	@Test(priority = 5)
-
 	public void Navigation() throws InterruptedException {
 		String testCaseName = "Test Navbar Links";
 		String expectedURL = ConfigProperties.getProperty("dashboard.url");
@@ -235,7 +249,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 			actualURL = driver.getCurrentUrl();
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			logger.info("Result is : " + result);
-//			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		} catch (Exception e) {
 			logger.error("An error occurred while clicking on the navigation bar links.", e);
 			e.printStackTrace();
@@ -654,5 +668,31 @@ public class MyAis140TicketsPageTest extends TestBase {
 		}
 		logger.info("Completed the test case: " + testCaseName);
 		System.out.println("Succesfully click on Device Information option");
+	}
+	
+	@Test(priority = 21)
+	public void clickDeviceInformationUINNumber() {
+		String testCaseName = "Test Click on Ticket details of Device Information option";
+		String expectedURL = uinNo;
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information of UIN Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information UIN Number option...");
+			actualURL = myais140tickets.DeviceUINNumber();
+//			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the  UIN Number of Device Information option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information of UIN Number option");
 	}
 }
