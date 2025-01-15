@@ -15,6 +15,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -30,7 +31,6 @@ public class CommonMethod {
 	private static Logger logger = LogManager.getLogger(CommonMethod.class);
 
 	public CommonMethod(WebDriver driver) {
-		super();
 		CommonMethod.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
@@ -39,7 +39,7 @@ public class CommonMethod {
 	private static By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 	private static By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 
-	// Screenshot logic
+	// Screenshot method
 	public static void captureScreenshot(String testCaseName) {
 		if (driver == null) {
 			logger.error("Driver is null, unable to capture screenshot.");
@@ -60,10 +60,11 @@ public class CommonMethod {
 		}
 	}
 
+	// Search box and table heading check method
 	public static boolean checkSearchBoxWithTableHeadings(String input, List<String> expectedHeaders) {
 		try {
 			logger.info("Performing search with input: " + input);
-			
+
 			// Ensure the search box is clickable
 			WebElement search = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
 			search.click();
@@ -79,8 +80,16 @@ public class CommonMethod {
 			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
 					.map(String::toLowerCase).collect(Collectors.toList());
 
+//			actualHeaderTexts
+//				.stream()
+//				.forEach(s -> System.out.println(s));
+
 			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
 					.collect(Collectors.toList());
+//			
+//			normalizedExpectedHeaders
+//				.stream()
+//				.forEach(s -> System.out.println(s));
 
 			logger.info("Actual table headers after search: " + actualHeaderTexts);
 			logger.info("Expected table headers: " + normalizedExpectedHeaders);
@@ -98,6 +107,7 @@ public class CommonMethod {
 		}
 	}
 
+	// Clicking on the eye button
 	public static void clickEyeActionButton() {
 		logger.info("Locating the eye action button...");
 		try {
@@ -113,7 +123,7 @@ public class CommonMethod {
 			throw new RuntimeException("Failed to process the eye action button.", e);
 		}
 	}
-
+  
 	// Random String Generator
 	public static String randomStringGen() {
 		int length = 10;
@@ -128,6 +138,7 @@ public class CommonMethod {
 		return randomString.toString();
 	}
 
+	// Goes to new tab method
 	public static String switchToTabByIndex(WebDriver driver, int tabIndex) {
 		String originalTab = driver.getWindowHandle();
 		logger.info("Original tab handle stored: " + originalTab);
@@ -147,8 +158,45 @@ public class CommonMethod {
 		return originalTab;
 	}
 
+	// Tab back to normal
 	public static void switchBackToOriginalTab(WebDriver driver, String originalTab) {
 		logger.info("Switching back to the original tab: " + originalTab);
 		driver.switchTo().window(originalTab);
 	}
+
+	// Pagination method
+	public static void checkPagination(By nextButton, By previousButton, By activeBtn) {
+		logger.info("Starting pagination validation with scrolling and delay.");
+
+		try {
+			for (int i = 1; i <= 5; i++) {
+				wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(i)));
+				logger.info("Successfully navigated to page: " + i);
+
+				if (i < 5) {
+					WebElement next = wait.until(ExpectedConditions.elementToBeClickable(nextButton));
+					((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", next);
+					Thread.sleep(500); 
+					next.click();
+					logger.info("Clicked on the 'Next' button to navigate to page " + (i + 1));
+				}
+			}
+
+			for (int i = 4; i >= 1; i--) {
+				WebElement previous = wait.until(ExpectedConditions.elementToBeClickable(previousButton));
+				((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", previous);
+				Thread.sleep(500); 
+				previous.click();
+				logger.info("Clicked on the 'Previous' button to navigate back to page " + i);
+
+				wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(i)));
+			}
+
+			logger.info("Pagination validation completed successfully.");
+		} catch (Exception e) {
+			logger.error("An error occurred during pagination validation.", e);
+			throw new RuntimeException("Pagination validation failed due to an exception.", e);
+		}
+	}
+
 }

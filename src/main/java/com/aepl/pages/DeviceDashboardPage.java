@@ -54,7 +54,7 @@ public class DeviceDashboardPage {
 		}
 	}
 
-	public void DeviceModelWise() {
+	public String  DeviceModelWise() {
 		List<WebElement> ModelWiseButton = wait
 				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DeviceModelWise));
 
@@ -69,6 +69,8 @@ public class DeviceDashboardPage {
 		if (!isEnabled && !isClickable) {
 			throw new RuntimeException("Failed");
 		}
+		return null;
+		
 	}
 
 	public void GraphEnability() {
