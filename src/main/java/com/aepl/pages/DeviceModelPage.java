@@ -85,13 +85,8 @@ public class DeviceModelPage {
 	public boolean CheckPageHeader(List<String> expectedHeaders) {
 		try
 		{
-		
-			
-			
 			List<WebElement> actualHeaders = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(pageHeader));
-			
-			
 			
 			logger.info("Taking table heading after the search");
 			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
