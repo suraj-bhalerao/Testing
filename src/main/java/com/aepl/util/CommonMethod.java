@@ -104,15 +104,6 @@ public class CommonMethod {
 		}
 	}
 	
-	
-	
-	
-		
-		
-		
-	
-
-
 
 	// Random String Generator
 	public static String randomStringGen() {
