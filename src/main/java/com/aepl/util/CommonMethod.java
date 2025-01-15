@@ -123,7 +123,7 @@ public class CommonMethod {
 			throw new RuntimeException("Failed to process the eye action button.", e);
 		}
 	}
-
+  
 	// Random String Generator
 	public static String randomStringGen() {
 		int length = 10;

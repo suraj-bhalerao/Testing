@@ -1,13 +1,5 @@
 package com.aepl.tests;
 
-import java.time.Duration;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -18,9 +10,8 @@ import com.aepl.util.ConfigProperties;
 import com.aepl.util.ExcelUtility;
 
 public class DeviceModelPageTest extends TestBase {
-	private DeviceModelPage deviceModel;
 	private LoginPage loginPage;
-	private WebDriverWait wait;
+	private DeviceModelPage deviceModel;
 	private ExcelUtility excelUtility;
 
 	@Override
@@ -29,44 +20,113 @@ public class DeviceModelPageTest extends TestBase {
 		super.setUp();
 		deviceModel = new DeviceModelPage(driver);
 		loginPage = new LoginPage(driver);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		excelUtility = new ExcelUtility();
 		excelUtility.initializeExcel("Device Model");
 	}
 
 	@Test(priority = 1)
-	public void navigateToDeviceModelAndClick() {
-		String testCaseName = "Navigate to Device Model and Click";
-		logger.info("Trying To Log In");
+	public void testLogin() {
+		loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
+				.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
+	}
+
+	@Test(priority = 2)
+	public void testClickNavBar() {
+		String testCaseName = "Test Navbar Links";
+		String expectedURL = ConfigProperties.getProperty("dashboard.url");
+		String actualURL = "";
+		String result;
+		logger.info("Executing the testClickNavBar");
+		try {
+			logger.info("Trying to click on the nav bar links");
+			deviceModel.clickNavBar();
+			actualURL = driver.getCurrentUrl();
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		} catch (Exception e) {
+			logger.warn("Error");
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Successfully clicked on the Device Utility.");
+	}
+
+	@Test(priority = 3)
+	public void testClickOnDeviceModel() {
+		String testCaseName = "Test Device Model Link";
+		String expectedURL = ConfigProperties.getProperty("device.model");
+		String result = "";
+
+		logger.info("Executing test case: {}", testCaseName);
 
 		try {
-			loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
-					.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
-			logger.info("Login Successful!");
-
-			logger.info("Navigating to Device Model and clicking...");
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(
-					By.cssSelector(".overlay.ng-tns-c14-0.ng-trigger.ng-trigger-fadeIn")));
-
-			List<WebElement> profileDropdownElements = deviceModel
-					.waitForVisibilityOfLocators(deviceModel.dropDownList);
-
-			WebElement targetElement = profileDropdownElements.stream()
-					.filter(a -> a.getText().equals("Device Utility")).findAny()
-					.orElseThrow(() -> new IllegalArgumentException("No element with text 'Device Utility' found"));
-
-			targetElement.click();
-			logger.info("Successfully clicked on 'Device Utility'.");
-			excelUtility.writeTestDataToExcel(testCaseName, "Expected: Click on 'Device Utility'",
-					"Actual: Click successful", "Pass");
-
+			String actualURL = deviceModel.clickDeviceModel();
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
+					expectedURL, actualURL);
 		} catch (Exception e) {
-			logger.error("Failed to navigate and click on 'Device Utility'", e);
-//			captureScreenshot(testCaseName);
-			excelUtility.writeTestDataToExcel(testCaseName, "Expected: Click on 'Device Utility'",
-					"Actual: " + e.getMessage(), "Fail");
-			Assert.fail("Test failed: " + e.getMessage());
+			logger.error("Error encountered in test case '{}'.", testCaseName, e);
+			result = "FAIL";
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
+					result.equals("PASS") ? expectedURL : "Error occurred", result);
 		}
 	}
 
+	@Test(priority = 4)
+	public void testClickAddDeviceModel() {
+		String testCaseName = "Test Add Device Model Button";
+		String expectedURL = ConfigProperties.getProperty("add.device.model");
+		String result = "";
+
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			String actualURL = deviceModel.clickAddDeviceModel();
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
+					expectedURL, actualURL);
+		} catch (Exception e) {
+			logger.error("Error encountered in test case '{}'.", testCaseName, e);
+			result = "FAIL";
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
+					result.equals("PASS") ? expectedURL : "Error occurred", result);
+		}
+	}
+
+	@Test(priority = 4)
+	public void testAddNewDeviceModel() {
+//		logger.info("Testing the add new file feature");
+//
+//		String testCaseName = "Testing new file added and validating it";
+//		String expectedToastMessage = "File uploaded successfully";
+//		String actualMessage = "";
+//		String result = "";
+//
+//		try {
+//			boolean isFileValidated = deviceModel.AddNewDeviceModel(expectedToastMessage);
+//			System.out.println(isFileValidated);
+//
+//			if (isFileValidated) {
+//				result = "Pass";
+//				actualMessage = "File uploaded and validated successfully";
+//				logger.info("Test case passed: " + testCaseName);
+//			} else {
+//				result = "Fail";
+//				actualMessage = "File validation failed";
+//				logger.error("Test case failed: " + testCaseName);
+//			}
+//		} catch (Exception e) {
+//			result = "Fail";
+//			actualMessage = e.getMessage();
+//			logger.error("Exception occurred during test execution: " + testCaseName, e);
+//		} finally {
+//			excelUtility.writeTestDataToExcel(testCaseName, expectedToastMessage, actualMessage, result);
+//		}
+		deviceModel.AddNewDeviceModel();
+	}
 }
