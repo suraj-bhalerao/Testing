@@ -17,6 +17,7 @@ public class TicketDashboardPage {
 	// Global Variable and instances
 	private WebDriver driver;
 	private WebDriverWait wait;
+	@SuppressWarnings("unused")
 	private CommonMethod commmethod;
 	private static final Logger logger = LogManager.getLogger(TicketDashboardPage.class);
 
@@ -62,4 +63,5 @@ public class TicketDashboardPage {
 			throw new RuntimeException("Failed to click on Ticket Dashboard option", e);
 		}
 	}
+	
 }

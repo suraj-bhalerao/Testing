@@ -1,8 +1,6 @@
 package com.aepl.pages;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,13 +13,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.aepl.constants.Constants;
-import com.aepl.util.CommonMethod;
-
 public class DeviceModelPage {
 	private WebDriver driver;
 	private WebDriverWait wait;
-	
+
 	private Logger logger = LogManager.getLogger(DeviceModelPage.class);
 	private By ModelNameInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-1']");
 	private By ModelCodeInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-2']");
@@ -31,7 +26,7 @@ public class DeviceModelPage {
 	private By dropDown = By.xpath("//span[@class='headers_custom color_3D5772']");
 	private By DeviceModel = By.xpath("//a[@routerlink='model']");
 	private By AddDeviceModel = By.xpath("//button[contains(.,'Add Device Model')]");
-	private By pageHeader= By.xpath("//h4[@class='h4ssssss text-cente mt-1']");
+	private By pageHeader = By.xpath("//h4[@class='h4ssssss text-cente mt-1']");
 
 	// Constructor
 	public DeviceModelPage(WebDriver driver) {
@@ -83,11 +78,10 @@ public class DeviceModelPage {
 	}
 
 	public boolean CheckPageHeader(List<String> expectedHeaders) {
-		try
-		{
+		try {
 			List<WebElement> actualHeaders = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(pageHeader));
-			
+
 			logger.info("Taking table heading after the search");
 			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
 					.collect(Collectors.toList());
@@ -97,14 +91,8 @@ public class DeviceModelPage {
 			logger.error("Error during search or header validation", e);
 			throw new RuntimeException("Search or validation failed", e);
 		}
-	
-	
-	
-	
-	
-	
-	
-	
+	}
+
 	public boolean AddNewDeviceModel() {
 		logger.info("Trying to add the new model");
 
