@@ -34,7 +34,6 @@ public class WebDriverFactory {
 		return driver;
 	}
 	
-	// getting web driver 
 	private static WebDriver getChromeDriver() {
 	    String specificVersion = "127.0.6778.265"; 
 	    try {
@@ -47,7 +46,6 @@ public class WebDriverFactory {
 	    }
 	}
 	
-	// getting firefox driver
 	private static WebDriver getFirefoxDriver() {
 		WebDriverManager.firefoxdriver().setup();
 		return new FirefoxDriver();

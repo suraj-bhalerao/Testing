@@ -12,20 +12,7 @@ public class TestBase {
 
 	protected static WebDriver driver;
 	protected static final Logger logger = LogManager.getLogger(TestBase.class);
-
-	/**
-	 * Initializes the WebDriver instance and sets up the test environment.
-	 * <p>
-	 * This method performs the following:
-	 * <ul>
-	 * <li>Loads configuration properties for the specified environment (e.g.,
-	 * QA).</li>
-	 * <li>Creates a WebDriver instance based on the configured browser type.</li>
-	 * <li>Maximizes the browser window and navigates to the base URL.</li>
-	 * </ul>
-	 * <p>
-	 * Logs detailed information about the setup process for debugging purposes.
-	 */
+	
 	@BeforeClass
 	public void setUp() {
 		ConfigProperties.initialize("qa");
@@ -36,13 +23,6 @@ public class TestBase {
 		driver.get(ConfigProperties.getProperty("base.url"));
 		logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
 	}
-
-	/**
-	 * Cleans up the WebDriver instance and closes the browser session.
-	 * <p>
-	 * Ensures that the browser is properly closed after all test methods in the
-	 * class are executed. If the WebDriver instance is null, logs a warning.
-	 */
 
 //    @AfterClass
 	public void tearDown() {
