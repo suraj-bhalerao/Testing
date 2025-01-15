@@ -6,36 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-/**
- * @author YourName
- * @version 1.0
- * 
- * 
- * The MouseActions class provides utility methods for performing various mouse interactions 
- * on web elements using Selenium WebDriver.
- * 
- * <p>
- * Features:
- * <ul>
- *   <li>Allows moving to an element (useful for scrolling or hover effects).</li>
- *   <li>Supports single click, double click, and right-click actions.</li>
- *   <li>Leverages Selenium's Actions class for robust interaction simulation.</li>
- *   <li>Includes detailed logging for debugging and tracking actions.</li>
- * </ul>
- * <p>
- * Dependencies:
- * <ul>
- *   <li>Selenium WebDriver</li>
- *   <li>Apache Log4j</li>
- * </ul>
- * 
- * <p>
- * Logging:
- * <ul>
- *   <li>Logs detailed information about mouse interactions performed.</li>
- *   <li>Captures errors and exceptions for troubleshooting.</li>
- * </ul>
- */
 public class MouseActions {
     private WebDriver driver;
     private Actions actions;

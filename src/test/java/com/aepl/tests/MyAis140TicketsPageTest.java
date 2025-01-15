@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder;
 
 import groovy.time.Duration;
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
 
 public class MyAis140TicketsPageTest extends TestBase {
@@ -30,6 +31,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 	private MyAis140TicketsPage myais140tickets;
 	private WebDriverWait wait;
 	public static String Ticket_No;
+	private String uinNo;
 
 	@Override
 	@BeforeClass
@@ -43,6 +45,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 
 	private By SearchBox = By
 			.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
+	
 
 	@Test(priority = 1)
 	public void testRequestBodyWithRandomValuesCRMData() {
@@ -133,7 +136,8 @@ public class MyAis140TicketsPageTest extends TestBase {
 		jsonObject.put("MFG_YEAR", myais140tickets.generateRandomYear(4));
 		jsonObject.put("INVOICE_DATE", myais140tickets.generateRandomDate());
 		jsonObject.put("INVOICE_NUMBER", myais140tickets.generateRandomString(15));
-		jsonObject.put("CERTIFICATE_VALIDITY_DURATION_IN_YEAR", myais140tickets.generateRandomNumber(1));
+		jsonObject.put("CERTIFICATE_VALIDITY_DURATION_IN_YEAR",2);
+//		jsonObject.put("CERTIFICATE_VALIDITY_DURATION_IN_YEAR", myais140tickets.generateRandomNumber(1));
 
 		// Add the JSON object to the JSON array
 		jsonArray.put(jsonObject);
@@ -153,8 +157,20 @@ public class MyAis140TicketsPageTest extends TestBase {
 		// Use Gson to pretty print the JSON request body
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String prettyJson = gson.toJson(gson.fromJson(requestBodyCRM, Object.class));
+		
+		// Parse the `requestBodyCRM` string into a JSONArray
+        JSONArray parsedArray = new JSONArray(requestBodyCRM);
 
-		System.out.println("Request Body:");
+        // Extract the desired key value (e.g., "UIN_NO") from the first object
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            uinNo = firstObject.getString("UIN_NO"); // Extract "UIN_NO"
+            System.out.println("Extracted UIN_NO from Request Body: " + uinNo);
+        } else {
+            System.out.println("JSON Array is empty in the request body.");
+        }
+
+		System.out.println("Request Body:");		
 		System.out.println(prettyJson);
 		String requestBody1 = responseCRM.getBody().prettyPrint();
 	}
@@ -205,7 +221,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 //		 return TicketNo;
 	}
 
-	@Test(priority = 4)
+	
 	public String AccessTicketNo() {
 		// Print the ticket number
 //        System.out.println("Ticket_No: " + myais140tickets.Ticket_No);
@@ -213,15 +229,14 @@ public class MyAis140TicketsPageTest extends TestBase {
 		return myais140tickets.Ticket_No;
 	}
 
-	@Test(priority = 5)
+	@Test(priority = 4)
 
 	public void login() {
 		loginPage.enterUsername("accolade4g@accolade.com").enterPassword("Admin@321").clickLogin();
 		System.out.println("Login Succesfully");
 	}
 
-	@Test(priority = 6)
-
+	@Test(priority = 5)
 	public void Navigation() throws InterruptedException {
 		String testCaseName = "Test Navbar Links";
 		String expectedURL = ConfigProperties.getProperty("dashboard.url");
@@ -234,7 +249,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 			actualURL = driver.getCurrentUrl();
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			logger.info("Result is : " + result);
-//			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		} catch (Exception e) {
 			logger.error("An error occurred while clicking on the navigation bar links.", e);
 			e.printStackTrace();
@@ -247,7 +262,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		System.out.println("Succesfully click on Device Utility Tab ");
 	}
 
-	@Test(priority = 7)
+	@Test(priority = 6)
 	public void testClickOnMyAIS140Ticket() {
 		String testCaseName = "Test My AIS140 Tickets Link";
 		String expectedURL = "";
@@ -275,7 +290,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		System.out.println("Succesfully click on My AIS140 Tab ");
 	}
 
-	@Test(priority = 8)
+	@Test(priority = 7)
 	public void clickSearchBox() {
 		String testCaseName = "Test Click in Search Box";
 		String expectedURL = ConfigProperties.getProperty("myTickets.url");
@@ -303,7 +318,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		System.out.println("Succesfully click on Search Box ");
 	}
 
-	@Test(priority = 9)
+	@Test(priority = 8)
 	public void EnterSearchBox() throws InterruptedException {
 
 		WebElement search = driver.findElement(
@@ -341,7 +356,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		System.out.println("Succesfully click and Ticket Number enter in Search Box ");
 	}
 
-	@Test(priority = 10)
+	@Test(priority = 9)
 	public void clickViewButton() {
 		String testCaseName = "Test Click on Tickets View Link";
 		String expectedURL = "";
@@ -369,7 +384,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		System.out.println("Succesfully click on View icon ");
 	}
 
-	@Test(priority = 11)
+	@Test(priority = 10)
 	public void clickTicketInformation() {
 		String testCaseName = "Test Click on Ticket details of Ticket Information option";
 		String expectedURL = "";
@@ -385,15 +400,299 @@ public class MyAis140TicketsPageTest extends TestBase {
 			logger.info("Result is : " + result);
 		} catch (Exception e) {
 			logger.error("An error occurred while clicking on the Ticket Information option.", e);
-//			e.printStackTrace();
-//			actualURL = driver.getCurrentUrl();
-////			result = "FAIL"; // Mark the test case as failed
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
 //			captureScreenshot(testCaseName);
-//			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		}
 		logger.info("Completed the test case: " + testCaseName);
 		System.out.println("Succesfully click on Ticket Information option");
 	}
 
+	@Test(priority = 11)
+	public void clickTicketInformationTicketNumber() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Number box";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Number box test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Number of the Ticket Information Tab...");
+			myais140tickets.TicketNumber();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Number option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Number of Ticket Information tab");
+	}
+	
+	@Test(priority = 12)
+	public void clickTicketInformationTicketCretedDateTime() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Created Date & Time box";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Created Date & Time box test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Created Date & Time of the Ticket Information Tab...");
+			myais140tickets.TicketCretedTime();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Created Date & Time option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Created Date & Time of Ticket Information tab");
+	}
+	
+	@Test(priority = 13)
+	public void clickTicketInformationTicketAssignedDateTime() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Assigned Date & Time box";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Assigned Date & Time box test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Assigned Date & Time of the Ticket Information Tab...");
+			myais140tickets.TicketAssignedTime();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Assigned Date & Time option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Assigned Date & Time of Ticket Information tab");
+	}
+	
+	@Test(priority = 14)
+	public void clickTicketInformationTicketCompleteCancelDateTime() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Cancelled or Completed Date & Time box";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Ticket Cancelled or Completed Date & Time box test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Assigned Date & Time of the Ticket Information Tab...");
+			myais140tickets.TicketCancelledCompletedTime();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Ticket Cancelled or Completed Date & Time option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Ticket Cancelled or Completed Date & Time of Ticket Information tab");
+	}
+	
+	@Test(priority = 15)
+	public void clickTicketInformationCertificateValidityDuration() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Certificate Validity Duration in Year box";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Certificate Validity Duration in Year test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Certificate Validity Duration in Year of the Ticket Information Tab...");
+			myais140tickets.TicketCertificateValidityDuration();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Certificate Validity Duration in Year Ticket Certificate Validity Duration in Year.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Certificate Validity Duration in Year of Ticket Information tab");
+	}
+	
+	@Test(priority = 16)
+	public void clickTicketInformationTicketOverAllStatus() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Over All Status";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Over All Status test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Over All Status of the Ticket Information Tab...");
+			myais140tickets.TicketOverAllStatus();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Over All Status.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Over All Status of Ticket Information tab");
+	}
+	
+	@Test(priority = 17)
+	public void clickTicketInformationTicketOverAllStatusRemark() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Over All Remark";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Over All Remark test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Over All Remark of the Ticket Information Tab...");
+			myais140tickets.TicketOverAllRemark();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Over All Remark.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Over All Remark of Ticket Information tab");
+	}
+	
+	@Test(priority = 18)
+	public void clickTicketInformationTicketGeneratedBy() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Generatd By";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Generatd By test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Generatd By of the Ticket Information Tab...");
+			myais140tickets.TicketGeneratedBy();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Generatd By.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Generatd By of Ticket Information tab");
+	}
+	
+	@Test(priority = 19)
+	public void clickTicketInformationTicketDescripton() {
+		String testCaseName = "Test Click on Ticket Information of Ticket Descripton";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Ticket Information of Ticket Descripton test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to read Ticket Descripton of the Ticket Information Tab...");
+			myais140tickets.TicketDescription();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);			
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Ticket Information of Ticket Descripton.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully read Ticket Descripton of Ticket Information tab");
+	}
+	
+	@Test(priority = 20)
+	public void clickDeviceInformation() {
+		String testCaseName = "Test Click on Ticket details of Device Information option";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information option...");
+			myais140tickets.ClickDeviceInformation();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device Information option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information option");
+	}
+	
+	@Test(priority = 21)
+	public void clickDeviceInformationUINNumber() {
+		String testCaseName = "Test Click on Ticket details of Device Information option";
+		String expectedURL = uinNo;
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information of UIN Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information UIN Number option...");
+			actualURL = myais140tickets.DeviceUINNumber();
+//			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the  UIN Number of Device Information option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information of UIN Number option");
+	}
 }

@@ -69,15 +69,20 @@ public class MyAis140TicketsPage {
 
 	private By overlay = By.cssSelector(".overlay");
 	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
-//	private By Arrow = By.xpath("//*[contains(@class,'crm_head_b d-flex text-center justify-content-between')]");
-	
 	private By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]"); 
+	private By TicketNumber = By.id("mat-input-22");
+	private By TicketCreate = By.id("mat-input-23");
+	private By TicketAssigned = By.id("mat-input-24");
+	private By TicketCompleted = By.id("mat-input-25");
+	private By TicketCertificate = By.id("mat-input-26");
+	private By TicketStatus = By.id("mat-input-27");
+	private By TicketRemark = By.id("mat-input-28");
+	private By TicketGenrate = By.id("mat-input-29");
+	private By TicketDesc = By.id("mat-input-30");
+	private By DeviceInfo = By.className("crm_head_b");
+	private By UINNumber = By.id("mat-input-31");
 
-//	private By Arrow = By.xpath("(//*[contains(@class,'crm_head_b d-flex text-center justify-content-between')])[1]"); // Base locator
-
-	// URL's
-//		private static final String EXP_URL = "http://20.219.88.214:6102/my-ticket-details/";
-
+	
 	public String generateRandomString(int length) {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();
@@ -381,33 +386,215 @@ public class MyAis140TicketsPage {
 		  try {
 		        // Wait for the overlay to disappear (if any)
 		        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//		        wait.until(ExpectedConditions.invisibilityOfElementLocated(Arrow));
-		        
+//		        wait.until(ExpectedConditions.invisibilityOfElementLocated(Arrow));		        
 		        String originalTab = driver.getWindowHandle(); 
 		        logger.info("Original tab handle stored: " + originalTab);
-
 		        Set<String> allTabs = driver.getWindowHandles();
 		        ArrayList<String> tabList = new ArrayList<>(allTabs);
-
 		        if (tabIndex < 0 || tabIndex >= tabList.size()) {
 		            logger.error("Invalid tab index: " + tabIndex + ". Total tabs open: " + tabList.size());
-		            throw new RuntimeException("Invalid tab index: " + tabIndex);
-		        }
-
+		            throw new RuntimeException("Invalid tab index: " + tabIndex);		    
+		            }
 		        String targetTab = tabList.get(tabIndex);
 		        logger.info("Switching to tab with index: " + tabIndex + ", handle: " + targetTab);
 		        driver.switchTo().window(targetTab);
- 
 		        // Wait for the particular element in the new tab to be clickable
 		        WebElement elementToClickInNewTab = wait.until(ExpectedConditions.elementToBeClickable(Arrow));
 		        elementToClickInNewTab.click();
-		        logger.info("Successfully clicked the element in the new tab.");
-
-		        // Perform further actions in the new tab if needed
-
+		        logger.info("Successfully clicked the Ticket Information of the new tab.");
 		    } catch (Exception e) {
-		        logger.error("Error while handling the new window/tab.", e);
-		        throw new RuntimeException("Failed to interact with the new window/tab.", e);
+		        logger.error("Error while clicking the new window/tab.", e);
+		        throw new RuntimeException("Failed to clicking with the new window/tab.", e);
 		    }
-}
+	}
+	
+	public void TicketNumber() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+
+			// Wait for the element to be visible
+			WebElement ticketNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketNumber));
+
+			// Scroll the element into view if necessary
+//    	js.executeScript("arguments[0].scrollIntoView(true);", ticketNumberElement);
+
+    	// Simulate a click using JavaScript if the element is not natively clickable
+    	js.executeScript("arguments[0].click();", ticketNumberElement);
+
+    	// Retrieve the "value" attribute
+    	String inputValue = ticketNumberElement.getAttribute("value");
+    
+    	// Print Ticket Information
+    	System.out.println("\u001B[1m\u001B[34mTicket Information:\u001B[0m");
+    	System.out.println("\u001B[1m\u001B[35mTicket Number:\u001B[0m " + inputValue);
+
+    	// Highlight the element for visual verification
+    	js.executeScript("arguments[0].style.border='5px solid yellow';", ticketNumberElement);
+
+		} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Number.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Number.", e);
+		}
+	}
+	
+	public void TicketCretedTime() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+
+			// Wait for the element to be visible
+			WebElement ticketCreateTimeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketCreate));
+			js.executeScript("arguments[0].click();", ticketCreateTimeElement);
+			String inputValue = ticketCreateTimeElement.getAttribute("value");   
+			System.out.println("\u001B[1m\u001B[35mTicket Created Time & Date :\u001B[0m " + inputValue);    	
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketCreateTimeElement);
+		  	} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Created Time & Date.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Created Time & Date.", e);
+		}
+	}
+	
+	public void TicketAssignedTime() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			WebElement ticketAssignTimeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketAssigned));
+			js.executeScript("arguments[0].click();", ticketAssignTimeElement);
+			String inputValue = ticketAssignTimeElement.getAttribute("value");   
+   			System.out.println("\u001B[1m\u001B[35mTicket Assigned Time & Date :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketAssignTimeElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Assigned Time & Date.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Assigned Time & Date.", e);
+		}
+	}
+	
+	public void TicketCancelledCompletedTime() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			WebElement ticketCompleteCancelElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketCompleted));
+			js.executeScript("arguments[0].click();", ticketCompleteCancelElement);    	
+			String inputValue = ticketCompleteCancelElement.getAttribute("value");   
+			System.out.println("\u001B[1m\u001B[35mTicket Cancelled or Completed Time & Date :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketCompleteCancelElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Cancelled or Completed Time & Date.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Cancelled or Completed Time & Date.", e);
+		}
+	}
+	
+	public void TicketCertificateValidityDuration() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			// Wait for the element to be visible
+			WebElement ticketCertificateValidityDurationElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketCertificate));
+			js.executeScript("arguments[0].click();", ticketCertificateValidityDurationElement);
+			String inputValue = ticketCertificateValidityDurationElement.getAttribute("value");   
+			System.out.println("\u001B[1m\u001B[35mTicket Certificate Validity Duration in Year :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketCertificateValidityDurationElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Certificate Validity Duration in Year.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Certificate Validity Duration in Year.", e);
+		}
+	}
+	
+	public void TicketOverAllStatus() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			WebElement ticketOverAllStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketStatus));
+			js.executeScript("arguments[0].click();", ticketOverAllStatusElement);    	
+			String inputValue = ticketOverAllStatusElement.getAttribute("value");      	
+			System.out.println("\u001B[1m\u001B[35mTicket Over All Status :\u001B[0m " + inputValue); 
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketOverAllStatusElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Over All Status.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Over All Status.", e);
+		}
+	}
+	
+	public void TicketOverAllRemark() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			WebElement ticketOverAllRemarkElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketRemark));
+			js.executeScript("arguments[0].click();", ticketOverAllRemarkElement);    	
+			String inputValue = ticketOverAllRemarkElement.getAttribute("value");       	
+			System.out.println("\u001B[1m\u001B[35mTicket Over All Remark :\u001B[0m " + inputValue);    
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketOverAllRemarkElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Over All Remark.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Over All Remark.", e);
+		}
+	}
+	
+	public void TicketGeneratedBy() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;			
+			WebElement ticketGeneratedByElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketGenrate));
+			js.executeScript("arguments[0].click();", ticketGeneratedByElement);
+			String inputValue = ticketGeneratedByElement.getAttribute("value");   
+			System.out.println("\u001B[1m\u001B[35mTicket Generated By :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketGeneratedByElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Generated By.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Generated By.", e);
+		}
+	}
+
+	public void TicketDescription() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;			
+			WebElement ticketDescriptionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(TicketDesc));
+			js.executeScript("arguments[0].click();", ticketDescriptionElement);
+			String inputValue = ticketDescriptionElement.getAttribute("value");   
+			System.out.println("\u001B[1m\u001B[35mTicket Description :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", ticketDescriptionElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Ticket Information for Ticket Description.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Ticket Description.", e);
+		}
+	}
+	
+	public void ClickDeviceInformation() {
+		try {
+			// Wait for the elements to be clickable
+			List<WebElement> deviceList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(DeviceInfo));
+			int indexToClick = 1; // Change this to the desired index
+			// Check if the index is valid
+			if (indexToClick >= 0 && indexToClick < deviceList.size()) {
+				WebElement elementToClick = deviceList.get(indexToClick);
+				// Wait until the specific element is clickable
+				wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
+				// Click the element
+				elementToClick.click();
+				// Log or perform additional actions after clicking
+				System.out.println("\u001B[1m\u001B[34mDevice Information Clicked \u001B[0m ");
+				// Optionally, add a delay for visual confirmation (avoid in real tests)
+				Thread.sleep(2000);
+				} else {
+					System.err.println("Invalid index: " + indexToClick + ". Total elements found: " + deviceList.size());
+					throw new IllegalArgumentException("Index out of bounds for Device list.");
+				}
+			} catch (Exception e) {
+				logger.error("Error while clicking with Device Information elements.", e);
+				throw new RuntimeException("Failed to clicking with Device Information.", e);
+			}
+	}
+	
+	public String DeviceUINNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceUINElement = wait.until(ExpectedConditions.visibilityOfElementLocated(UINNumber));
+			js.executeScript("arguments[0].click();", deviceUINElement);
+			String inputValue = deviceUINElement.getAttribute("value");   
+			
+			// Print Ticket Information
+	    	System.out.println("\u001B[1m\u001B[34mDevice Information:\u001B[0m");
+			System.out.println("\u001B[1m\u001B[35mUIN Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceUINElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for UIN Number.", e);
+			throw new RuntimeException("Failed to read Ticket Information for UIN Number.", e);
+		}
+		return "inputValue";
+	}
+	
 }
