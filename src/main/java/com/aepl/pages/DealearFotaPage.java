@@ -21,15 +21,14 @@ import com.aepl.util.CommonMethod;
 public class DealearFotaPage {
 	private WebDriver driver;
 	private WebDriverWait wait;
-
 	@SuppressWarnings("unused")
 	private CommonMethod commMethod;
 	private static final Logger logger = LogManager.getLogger(DealearFotaPage.class);
 
 	public DealearFotaPage(WebDriver driver) {
 		this.driver = driver;
+		this.commMethod = new CommonMethod(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-		commMethod = new CommonMethod(driver);
 		logger.info("Initialized the driver and wait ");
 	}
 
