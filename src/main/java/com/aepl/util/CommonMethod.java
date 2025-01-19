@@ -28,7 +28,7 @@ public class CommonMethod {
 
 	private static WebDriver driver;
 	private static WebDriverWait wait;
-	private static Logger logger = LogManager.getLogger(CommonMethod.class);
+	private static final Logger logger = LogManager.getLogger(CommonMethod.class);
 
 	public CommonMethod(WebDriver driver) {
 		CommonMethod.driver = driver;
@@ -36,8 +36,8 @@ public class CommonMethod {
 	}
 
 	public static By searchBox = By.name("searchInput");
-	private static By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
-	private static By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
+	private static final By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
+	private static final By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 
 	// Screenshot method
 	public static void captureScreenshot(String testCaseName) {

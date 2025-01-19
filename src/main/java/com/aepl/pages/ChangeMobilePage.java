@@ -18,8 +18,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.aepl.constants.Constants;
 
 public class ChangeMobilePage {
-	private WebDriver driver;
-	private WebDriverWait wait;
+	private final WebDriver driver;
+	private final WebDriverWait wait;
 	private static final Logger logger = LogManager.getLogger(ChangeMobilePage.class);
 
 	public ChangeMobilePage(WebDriver driver) {
@@ -28,14 +28,14 @@ public class ChangeMobilePage {
 	}
 
 	// Locators Goes here
-	private By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
-	private By changeMobile = By.xpath("//a[@class=\"dropdown-item ng-star-inserted\"][8]");
-	private By searchBox = By.xpath("//input[@placeholder=\"Search and Press Enter\"]");
-	private By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
-	private By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
-	private By deleteActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][2]");
-	private By paginationNextButton = By.xpath("//li[@class=\\\"pagination-next ng-star-inserted\\\"");
-	private By paginationPreviousButton = By.xpath("//li[@class=\\\"pagination-previous ng-star-inserted\\\"]");
+	private final By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
+	private final By changeMobile = By.xpath("//a[@class=\"dropdown-item ng-star-inserted\"][8]");
+	private final By searchBox = By.xpath("//input[@placeholder=\"Search and Press Enter\"]");
+	private final By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
+	private final By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
+	private final By deleteActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][2]");
+	private final By paginationNextButton = By.xpath("//li[@class=\\\"pagination-next ng-star-inserted\\\"");
+	private final By paginationPreviousButton = By.xpath("//li[@class=\\\"pagination-previous ng-star-inserted\\\"]");
 
 	// Methods Goes here
 	public void clickNavBar() {
@@ -84,7 +84,7 @@ public class ChangeMobilePage {
 			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
 					.collect(Collectors.toList());
 
-			return actualHeaderTexts.equals(expectedHeaders) ? true : false;
+			return actualHeaderTexts.equals(expectedHeaders);
 		} catch (Exception e) {
 			logger.error("Error during search or header validation", e);
 			throw new RuntimeException("Search or validation failed", e);

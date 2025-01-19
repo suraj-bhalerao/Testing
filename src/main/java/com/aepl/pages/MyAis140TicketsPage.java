@@ -31,8 +31,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 public class MyAis140TicketsPage {
-	private WebDriver driver;
-	private WebDriverWait wait;
+	private final WebDriver driver;
+	private final WebDriverWait wait;
 	private static final Logger logger = LogManager.getLogger(MyAis140TicketsPage.class);
 
 	public MyAis140TicketsPage(WebDriver driver) {
@@ -61,26 +61,26 @@ public class MyAis140TicketsPage {
 	}
 
 // Locators Goes here
-	private By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
-	private By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
-	private By SearchBox = By
+	private final By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
+	private final By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
+	private final By SearchBox = By
 			.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
-	private By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
+	private final By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
 
-	private By overlay = By.cssSelector(".overlay");
-	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
-	private By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]"); 
-	private By TicketNumber = By.id("mat-input-22");
-	private By TicketCreate = By.id("mat-input-23");
-	private By TicketAssigned = By.id("mat-input-24");
-	private By TicketCompleted = By.id("mat-input-25");
-	private By TicketCertificate = By.id("mat-input-26");
-	private By TicketStatus = By.id("mat-input-27");
-	private By TicketRemark = By.id("mat-input-28");
-	private By TicketGenrate = By.id("mat-input-29");
-	private By TicketDesc = By.id("mat-input-30");
-	private By DeviceInfo = By.className("crm_head_b");
-	private By UINNumber = By.id("mat-input-31");
+	private final By overlay = By.cssSelector(".overlay");
+	private final By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
+	private final By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]");
+	private final By TicketNumber = By.id("mat-input-22");
+	private final By TicketCreate = By.id("mat-input-23");
+	private final By TicketAssigned = By.id("mat-input-24");
+	private final By TicketCompleted = By.id("mat-input-25");
+	private final By TicketCertificate = By.id("mat-input-26");
+	private final By TicketStatus = By.id("mat-input-27");
+	private final By TicketRemark = By.id("mat-input-28");
+	private final By TicketGenrate = By.id("mat-input-29");
+	private final By TicketDesc = By.id("mat-input-30");
+	private final By DeviceInfo = By.className("crm_head_b");
+	private final By UINNumber = By.id("mat-input-31");
 
 	
 	public String generateRandomString(int length) {
@@ -255,7 +255,7 @@ public class MyAis140TicketsPage {
 		RequestSpecification request = RestAssured.given();
 		request.header("Content-Type", "application/json");
 		request.header("token", token);
-		request.body(requestBodyCRM.toString());
+		request.body(requestBodyCRM);
 
 		io.restassured.response.Response responseCRM = request.post("api/crm/generateTickets");
 

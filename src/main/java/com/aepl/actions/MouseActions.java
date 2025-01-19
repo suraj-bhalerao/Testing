@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class MouseActions {
-    private WebDriver driver;
-    private Actions actions;
+    private final WebDriver driver;
+    private final Actions actions;
 
     private static final Logger logger = LogManager.getLogger(MouseActions.class);
 
@@ -40,12 +40,12 @@ public class MouseActions {
             throw new IllegalArgumentException("WebElement cannot be null");
         }
 
-        logger.info("Attempting to move to element: " + element.toString());
+        logger.info("Attempting to move to element: " + element);
         try {
             actions.moveToElement(element).build().perform();
             logger.info("Mouse moved to element successfully.");
         } catch (Exception e) {
-            logger.error("Error occurred while moving to element: " + element.toString(), e);
+            logger.error("Error occurred while moving to element: " + element, e);
             throw e;
         }
     }
@@ -61,12 +61,12 @@ public class MouseActions {
             throw new IllegalArgumentException("WebElement cannot be null");
         }
 
-        logger.info("Attempting to click element: " + element.toString());
+        logger.info("Attempting to click element: " + element);
         try {
             actions.click(element).build().perform();
             logger.info("Element clicked successfully.");
         } catch (Exception e) {
-            logger.error("Error occurred while clicking element: " + element.toString(), e);
+            logger.error("Error occurred while clicking element: " + element, e);
             throw e;
         }
     }
@@ -82,12 +82,12 @@ public class MouseActions {
             throw new IllegalArgumentException("WebElement cannot be null");
         }
 
-        logger.info("Attempting to double-click element: " + element.toString());
+        logger.info("Attempting to double-click element: " + element);
         try {
             actions.doubleClick(element).build().perform();
             logger.info("Element double-clicked successfully.");
         } catch (Exception e) {
-            logger.error("Error occurred while double-clicking element: " + element.toString(), e);
+            logger.error("Error occurred while double-clicking element: " + element, e);
             throw e;
         }
     }
@@ -103,12 +103,12 @@ public class MouseActions {
             throw new IllegalArgumentException("WebElement cannot be null");
         }
 
-        logger.info("Attempting to right-click element: " + element.toString());
+        logger.info("Attempting to right-click element: " + element);
         try {
             actions.contextClick(element).build().perform();
             logger.info("Element right-clicked successfully.");
         } catch (Exception e) {
-            logger.error("Error occurred while right-clicking element: " + element.toString(), e);
+            logger.error("Error occurred while right-clicking element: " + element, e);
             throw e;
         }
     }

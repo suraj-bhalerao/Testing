@@ -19,10 +19,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.aepl.util.CommonMethod;
 
 public class DealearFotaPage {
-	private WebDriver driver;
-	private WebDriverWait wait;
+	private final WebDriver driver;
+	private final WebDriverWait wait;
 	@SuppressWarnings("unused")
-	private CommonMethod commMethod;
+	private final CommonMethod commMethod;
 	private static final Logger logger = LogManager.getLogger(DealearFotaPage.class);
 
 	public DealearFotaPage(WebDriver driver) {
@@ -33,19 +33,19 @@ public class DealearFotaPage {
 	}
 
 	// Locators goes here
-	private By navBarLink = By.xpath("//*[@id=\"navbarDropdownProfile\"]/span");
-	private By dealerFota = By.xpath("//a[@class=\"dropdown-item ng-star-inserted\"][6]");
-	private By addApprovedFileBtn = By.xpath("/html/body/app-root/app-dealer-fota/div/div/div[2]/button");
-	private By fileNameInput = By.tagName("input");
-	private By saveFileButton = By.xpath("//button[@class='btn btn-primary w-100']");
-	private By tableRowsLocator = By.xpath("//tr[@class=\"odd text-center ng-star-inserted\"]");
+	private final By navBarLink = By.xpath("//*[@id=\"navbarDropdownProfile\"]/span");
+	private final By dealerFota = By.xpath("//a[@class=\"dropdown-item ng-star-inserted\"][6]");
+	private final By addApprovedFileBtn = By.xpath("/html/body/app-root/app-dealer-fota/div/div/div[2]/button");
+	private final By fileNameInput = By.tagName("input");
+	private final By saveFileButton = By.xpath("//button[@class='btn btn-primary w-100']");
+	private final By tableRowsLocator = By.xpath("//tr[@class=\"odd text-center ng-star-inserted\"]");
 	//private By toastLocator = By.id("cdk-overlay-1");
-	private By searchBox = By.name("searchInput");
-	private By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
-	private By deleteBtn = By.xpath("//i[@class=\"mat-tooltip-trigger fas fa-trash pl-3 ng-star-inserted\"]");
-	private By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
-	private By prevBtn = By.xpath("//li[@class=\"pagination-previous disabled ng-star-inserted\"]");
-	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	private final By searchBox = By.name("searchInput");
+	private final By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
+	private final By deleteBtn = By.xpath("//i[@class=\"mat-tooltip-trigger fas fa-trash pl-3 ng-star-inserted\"]");
+	private final By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	private final By prevBtn = By.xpath("//li[@class=\"pagination-previous disabled ng-star-inserted\"]");
+	private final By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	
 	// Global variables goes here
 	String fileNameToSearch;

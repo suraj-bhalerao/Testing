@@ -14,19 +14,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DeviceModelPage {
-	private WebDriver driver;
-	private WebDriverWait wait;
+	private final WebDriver driver;
+	private final WebDriverWait wait;
 
-	private Logger logger = LogManager.getLogger(DeviceModelPage.class);
-	private By ModelNameInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-1']");
-	private By ModelCodeInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-2']");
-	private By HWVersionInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-3']");
-	private By SubmitButton = By.xpath("//button[contains(.,'Submit')]");
-	private By ToastLocator = By.xpath("//span[text()='Fetched Successfully']");
-	private By dropDown = By.xpath("//span[@class='headers_custom color_3D5772']");
-	private By DeviceModel = By.xpath("//a[@routerlink='model']");
-	private By AddDeviceModel = By.xpath("//button[contains(.,'Add Device Model')]");
-	private By pageHeader = By.xpath("//h4[@class='h4ssssss text-cente mt-1']");
+	private final Logger logger = LogManager.getLogger(DeviceModelPage.class);
+	private final By ModelNameInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-1']");
+	private final By ModelCodeInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-2']");
+	private final By HWVersionInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-3']");
+	private final By SubmitButton = By.xpath("//button[contains(.,'Submit')]");
+	private final By ToastLocator = By.xpath("//span[text()='Fetched Successfully']");
+	private final By dropDown = By.xpath("//span[@class='headers_custom color_3D5772']");
+	private final By DeviceModel = By.xpath("//a[@routerlink='model']");
+	private final By AddDeviceModel = By.xpath("//button[contains(.,'Add Device Model')]");
+	private final By pageHeader = By.xpath("//h4[@class='h4ssssss text-cente mt-1']");
 
 	// Constructor
 	public DeviceModelPage(WebDriver driver) {
@@ -86,7 +86,7 @@ public class DeviceModelPage {
 			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
 					.collect(Collectors.toList());
 
-			return actualHeaderTexts.equals(expectedHeaders) ? true : false;
+			return actualHeaderTexts.equals(expectedHeaders);
 		} catch (Exception e) {
 			logger.error("Error during search or header validation", e);
 			throw new RuntimeException("Search or validation failed", e);

@@ -12,14 +12,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
-	private WebDriver driver;
+	private final WebDriver driver;
 	private static final Logger logger = LogManager.getLogger(LoginPage.class);
 
 	// Locators
-	private By usernameField = By.cssSelector("input[formcontrolname='email']");
-	private By passwordField = By.cssSelector("input[formcontrolname='password']");
-	private By loginButton = By.cssSelector("button[type='button']");
-	private By errorMessageLocator = By.tagName("mat-error");
+	private final By usernameField = By.cssSelector("input[formcontrolname='email']");
+	private final By passwordField = By.cssSelector("input[formcontrolname='password']");
+	private final By loginButton = By.cssSelector("button[type='button']");
+	private final By errorMessageLocator = By.tagName("mat-error");
 
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;

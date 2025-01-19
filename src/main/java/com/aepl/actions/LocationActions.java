@@ -12,8 +12,8 @@ import java.time.Duration;
 import java.util.List;
 
 public class LocationActions {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private static final Logger logger = LogManager.getLogger(LocationActions.class);
 
