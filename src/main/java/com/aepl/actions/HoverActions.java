@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class HoverActions {
-    private WebDriver driver;
-    private Actions actions;
+    private final WebDriver driver;
+    private final Actions actions;
 
     private static final Logger logger = LogManager.getLogger(HoverActions.class);
 
@@ -41,12 +41,12 @@ public class HoverActions {
             throw new IllegalArgumentException("WebElement cannot be null");
         }
 
-        logger.info("Attempting to hover over element: " + element.toString());
+        logger.info("Attempting to hover over element: " + element);
         try {
             actions.moveToElement(element).build().perform();
-            logger.info("Hover action performed successfully on element: " + element.toString());
+            logger.info("Hover action performed successfully on element: " + element);
         } catch (Exception e) {
-            logger.error("Error occurred while hovering over element: " + element.toString(), e);
+            logger.error("Error occurred while hovering over element: " + element, e);
             throw e; // Re-throw exception for upstream handling
         }
     }

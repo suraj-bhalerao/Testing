@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -27,6 +28,8 @@ public class WebDriverFactory {
 			break;
 		case "edge":
 			driver = getEdgeDriver();
+		case "brave":
+			driver = getBraveDriver();
 		default:
 			throw new IllegalArgumentException("Browser not supported: " + browserName);
 		}
@@ -34,7 +37,6 @@ public class WebDriverFactory {
 		return driver;
 	}
 	
-	// getting web driver 
 	private static WebDriver getChromeDriver() {
 	    String specificVersion = "127.0.6778.265"; 
 	    try {
@@ -47,7 +49,6 @@ public class WebDriverFactory {
 	    }
 	}
 	
-	// getting firefox driver
 	private static WebDriver getFirefoxDriver() {
 		WebDriverManager.firefoxdriver().setup();
 		return new FirefoxDriver();
@@ -62,5 +63,25 @@ public class WebDriverFactory {
 		WebDriverManager.edgedriver().setup();
 		return new EdgeDriver();
 	}
+	
+	private static WebDriver getBraveDriver() {
+	    try {
+	        WebDriverManager.chromedriver().setup();
+	        logger.info("Setting up Brave Browser WebDriver.");
+
+	        String braveExecutablePath = "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe";
+
+	        ChromeOptions options = new ChromeOptions();
+	        options.setBinary(braveExecutablePath);
+	        options.addArguments("--remote-allow-origins=*"); // Optional: Bypass potential CORS issues
+	        options.addArguments("--start-maximized"); // Start Brave maximized
+
+	        return new ChromeDriver(options);
+	    } catch (Exception e) {
+	        logger.error("Error initializing Brave WebDriver", e);
+	        throw new RuntimeException("Failed to initialize Brave WebDriver.", e);
+	    }
+	}
+
 
 }

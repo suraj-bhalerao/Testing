@@ -19,8 +19,8 @@ import com.aepl.constants.Constants;
 import com.aepl.util.CommonMethod;
 
 public class DeviceDashboardPage {
-	private WebDriver driver;
-	private WebDriverWait wait;
+	private final WebDriver driver;
+	private final WebDriverWait wait;
 	private static final Logger logger = LogManager.getLogger(DeviceDashboardPage.class);
 
 	public DeviceDashboardPage(WebDriver driver) {
@@ -30,9 +30,9 @@ public class DeviceDashboardPage {
 
 	// Locators Goes here
 
-	private By KPICard = By.xpath("//span[@class='value']");
-	private By DeviceModelWise = By.xpath("//button[@class='btn btn-outline-primary float-right']");
-	private By GraphEnability = By.xpath("//span[@class='white_card_header']");
+	private final By KPICard = By.xpath("//span[@class='value']");
+	private final By DeviceModelWise = By.xpath("//button[@class='btn btn-outline-primary float-right']");
+	private final By GraphEnability = By.xpath("//span[@class='white_card_header']");
 	private By tableHeadings;
 	private WebElement searchBox;
 
@@ -173,7 +173,7 @@ public class DeviceDashboardPage {
 			List<String> actualHeaderTexts = actualHeaders.stream().map(WebElement::getText)
 					.collect(Collectors.toList());
 
-			return actualHeaderTexts.equals(expectedHeaders) ? true : false;
+			return actualHeaderTexts.equals(expectedHeaders);
 		} catch (Exception e) {
 			logger.error("Error during search or header validation", e);
 			throw new RuntimeException("Search or validation failed", e);

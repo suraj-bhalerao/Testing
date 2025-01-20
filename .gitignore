@@ -34,7 +34,7 @@ src/main/resources/*.properties
 *.rej
 
 # === Logs and Temp Files ===
-*.log
+*\.log
 *.lock
 *.pid
 *.seed

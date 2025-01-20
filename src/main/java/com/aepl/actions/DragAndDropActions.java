@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class DragAndDropActions {
-	private WebDriver driver;
-	private Actions actions;
+	private final WebDriver driver;
+	private final Actions actions;
 
 	private static final Logger logger = LogManager.getLogger(DragAndDropActions.class);
 
