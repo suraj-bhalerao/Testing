@@ -67,20 +67,38 @@ public class MyAis140TicketsPage {
 			.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
 	private final By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
 
-	private final By overlay = By.cssSelector(".overlay");
-	private final By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
-	private final By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]");
-	private final By TicketNumber = By.id("mat-input-22");
-	private final By TicketCreate = By.id("mat-input-23");
-	private final By TicketAssigned = By.id("mat-input-24");
-	private final By TicketCompleted = By.id("mat-input-25");
-	private final By TicketCertificate = By.id("mat-input-26");
-	private final By TicketStatus = By.id("mat-input-27");
-	private final By TicketRemark = By.id("mat-input-28");
-	private final By TicketGenrate = By.id("mat-input-29");
-	private final By TicketDesc = By.id("mat-input-30");
-	private final By DeviceInfo = By.className("crm_head_b");
-	private final By UINNumber = By.id("mat-input-31");
+//<<<<<<< HEAD
+//	private final By overlay = By.cssSelector(".overlay");
+//	private final By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
+//	private final By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]");
+//	private final By TicketNumber = By.id("mat-input-22");
+//	private final By TicketCreate = By.id("mat-input-23");
+//	private final By TicketAssigned = By.id("mat-input-24");
+//	private final By TicketCompleted = By.id("mat-input-25");
+//	private final By TicketCertificate = By.id("mat-input-26");
+//	private final By TicketStatus = By.id("mat-input-27");
+//	private final By TicketRemark = By.id("mat-input-28");
+//	private final By TicketGenrate = By.id("mat-input-29");
+//	private final By TicketDesc = By.id("mat-input-30");
+//	private final By DeviceInfo = By.className("crm_head_b");
+//	private final By UINNumber = By.id("mat-input-31");
+//=======
+	private By overlay = By.cssSelector(".overlay");
+	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
+	private By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]"); 
+	private By TicketNumber = By.id("mat-input-22");
+	private By TicketCreate = By.id("mat-input-23");
+	private By TicketAssigned = By.id("mat-input-24");
+	private By TicketCompleted = By.id("mat-input-25");
+	private By TicketCertificate = By.id("mat-input-26");
+	private By TicketStatus = By.id("mat-input-27");
+	private By TicketRemark = By.id("mat-input-28");
+	private By TicketGenrate = By.id("mat-input-29");
+	private By TicketDesc = By.id("mat-input-30");
+	private By DeviceInfo = By.className("crm_head_b");
+	private By UINNumber = By.id("mat-input-31");
+	private By IMEINumber = By.id("mat-input-32");
+//>>>>>>> shital
 
 	
 	public String generateRandomString(int length) {
@@ -596,5 +614,24 @@ public class MyAis140TicketsPage {
 		}
 		return "inputValue";
 	}
+	
+//	public String DeviceIMEINumber() { 
+//		try {
+//			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+//			WebElement deviceIMEIElement = wait.until(ExpectedConditions.visibilityOfElementLocated(UINNumber));
+//			js.executeScript("arguments[0].click();", deviceIMEIElement);
+//			String inputValue = deviceIMEIElement.getAttribute("value");   
+//			
+//			// Print Ticket Information
+//	    	System.out.println("\u001B[1m\u001B[34mDevice Information:\u001B[0m");
+//			System.out.println("\u001B[1m\u001B[35mUIN Number :\u001B[0m " + inputValue);
+//			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceIMEIElement);
+//			} catch (Exception e) {
+//			logger.error("Error while interacting with Device Information for UIN Number.", e);
+//			throw new RuntimeException("Failed to read Ticket Information for UIN Number.", e);
+//		}
+//		return "inputValue";
+//	}
 	
 }

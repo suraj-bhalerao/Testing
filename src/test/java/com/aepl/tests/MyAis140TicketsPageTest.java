@@ -681,7 +681,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 			logger.info("Attempting  to click on the Device Information UIN Number option...");
 			actualURL = myais140tickets.DeviceUINNumber();
 //			actualURL = driver.getCurrentUrl();
-			expectedURL = actualURL;
+//			expectedURL = actualURL;
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			logger.info("Result is : " + result);
 		} catch (Exception e) {
