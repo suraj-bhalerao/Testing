@@ -81,6 +81,7 @@ public class MyAis140TicketsPage {
 	private By TicketDesc = By.id("mat-input-30");
 	private By DeviceInfo = By.className("crm_head_b");
 	private By UINNumber = By.id("mat-input-31");
+	private By IMEINumber = By.id("mat-input-32");
 
 	
 	public String generateRandomString(int length) {
@@ -596,5 +597,24 @@ public class MyAis140TicketsPage {
 		}
 		return "inputValue";
 	}
+	
+//	public String DeviceIMEINumber() { 
+//		try {
+//			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+//			WebElement deviceIMEIElement = wait.until(ExpectedConditions.visibilityOfElementLocated(UINNumber));
+//			js.executeScript("arguments[0].click();", deviceIMEIElement);
+//			String inputValue = deviceIMEIElement.getAttribute("value");   
+//			
+//			// Print Ticket Information
+//	    	System.out.println("\u001B[1m\u001B[34mDevice Information:\u001B[0m");
+//			System.out.println("\u001B[1m\u001B[35mUIN Number :\u001B[0m " + inputValue);
+//			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceIMEIElement);
+//			} catch (Exception e) {
+//			logger.error("Error while interacting with Device Information for UIN Number.", e);
+//			throw new RuntimeException("Failed to read Ticket Information for UIN Number.", e);
+//		}
+//		return "inputValue";
+//	}
 	
 }
