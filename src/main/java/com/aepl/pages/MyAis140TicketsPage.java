@@ -616,5 +616,5 @@ public class MyAis140TicketsPage {
 //		}
 //		return "inputValue";
 //	}
-	
+	public void add() {}
 }
