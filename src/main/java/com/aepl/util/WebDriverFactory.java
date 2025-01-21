@@ -73,8 +73,8 @@ public class WebDriverFactory {
 
 	        ChromeOptions options = new ChromeOptions();
 	        options.setBinary(braveExecutablePath);
-	        options.addArguments("--remote-allow-origins=*"); // Optional: Bypass potential CORS issues
-	        options.addArguments("--start-maximized"); // Start Brave maximized
+	        options.addArguments("--remote-allow-origins=*"); 
+	        options.addArguments("--start-maximized"); 
 
 	        return new ChromeDriver(options);
 	    } catch (Exception e) {
