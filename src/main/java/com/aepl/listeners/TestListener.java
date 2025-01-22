@@ -62,7 +62,7 @@ public class TestListener extends TestBase implements ITestListener {
     	}
     	
         ExtentManager.createInstance();
-        ExtentTestManager.getTest().log(Status.INFO, "Test Suite Started: " + context.getName());
+//        ExtentTestManager.getTest().log(Status.INFO, "Test Suite Started: " + context.getName());
     }
 
     @Override
