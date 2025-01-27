@@ -6,16 +6,15 @@
 	<test name="AllTests">
 		<classes>
 			<class name="com.aepl.tests.LoginTest" /> 		
-			
-			<!-- Dashboard -->
+			             
 			<class name="com.aepl.tests.DeviceDashboardPageTest" />		
 			<class name="com.aepl.tests.UserComplaintsDashboardPageTest" />
 			<class name="com.aepl.tests.TicketDashboardPageTest" />
 				
-			<!-- Device Utility -->
+
 			<class name="com.aepl.tests.MyAis140TicketsPageTest" />
 			<class name="com.aepl.tests.GovernmentServerPageTest" />
-			<class name="com.aepl.tests.FotaPageTest" />
+			<class name="com.aepl.tests.FotaPageTest" /> 
 			<class name="com.aepl.tests.OtaPageTest" />
 			<class name="com.aepl.tests.DeviceModelPageTest" />
 			<class name="com.aepl.tests.DealerFotaPageTest" />
@@ -24,13 +23,13 @@
 			<class name="com.aepl.tests.DispatchedDevicePageTest" />
 			<class name="com.aepl.tests.UserComplaintsPageTest" />
 			
-			<!-- Reports -->
+		
 			<class name="com.aepl.tests.VehicleEOLPageTest" />
 			<class name="com.aepl.tests.SimDataDetailsPageTest" />
 
-			<!-- User Management -->
+		
 			<class name="com.aepl.tests.UserManagementPageTest" />
-			<class name="com.aepl.tests.UserRolePageTest" />
+			<class name="com.aepl.tests.UserRolePageTest" /> 
 			
 		</classes>
 	</test>

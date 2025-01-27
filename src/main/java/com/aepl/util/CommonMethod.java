@@ -35,9 +35,10 @@ public class CommonMethod {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
-	public static By searchBox = By.name("searchInput");
-	private static final By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
-	private static final By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
+	private static By searchBox = By
+			.xpath("//input[@class=\"form-control my-0 py-1 myform ng-pristine ng-valid ng-touched\"]");
+	private static By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
+	private static By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 
 	// Screenshot method
 	public static void captureScreenshot(String testCaseName) {
@@ -80,16 +81,14 @@ public class CommonMethod {
 			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
 					.map(String::toLowerCase).collect(Collectors.toList());
 
-//			actualHeaderTexts
-//				.stream()
-//				.forEach(s -> System.out.println(s));
+			// Actual headers from table
+			actualHeaderTexts.stream().forEach(s -> System.out.println(s));
 
 			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
 					.collect(Collectors.toList());
-			
-//			normalizedExpectedHeaders
-//				.stream()
-//				.forEach(s -> System.out.println(s));
+
+			// Expected headers from the methods.
+			normalizedExpectedHeaders.stream().forEach(s -> System.out.println(s));
 
 			logger.info("Actual table headers after search: " + actualHeaderTexts);
 			logger.info("Expected table headers: " + normalizedExpectedHeaders);
@@ -123,7 +122,7 @@ public class CommonMethod {
 			throw new RuntimeException("Failed to process the eye action button.", e);
 		}
 	}
-  
+
 	// Random String Generator
 	public static String randomStringGen() {
 		int length = 10;
@@ -176,7 +175,7 @@ public class CommonMethod {
 				if (i < 5) {
 					WebElement next = wait.until(ExpectedConditions.elementToBeClickable(nextButton));
 					((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", next);
-					Thread.sleep(500); 
+					Thread.sleep(500);
 					next.click();
 					logger.info("Clicked on the 'Next' button to navigate to page " + (i + 1));
 				}
@@ -185,7 +184,7 @@ public class CommonMethod {
 			for (int i = 4; i >= 1; i--) {
 				WebElement previous = wait.until(ExpectedConditions.elementToBeClickable(previousButton));
 				((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", previous);
-				Thread.sleep(500); 
+				Thread.sleep(500);
 				previous.click();
 				logger.info("Clicked on the 'Previous' button to navigate back to page " + i);
 

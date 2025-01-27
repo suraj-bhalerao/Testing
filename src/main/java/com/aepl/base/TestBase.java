@@ -3,6 +3,7 @@ package com.aepl.base;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 
 import com.aepl.util.ConfigProperties;
@@ -24,10 +25,10 @@ public class TestBase {
 		logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
 	}
 
-//    @AfterClass
+    @AfterSuite
 	public void tearDown() {
 		if (driver != null) {
-			logger.info("Closing the browser after all test classes.");
+			logger.info("Closing the browser after all test classes and suite.");
 			driver.quit();
 		} else {
 			logger.warn("Driver was null; no browser to close.");
