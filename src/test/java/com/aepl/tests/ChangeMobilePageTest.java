@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.aepl.base.TestBase;
 import com.aepl.pages.ChangeMobilePage;
 import com.aepl.pages.LoginPage;
+import com.aepl.util.CommonMethod;
 import com.aepl.util.ConfigProperties;
 import com.aepl.util.ExcelUtility;
 
@@ -29,14 +30,8 @@ public class ChangeMobilePageTest extends TestBase {
 
 	@Test(priority = 1)
 	public void testLogin() {
-		String testCaseName = "Login Test In Change Mobile";
-		try {
-			logger.info("Executing Login: " + testCaseName);
-			loginPage.enterUsername(ConfigProperties.getProperty("valid.username")).enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
-		} catch (Exception e) {
-			e.printStackTrace();
-//			captureScreenshot(testCaseName);
-		}
+		loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
+				.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
 	}
 
 	@Test(priority = 2)
@@ -57,7 +52,7 @@ public class ChangeMobilePageTest extends TestBase {
 			logger.warn("Error");
 			e.printStackTrace();
 			actualURL = driver.getCurrentUrl();
-//			captureScreenshot(testCaseName);
+			CommonMethod.captureScreenshot(testCaseName);
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		}
@@ -79,7 +74,7 @@ public class ChangeMobilePageTest extends TestBase {
 					expectedURL, actualURL);
 		} catch (Exception e) {
 			logger.error("Error encountered in test case '{}'.", testCaseName, e);
-//			captureScreenshot(testCaseName);
+			CommonMethod.captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
@@ -103,10 +98,9 @@ public class ChangeMobilePageTest extends TestBase {
 			logger.info("Search functionality executed. Headers match status: {}", headersMatch);
 		} catch (Exception e) {
 			logger.error("Error encountered in test case: {}", testCaseName, e);
-//			captureScreenshot(testCaseName);
+			CommonMethod.captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
-			// Writing results to Excel
 			excelUtility.writeTestDataToExcel(testCaseName, String.join(", ", expectedHeaders),
 					result.equals("PASS") ? "Headers Match" : "Headers Mismatch", result);
 		}
@@ -129,7 +123,7 @@ public class ChangeMobilePageTest extends TestBase {
 			result = "FAIL";
 			logger.error("Test failed: " + e.getMessage());
 
-//			captureScreenshot(testCaseName);
+			CommonMethod.captureScreenshot(testCaseName);
 			logger.error("Screenshot captured for failure: ");
 		}
 
@@ -158,7 +152,7 @@ public class ChangeMobilePageTest extends TestBase {
 			actualResult = "Exception occurred: " + e.getMessage();
 			result = "FAIL";
 			logger.error("An error occurred during the test: " + e.getMessage());
-//			captureScreenshot(testCaseName);
+			CommonMethod.captureScreenshot(testCaseName);
 			logger.info("Screenshot captured for failure: ");
 		}
 
@@ -181,7 +175,7 @@ public class ChangeMobilePageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Failed to navigate using pagination buttons: " + e.getMessage();
 			result = "FAIL";
-//			captureScreenshot(testCaseName);
+			CommonMethod.captureScreenshot(testCaseName);
 			logger.error("Screenshot captured for failure: ");
 		}
 

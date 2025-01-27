@@ -32,8 +32,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 public class MyAis140TicketsPage {
-	private WebDriver driver;
-	private WebDriverWait wait;
+	private final WebDriver driver;
+	private final WebDriverWait wait;
 	private static final Logger logger = LogManager.getLogger(MyAis140TicketsPage.class);
 
 	public MyAis140TicketsPage(WebDriver driver) {
@@ -62,11 +62,17 @@ public class MyAis140TicketsPage {
 	}
 
 // Locators Goes here
+
 	private By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
 	private By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
 	private By SearchBox = By.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
 	private By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
 
+	private final By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
+	private final By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
+	private final By SearchBox = By
+			.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
+	private final By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
 	private By overlay = By.cssSelector(".overlay");
 //	private By viewButton = By.xpath("//[@id='DataTables_Table_0']/tbody/tr/td[12]/mat-icon");
 	
@@ -86,9 +92,11 @@ public class MyAis140TicketsPage {
 	private By DeviceInfo = By.className("crm_head_b");
 	private By UINNumber = By.id("mat-input-31");
 	private By IMEINumber = By.id("mat-input-32");
+
 	private By ICCIDNumber = By.id("mat-input-33");
 	private By DeviceModel = By.id("mat-input-34");
 	
+
 
 	
 	public String generateRandomString(int length) {
@@ -263,7 +271,7 @@ public class MyAis140TicketsPage {
 		RequestSpecification request = RestAssured.given();
 		request.header("Content-Type", "application/json");
 		request.header("token", token);
-		request.body(requestBodyCRM.toString());
+		request.body(requestBodyCRM);
 
 		io.restassured.response.Response responseCRM = request.post("api/crm/generateTickets");
 

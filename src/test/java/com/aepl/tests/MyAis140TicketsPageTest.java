@@ -46,7 +46,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		excelUtility.initializeExcel("MyAis140TicketsPage_Test");
 	}
 
-	private By SearchBox = By
+	private final By SearchBox = By
 			.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
 	
 
@@ -153,7 +153,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		RequestSpecification request = RestAssured.given();
 		request.header("Content-Type", "application/json");
 		request.header("token", token);
-		request.body(requestBodyCRM.toString());
+		request.body(requestBodyCRM);
 
 		io.restassured.response.Response responseCRM = request.post("api/crm/generateTickets");
 
