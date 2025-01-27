@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -61,30 +62,23 @@ public class MyAis140TicketsPage {
 	}
 
 // Locators Goes here
+
+	private By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
+	private By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
+	private By SearchBox = By.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
+	private By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
+
 	private final By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
 	private final By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
 	private final By SearchBox = By
 			.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
 	private final By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
-
-//<<<<<<< HEAD
-//	private final By overlay = By.cssSelector(".overlay");
-//	private final By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
-//	private final By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]");
-//	private final By TicketNumber = By.id("mat-input-22");
-//	private final By TicketCreate = By.id("mat-input-23");
-//	private final By TicketAssigned = By.id("mat-input-24");
-//	private final By TicketCompleted = By.id("mat-input-25");
-//	private final By TicketCertificate = By.id("mat-input-26");
-//	private final By TicketStatus = By.id("mat-input-27");
-//	private final By TicketRemark = By.id("mat-input-28");
-//	private final By TicketGenrate = By.id("mat-input-29");
-//	private final By TicketDesc = By.id("mat-input-30");
-//	private final By DeviceInfo = By.className("crm_head_b");
-//	private final By UINNumber = By.id("mat-input-31");
-//=======
 	private By overlay = By.cssSelector(".overlay");
-	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
+//	private By viewButton = By.xpath("//[@id='DataTables_Table_0']/tbody/tr/td[12]/mat-icon");
+	
+//	xpath=//table[@id='DataTables_Table_0']/tbody/tr/td[12]/mat-icon
+	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/mat-icon");
+//	private By viewButton = By.xpath("//*[@id=\"DataTables_Table_0\"]/tbody/tr/td[12]/i");
 	private By Arrow = By.xpath("//div[@class=\"thumb ng-star-inserted\"]"); 
 	private By TicketNumber = By.id("mat-input-22");
 	private By TicketCreate = By.id("mat-input-23");
@@ -98,7 +92,11 @@ public class MyAis140TicketsPage {
 	private By DeviceInfo = By.className("crm_head_b");
 	private By UINNumber = By.id("mat-input-31");
 	private By IMEINumber = By.id("mat-input-32");
-//>>>>>>> shital
+
+	private By ICCIDNumber = By.id("mat-input-33");
+	private By DeviceModel = By.id("mat-input-34");
+	
+
 
 	
 	public String generateRandomString(int length) {
@@ -381,13 +379,17 @@ public class MyAis140TicketsPage {
 	public void ClickViewButton() throws InterruptedException {
 		try {
 			// Wait for the overlay to disappear
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(overlay));
+			
+			  // Wait for the view button to be clickable
+	        WebElement viewButtonElement = wait.until(ExpectedConditions.elementToBeClickable(viewButton));
+			
+			   // Scroll to the view button if it's not visible in the viewport
+	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", viewButtonElement);
 
-			// Find and click the element
-			WebElement elementAtZeroIndex = driver.findElement(viewButton);
-			elementAtZeroIndex.click();
-
+	        // Click the view button
+	        viewButtonElement.click();
+			
 			logger.info("Successfully clicked on the View button.");
 			Thread.sleep(5000);
 
@@ -615,23 +617,57 @@ public class MyAis140TicketsPage {
 		return "inputValue";
 	}
 	
-//	public String DeviceIMEINumber() { 
-//		try {
-//			JavascriptExecutor js = (JavascriptExecutor) driver;	
-//			js.executeScript("window.scrollBy(0,100)");
-//			WebElement deviceIMEIElement = wait.until(ExpectedConditions.visibilityOfElementLocated(UINNumber));
-//			js.executeScript("arguments[0].click();", deviceIMEIElement);
-//			String inputValue = deviceIMEIElement.getAttribute("value");   
-//			
-//			// Print Ticket Information
-//	    	System.out.println("\u001B[1m\u001B[34mDevice Information:\u001B[0m");
-//			System.out.println("\u001B[1m\u001B[35mUIN Number :\u001B[0m " + inputValue);
-//			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceIMEIElement);
-//			} catch (Exception e) {
-//			logger.error("Error while interacting with Device Information for UIN Number.", e);
-//			throw new RuntimeException("Failed to read Ticket Information for UIN Number.", e);
-//		}
-//		return "inputValue";
-//	}
+	public String DeviceIMEINumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceIMEIElement = wait.until(ExpectedConditions.visibilityOfElementLocated(IMEINumber));
+			js.executeScript("arguments[0].click();", deviceIMEIElement);
+			String inputValue = deviceIMEIElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mIMEI Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceIMEIElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for IMEI Number.", e);
+			throw new RuntimeException("Failed to read Ticket Information for IMEI Number.", e);
+		}
+		return "inputValue";
+	}
 	
+	public String DeviceICCIDNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceICCIDElement = wait.until(ExpectedConditions.visibilityOfElementLocated(ICCIDNumber));
+			js.executeScript("arguments[0].click();", deviceICCIDElement);
+			String inputValue = deviceICCIDElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mICCID Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceICCIDElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for ICCID Number.", e);
+			throw new RuntimeException("Failed to read Ticket Information for ICCID Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceModel() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceModelElement = wait.until(ExpectedConditions.visibilityOfElementLocated(DeviceModel));
+			js.executeScript("arguments[0].click();", deviceModelElement);
+			String inputValue = deviceModelElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDevice Model :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceModelElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for Device Model.", e);
+			throw new RuntimeException("Failed to read Ticket Information for Device Model.", e);
+		}
+		return "inputValue";
+	}
 }
