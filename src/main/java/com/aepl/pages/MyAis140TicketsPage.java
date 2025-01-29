@@ -63,10 +63,10 @@ public class MyAis140TicketsPage {
 
 // Locators Goes here
 
-	private By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
-	private By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
-	private By SearchBox = By.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
-	private By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
+//	private By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
+//	private By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");
+//	private By SearchBox = By.xpath("/html/body/app-root/app-my-ais140-ticket-page/div/div[1]/div[4]/div/div[1]/i/div/input");
+//	private By tableHeadings = By.xpath("//tr[@class=\\\"text-center\\\"]");
 
 	private final By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
 	private final By MyAis140 = By.xpath("//*[@id=\"navbarSupportedContent\"]/div/ul/li[2]/div/a[1]");

@@ -19,20 +19,22 @@ import com.aepl.constants.Constants;
 import com.aepl.util.CommonMethod;
 
 public class DeviceDashboardPage {
-	private final WebDriver driver;
-	private final WebDriverWait wait;
+	private WebDriver driver;
+	private WebDriverWait wait;
+	private CommonMethod commonMethod;
 	private static final Logger logger = LogManager.getLogger(DeviceDashboardPage.class);
 
 	public DeviceDashboardPage(WebDriver driver) {
 		this.driver = driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		this.commonMethod = new CommonMethod(driver);
+		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
 	// Locators Goes here
 
-	private final By KPICard = By.xpath("//span[@class='value']");
-	private final By DeviceModelWise = By.xpath("//button[@class='btn btn-outline-primary float-right']");
-	private final By GraphEnability = By.xpath("//span[@class='white_card_header']");
+	private By KPICard = By.xpath("//span[@class='value']");
+	private By DeviceModelWise = By.xpath("//button[@class='btn btn-outline-primary float-right']");
+	private By GraphEnability = By.xpath("//span[@class='white_card_header']");
 	private By tableHeadings;
 	private WebElement searchBox;
 
@@ -54,7 +56,7 @@ public class DeviceDashboardPage {
 		}
 	}
 
-	public String  DeviceModelWise() {
+	public String DeviceModelWise() {
 		List<WebElement> ModelWiseButton = wait
 				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DeviceModelWise));
 
@@ -70,7 +72,7 @@ public class DeviceDashboardPage {
 			throw new RuntimeException("Failed");
 		}
 		return null;
-		
+
 	}
 
 	public void GraphEnability() {
@@ -158,7 +160,7 @@ public class DeviceDashboardPage {
 
 	public boolean TotalProdDeviceDetails(List<String> expectedHeaders) {
 		try {
-			WebElement details = wait.until(ExpectedConditions.visibilityOfElementLocated(CommonMethod.searchBox));
+			WebElement details = wait.until(ExpectedConditions.visibilityOfElementLocated(commonMethod.searchBox));
 			logger.info("Taking table heading before the search");
 
 			List<WebElement> actualHeaders = wait

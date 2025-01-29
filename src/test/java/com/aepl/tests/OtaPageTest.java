@@ -14,20 +14,21 @@ import com.aepl.util.ConfigProperties;
 import com.aepl.util.ExcelUtility;
 
 public class OtaPageTest extends TestBase {
-	private LoginPage loginPage;
+	private LoginPage loginPage; 
 	private ExcelUtility excelUtility;
 	private OtaPage otaPage;
+	private CommonMethod commonMethod;
 
 	@BeforeClass
 	public void setUp() {
 		super.setUp();
-		loginPage = new LoginPage(driver);
-		otaPage = new OtaPage(driver);
-		excelUtility = new ExcelUtility();
+		this.loginPage = new LoginPage(driver);
+		this.otaPage = new OtaPage(driver);
+		this.excelUtility = new ExcelUtility();
+		this.commonMethod = new CommonMethod(driver);
 		excelUtility.initializeExcel("Change_Mobile_Test");
 	}
 
-	// Test Cases goes here...
 	@Test(priority = 1)
 	public void testLogin() {
 		loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
@@ -39,23 +40,25 @@ public class OtaPageTest extends TestBase {
 		String testCaseName = "Test Navbar Links";
 		String expectedURL = ConfigProperties.getProperty("dashboard.url");
 		String actualURL = "";
-		String result;
+		String result = "";
+
 		logger.info("Executing the testClickNavBar");
+
 		try {
 			logger.info("Trying to click on the nav bar links");
 			otaPage.clickNavBar();
 			actualURL = driver.getCurrentUrl();
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			logger.info("Result is : " + result);
-			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		} catch (Exception e) {
-			logger.warn("Error");
-			e.printStackTrace();
+			logger.warn("Error while clicking on the nav bar links", e);
 			actualURL = driver.getCurrentUrl();
-			CommonMethod.captureScreenshot(testCaseName);
-			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			commonMethod.captureScreenshot(testCaseName);
+			result = "FAIL";
+		} finally {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		}
+
 		logger.info("Successfully clicked on the Device Utility.");
 	}
 
@@ -63,22 +66,22 @@ public class OtaPageTest extends TestBase {
 	public void testClickOnOta() {
 		String testCaseName = "Test Ota Link";
 		String expectedURL = ConfigProperties.getProperty("ota");
+		String actualURL = "";
 		String result = "";
 
 		logger.info("Executing test case: {}", testCaseName);
 
 		try {
-			String actualURL = otaPage.clickDropdown();
+			actualURL = otaPage.clickDropdown();
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
 					expectedURL, actualURL);
 		} catch (Exception e) {
 			logger.error("Error encountered in test case '{}'.", testCaseName, e);
-			CommonMethod.captureScreenshot(testCaseName);
+			commonMethod.captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
-			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
-					result.equals("PASS") ? expectedURL : "Error occurred", result);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		}
 	}
 
@@ -88,13 +91,14 @@ public class OtaPageTest extends TestBase {
 	}
 
 	@Test(priority = 5)
-	public void testcheckSearchBoxAndTable() {
+	public void testCheckSearchBoxAndTable() {
 		String batchName = "SB_OTA_TEST";
 		List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
-				"Crated At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
+				"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
+		
+		// Batch ID	Batch Name	Batch Description	Created By	Created At	Batch Breakdown	Completed Percentage	Batch Status	Action
 
-		 boolean checkSearchBoxAndTable = otaPage.checkSearchBoxAndTable(batchName,
-		 expectedHeaders);
-		 System.out.println("Table validated : " + checkSearchBoxAndTable);
+		boolean checkSearchBoxAndTable = otaPage.checkSearchBoxAndTable(batchName, expectedHeaders);
+		System.out.println("Checking the search box and table :  ----> " + checkSearchBoxAndTable);
 	}
 }

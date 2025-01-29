@@ -11,9 +11,9 @@ import com.aepl.util.WebDriverFactory;
 
 public class TestBase {
 
-	protected static WebDriver driver;
-	protected static final Logger logger = LogManager.getLogger(TestBase.class);
-	
+	protected WebDriver driver;
+	protected final Logger logger = LogManager.getLogger(TestBase.class);
+
 	@BeforeClass
 	public void setUp() {
 		ConfigProperties.initialize("qa");
@@ -25,7 +25,7 @@ public class TestBase {
 		logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
 	}
 
-    @AfterSuite
+	@AfterSuite
 	public void tearDown() {
 		if (driver != null) {
 			logger.info("Closing the browser after all test classes and suite.");

@@ -21,14 +21,13 @@ import com.aepl.util.CommonMethod;
 public class DealearFotaPage {
 	private final WebDriver driver;
 	private final WebDriverWait wait;
-	@SuppressWarnings("unused")
 	private final CommonMethod commMethod;
 	private static final Logger logger = LogManager.getLogger(DealearFotaPage.class);
 
 	public DealearFotaPage(WebDriver driver) {
 		this.driver = driver;
 		this.commMethod = new CommonMethod(driver);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		logger.info("Initialized the driver and wait ");
 	}
 
@@ -89,7 +88,7 @@ public class DealearFotaPage {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(prevBtn));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(activeBtn));
 			
-			CommonMethod.checkPagination(nextBtn, prevBtn, activeBtn);
+			commMethod.checkPagination(nextBtn, prevBtn, activeBtn);
 
 			logger.info("Pagination validation completed successfully.");
 		} catch (Exception e) {
@@ -109,7 +108,7 @@ public class DealearFotaPage {
 			logger.info("Input value for search: " + input);
 			logger.info("Expected table headers: " + expectedTableHeaders);
 
-			boolean isValidationSuccessful = CommonMethod.checkSearchBoxWithTableHeadings(input, expectedTableHeaders);
+			boolean isValidationSuccessful = commMethod.checkSearchBoxWithTableHeadings(input, expectedTableHeaders);
 
 			if (isValidationSuccessful) {
 				logger.info("Search box functionality and table headings validated successfully.");
@@ -119,7 +118,7 @@ public class DealearFotaPage {
 			}
 		} catch (Exception e) {
 			logger.error("An error occurred during the search and table headings validation process.", e);
-			CommonMethod.captureScreenshot("clickSearchAndTable");
+			commMethod.captureScreenshot("clickSearchAndTable");
 			throw new RuntimeException("Search and table headings validation failed due to an exception.", e);
 		}
 	}
@@ -239,7 +238,7 @@ public class DealearFotaPage {
 		} catch (Exception e) {
 			logger.error("An error occurred during search and table headings validation", e);
 
-			CommonMethod.captureScreenshot("searchBtnAndTableHeadings");
+			commMethod.captureScreenshot("searchBtnAndTableHeadings");
 
 			throw new RuntimeException("Validation failed due to an exception", e);
 		}

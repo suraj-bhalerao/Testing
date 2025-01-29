@@ -14,14 +14,16 @@ public class DealerFotaPageTest extends TestBase {
 	private LoginPage loginPage;
 	private ExcelUtility excelUtility;
 	private DealearFotaPage dealerFota;
+	private CommonMethod commonMethod;
 
 	@Override
 	@BeforeClass
 	public void setUp() {
 		super.setUp();
-		loginPage = new LoginPage(driver);
-		dealerFota = new DealearFotaPage(driver);
-		excelUtility = new ExcelUtility();
+		this.loginPage = new LoginPage(driver);
+		this.dealerFota = new DealearFotaPage(driver);
+		this.excelUtility = new ExcelUtility();
+		this.commonMethod = new CommonMethod(driver);
 		excelUtility.initializeExcel("Dealer_FOTA_Test");
 	}
 
@@ -47,7 +49,7 @@ public class DealerFotaPageTest extends TestBase {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		} catch (Exception e) {
 			logger.warn("Error");
-			CommonMethod.captureScreenshot(testCaseName);
+			commonMethod.captureScreenshot(testCaseName);
 			actualResult = driver.getCurrentUrl();
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
@@ -93,7 +95,7 @@ public class DealerFotaPageTest extends TestBase {
 			result = "Pass";
 			logger.info("Test case passed: " + testCaseName);
 		} catch (Exception e) {
-			CommonMethod.captureScreenshot(testCaseName);
+			commonMethod.captureScreenshot(testCaseName);
 			actualMessage = e.getMessage();
 			result = "Fail";
 			logger.error("Test case failed: " + testCaseName, e);
@@ -117,7 +119,7 @@ public class DealerFotaPageTest extends TestBase {
 			logger.info("Result is : " + result);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		} catch (Exception e) {
-			CommonMethod.captureScreenshot(testCaseName);
+			commonMethod.captureScreenshot(testCaseName);
 			logger.warn("Error in the Dealer Fota Page - Add Approved File");
 			actualResult = driver.getCurrentUrl();
 			result = expectedResult.equalsIgnoreCase(actualResult) ? "PASS" : "FAIL";
@@ -148,7 +150,7 @@ public class DealerFotaPageTest extends TestBase {
 				logger.error("Test case failed: " + testCaseName);
 			}
 		} catch (Exception e) {
-			CommonMethod.captureScreenshot(testCaseName);
+			commonMethod.captureScreenshot(testCaseName);
 			result = "Fail";
 			actualMessage = e.getMessage();
 			logger.error("Exception occurred during test execution: " + testCaseName, e);
@@ -178,7 +180,7 @@ public class DealerFotaPageTest extends TestBase {
 				logger.error("Test case failed: " + testCaseName);
 			}
 		} catch (Exception e) {
-			CommonMethod.captureScreenshot(testCaseName);
+			commonMethod.captureScreenshot(testCaseName);
 			actualMessage = e.getMessage();
 			result = "Fail";
 			logger.error("Exception occurred during test execution: " + testCaseName, e);
@@ -200,7 +202,7 @@ public class DealerFotaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualMessage = e.getMessage();
 			result = "FAIL";
-			CommonMethod.captureScreenshot(testCaseName);
+			commonMethod.captureScreenshot(testCaseName);
 		} finally {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedMessage, actualMessage, result);
 		}

@@ -11,6 +11,7 @@ import com.aepl.util.CommonMethod;
 import com.aventstack.extentreports.Status;
 
 public class TestListener extends TestBase implements ITestListener {
+	CommonMethod commonMethod;
 
     @Override
     public void onTestStart(ITestResult result) {
@@ -34,7 +35,7 @@ public class TestListener extends TestBase implements ITestListener {
         ExtentTestManager.getTest().log(Status.FAIL, "Cause: " + (throwable != null ? throwable.getMessage() : "Unknown"));
 
         try {
-            CommonMethod.captureScreenshot(testName);
+        	commonMethod.captureScreenshot(testName);
             ExtentTestManager.getTest().log(Status.FAIL, "Test Failed: " + testName);
         } catch (Exception e) {
             ExtentTestManager.getTest().log(Status.WARNING, "Failed to capture screenshot: " + e.getMessage());
@@ -48,7 +49,7 @@ public class TestListener extends TestBase implements ITestListener {
         ExtentTestManager.getTest().log(Status.SKIP, "Test Skipped: " + testName);
 
         try {
-        	CommonMethod.captureScreenshot(testName);
+        	commonMethod.captureScreenshot(testName);
             ExtentTestManager.getTest().log(Status.FAIL, "Test Failed: " + testName);
         } catch (Exception e) {
             ExtentTestManager.getTest().log(Status.WARNING, "Failed to capture screenshot: " + e.getMessage());
@@ -63,6 +64,7 @@ public class TestListener extends TestBase implements ITestListener {
     	
         ExtentManager.createInstance();
 //        ExtentTestManager.getTest().log(Status.INFO, "Test Suite Started: " + context.getName());
+        this. commonMethod = new CommonMethod(driver);
     }
 
     @Override

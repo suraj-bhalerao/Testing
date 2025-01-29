@@ -19,7 +19,7 @@ public class ConfigProperties {
 	}
 
 	public static synchronized void initialize(String env) {
-		if (env == null || env.isBlank()) {
+		if (env == null || env.isEmpty()) {
 			throw new IllegalArgumentException("Environment must not be null or empty.");
 		}
 		environment = env.toLowerCase();

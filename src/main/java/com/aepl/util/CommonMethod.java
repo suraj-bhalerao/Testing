@@ -26,22 +26,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CommonMethod {
 
-	private static WebDriver driver;
-	private static WebDriverWait wait;
+	private WebDriver driver;
+	private WebDriverWait wait;
 	private static final Logger logger = LogManager.getLogger(CommonMethod.class);
 
 	public CommonMethod(WebDriver driver) {
-		CommonMethod.driver = driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		this.driver = driver;
+		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
-	public static By searchBox = By
-		.className("form-control my-0 py-1 myform ng-pristine ng-valid ng-touched");
-	private static By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
-	private static By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
+	public By searchBox = By.xpath("//*[@placeholder='Search and Press Enter']");
+	private By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
+	private By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 
-	// Screenshot method
-	public static void captureScreenshot(String testCaseName) {
+	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
 			logger.error("Driver is null, unable to capture screenshot.");
 			return;
@@ -49,7 +47,6 @@ public class CommonMethod {
 
 		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String screenshotName = testCaseName + "_" + timestamp + ".png";
-
 		String screenshotPath = "screenshots/" + screenshotName;
 
 		try {
@@ -61,12 +58,10 @@ public class CommonMethod {
 		}
 	}
 
-	// Search box and table heading check method
-	public static boolean checkSearchBoxWithTableHeadings(String input, List<String> expectedHeaders) {
+	public boolean checkSearchBoxWithTableHeadings(String input, List<String> expectedHeaders) {
 		try {
 			logger.info("Performing search with input: " + input);
 
-			// Ensure the search box is clickable
 			WebElement search = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
 			search.click();
 			search.clear();
@@ -74,24 +69,25 @@ public class CommonMethod {
 			search.sendKeys(Keys.ENTER);
 
 			logger.info("Waiting for the table to update...");
-			// Get table headers
+			Thread.sleep(2000);
+
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
-
-			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
-					.map(String::toLowerCase).collect(Collectors.toList());
-
-			// Actual headers from table
-			actualHeaderTexts.stream().forEach(s -> System.out.println(s));
-
-			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
+			
+			List<String> actualHeaderTexts = actualHeaderElements
+					.stream()
+					.map(WebElement::getText)
+					.map(String::trim)
+					.map(String::toLowerCase)
+					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
 					.collect(Collectors.toList());
 
-			// Expected headers from the methods.
-			normalizedExpectedHeaders.stream().forEach(s -> System.out.println(s));
-
-			logger.info("Actual table headers after search: " + actualHeaderTexts);
-			logger.info("Expected table headers: " + normalizedExpectedHeaders);
+			List<String> normalizedExpectedHeaders = expectedHeaders
+					.stream()
+					.map(String::trim)
+					.map(String::toLowerCase)
+					.peek(header -> System.out.println("Expected Header: " + header)) 
+					.collect(Collectors.toList());
 
 			boolean headersMatch = actualHeaderTexts.equals(normalizedExpectedHeaders);
 
@@ -106,8 +102,7 @@ public class CommonMethod {
 		}
 	}
 
-	// Clicking on the eye button
-	public static void clickEyeActionButton() {
+	public void clickEyeActionButton() {
 		logger.info("Locating the eye action button...");
 		try {
 			WebElement eyeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeActionButtons));
@@ -123,7 +118,6 @@ public class CommonMethod {
 		}
 	}
 
-	// Random String Generator
 	public static String randomStringGen() {
 		int length = 10;
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -137,8 +131,7 @@ public class CommonMethod {
 		return randomString.toString();
 	}
 
-	// Goes to new tab method
-	public static String switchToTabByIndex(WebDriver driver, int tabIndex) {
+	public String switchToTabByIndex(WebDriver driver, int tabIndex) {
 		String originalTab = driver.getWindowHandle();
 		logger.info("Original tab handle stored: " + originalTab);
 
@@ -157,38 +150,21 @@ public class CommonMethod {
 		return originalTab;
 	}
 
-	// Tab back to normal
-	public static void switchBackToOriginalTab(WebDriver driver, String originalTab) {
+	public void switchBackToOriginalTab(WebDriver driver, String originalTab) {
 		logger.info("Switching back to the original tab: " + originalTab);
 		driver.switchTo().window(originalTab);
 	}
 
-	// Pagination method
-	public static void checkPagination(By nextButton, By previousButton, By activeBtn) {
+	public void checkPagination(By nextButton, By previousButton, By activeBtn) {
 		logger.info("Starting pagination validation with scrolling and delay.");
 
 		try {
 			for (int i = 1; i <= 5; i++) {
-				wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(i)));
-				logger.info("Successfully navigated to page: " + i);
-
-				if (i < 5) {
-					WebElement next = wait.until(ExpectedConditions.elementToBeClickable(nextButton));
-					((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", next);
-					Thread.sleep(500);
-					next.click();
-					logger.info("Clicked on the 'Next' button to navigate to page " + (i + 1));
-				}
+				navigateToPage(i, nextButton, activeBtn);
 			}
 
 			for (int i = 4; i >= 1; i--) {
-				WebElement previous = wait.until(ExpectedConditions.elementToBeClickable(previousButton));
-				((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", previous);
-				Thread.sleep(500);
-				previous.click();
-				logger.info("Clicked on the 'Previous' button to navigate back to page " + i);
-
-				wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(i)));
+				navigateToPage(i, previousButton, activeBtn);
 			}
 
 			logger.info("Pagination validation completed successfully.");
@@ -198,4 +174,14 @@ public class CommonMethod {
 		}
 	}
 
+	private void navigateToPage(int pageNumber, By buttonLocator, By activeBtn) throws InterruptedException {
+		wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(pageNumber)));
+		logger.info("Successfully navigated to page: " + pageNumber);
+
+		WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
+		Thread.sleep(500);
+		button.click();
+		logger.info("Clicked on the button to navigate to page " + (pageNumber + 1));
+	}
 }
