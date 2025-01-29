@@ -36,7 +36,7 @@ public class CommonMethod {
 	}
 
 	public static By searchBox = By
-			.xpath("//input[@class=\"form-control my-0 py-1 myform ng-pristine ng-valid ng-touched\"]");
+		.className("form-control my-0 py-1 myform ng-pristine ng-valid ng-touched");
 	private static By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 	private static By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
 

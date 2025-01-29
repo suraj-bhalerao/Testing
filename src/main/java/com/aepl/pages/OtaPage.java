@@ -19,10 +19,12 @@ public class OtaPage {
 	private final WebDriver driver;
 	private final WebDriverWait wait;
 	private static final Logger logger = LogManager.getLogger(OtaPage.class);
+	private CommonMethod commonMethod;
 
 	// Constructor
 	public OtaPage(WebDriver driver) {
 		this.driver = driver;
+		commonMethod = new CommonMethod(this.driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
@@ -30,8 +32,8 @@ public class OtaPage {
 	private final By navBarLink = By.xpath("//span[@class=\"headers_custom color_3D5772\"]");
 	private final By ota = By.xpath("//a[@class=\"dropdown-item ng-star-inserted\"][4]");
 	private final By ButtonsList = By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]");
-	private final By searchBox = By.xpath("//input[@placeholder=\"Search and Press Enter\"]");
-	private final By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
+//	private final By searchBox = By.xpath("//input[@placeholder=\"Search and Press Enter\"]");
+//	private final By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 
 	// Methods goes here
 	public void clickNavBar() {

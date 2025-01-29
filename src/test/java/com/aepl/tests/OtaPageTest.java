@@ -91,11 +91,10 @@ public class OtaPageTest extends TestBase {
 	public void testcheckSearchBoxAndTable() {
 		String batchName = "SB_OTA_TEST";
 		List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
-				"Crated At","Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
-		
-		boolean checkSearchBoxWithTableHeadings = CommonMethod.checkSearchBoxWithTableHeadings(batchName, expectedHeaders);
-		System.out.println(checkSearchBoxWithTableHeadings);
-//		boolean checkSearchBoxAndTable = otaPage.checkSearchBoxAndTable(batchName, expectedHeaders);
-//		System.out.println("Table validated : " + checkSearchBoxAndTable);
+				"Crated At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
+
+		 boolean checkSearchBoxAndTable = otaPage.checkSearchBoxAndTable(batchName,
+		 expectedHeaders);
+		 System.out.println("Table validated : " + checkSearchBoxAndTable);
 	}
 }

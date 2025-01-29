@@ -16,7 +16,7 @@ import com.aepl.util.ExcelUtility;
 public class ChangeMobilePageTest extends TestBase {
 	private LoginPage loginPage;
 	private ExcelUtility excelUtility;
-	private ChangeMobilePage changeMobile;
+	private ChangeMobilePage changeMobile; 
 
 	@Override
 	@BeforeClass
