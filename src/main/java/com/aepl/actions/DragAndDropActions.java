@@ -12,11 +12,6 @@ public class DragAndDropActions {
 
 	private static final Logger logger = LogManager.getLogger(DragAndDropActions.class);
 
-	/**
-	 * Constructor for initializing DragAndDropActions with WebDriver.
-	 * 
-	 * @param driver the WebDriver instance.
-	 */
 	public DragAndDropActions(WebDriver driver) {
 		if (driver == null) {
 			throw new IllegalArgumentException("WebDriver instance cannot be null");
@@ -25,12 +20,7 @@ public class DragAndDropActions {
 		this.actions = new Actions(this.driver);
 	}
 
-	/**
-	 * Performs drag-and-drop from the source element to the target element.
-	 *
-	 * @param source the WebElement to drag.
-	 * @param target the WebElement to drop onto.
-	 */
+
 	public void dragAndDrop(WebElement source, WebElement target) {
 		if (source == null || target == null) {
 			logger.error("Source or target element cannot be null");
@@ -47,14 +37,6 @@ public class DragAndDropActions {
 		}
 	}
 
-	/**
-	 * Performs drag-and-drop from the source element to an offset.
-	 *
-	 * @param source  the WebElement to drag.
-	 * @param xOffset the horizontal offset.
-	 * @param yOffset the vertical offset.
-	 */
-	
 	public void dragAndDropByOffset(WebElement source, int xOffset, int yOffset) {
 		if (source == null) {
 			logger.error("Source element cannot be null");

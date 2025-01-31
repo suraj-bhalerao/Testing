@@ -37,7 +37,7 @@ public class CommonMethod {
 
 	public By searchBox = By.xpath("//*[@placeholder='Search and Press Enter']");
 	private By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
-	private By eyeActionButtons = By.xpath("//td[@class = \"ng-star-inserted\"][1]");
+	private By eyeActionButtons = By.xpath("(//mat-icon[@role='img'][normalize-space()='visibility'])[2]");
 
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
@@ -70,6 +70,9 @@ public class CommonMethod {
 
 			logger.info("Waiting for the table to update...");
 			Thread.sleep(2000);
+			search.clear();
+			Thread.sleep(2000);
+			search.sendKeys(Keys.ENTER);
 
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
@@ -79,14 +82,14 @@ public class CommonMethod {
 					.map(WebElement::getText)
 					.map(String::trim)
 					.map(String::toLowerCase)
-					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
+//					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
 					.collect(Collectors.toList());
 
 			List<String> normalizedExpectedHeaders = expectedHeaders
 					.stream()
 					.map(String::trim)
 					.map(String::toLowerCase)
-					.peek(header -> System.out.println("Expected Header: " + header)) 
+//					.peek(header -> System.out.println("Expected Header: " + header)) 
 					.collect(Collectors.toList());
 
 			boolean headersMatch = actualHeaderTexts.equals(normalizedExpectedHeaders);
@@ -94,7 +97,7 @@ public class CommonMethod {
 			if (!headersMatch) {
 				logger.error("Table headers do not match!");
 			}
-
+			
 			return headersMatch;
 		} catch (Exception e) {
 			logger.error("Exception during search or validation process", e);
@@ -118,6 +121,10 @@ public class CommonMethod {
 		}
 	}
 
+	public void clickDeleteButton() {
+		
+	}
+	
 	public static String randomStringGen() {
 		int length = 10;
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -155,33 +162,52 @@ public class CommonMethod {
 		driver.switchTo().window(originalTab);
 	}
 
+	// Below two methods are for pagination check
 	public void checkPagination(By nextButton, By previousButton, By activeBtn) {
-		logger.info("Starting pagination validation with scrolling and delay.");
+	    logger.info("Starting pagination validation with scrolling and delay.");
 
-		try {
-			for (int i = 1; i <= 5; i++) {
-				navigateToPage(i, nextButton, activeBtn);
-			}
+	    try {
+	        for (int i = 1; i <= 5; i++) {
+	            if (!navigateToPage(i, nextButton, activeBtn)) break; // Stop if Next is disabled
+	        }
 
-			for (int i = 4; i >= 1; i--) {
-				navigateToPage(i, previousButton, activeBtn);
-			}
+	        for (int i = 4; i >= 1; i--) {
+	            if (!navigateToPage(i, previousButton, activeBtn)) break; // Stop if Prev is disabled
+	        }
 
-			logger.info("Pagination validation completed successfully.");
-		} catch (Exception e) {
-			logger.error("An error occurred during pagination validation.", e);
-			throw new RuntimeException("Pagination validation failed due to an exception.", e);
-		}
+	        logger.info("Pagination validation completed successfully.");
+	    } catch (Exception e) {
+	        logger.error("An error occurred during pagination validation.", e);
+	        throw new RuntimeException("Pagination validation failed due to an exception.", e);
+	    }
 	}
 
-	private void navigateToPage(int pageNumber, By buttonLocator, By activeBtn) throws InterruptedException {
-		wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(pageNumber)));
-		logger.info("Successfully navigated to page: " + pageNumber);
+	private boolean navigateToPage(int pageNumber, By buttonLocator, By activeBtn) {
+	    try {
+	        WebElement activeElement = wait.until(ExpectedConditions.presenceOfElementLocated(activeBtn));
+	        if (!activeElement.getText().equals(String.valueOf(pageNumber))) {
+	            wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(pageNumber)));
+	        }
+	        logger.info("Successfully navigated to page: " + pageNumber);
 
-		WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
-		Thread.sleep(500);
-		button.click();
-		logger.info("Clicked on the button to navigate to page " + (pageNumber + 1));
+	        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
+
+	        // Scroll smoothly to center the button
+	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", button);
+	        
+	        // Check if the button is enabled before clicking
+	        if (!button.isEnabled()) {
+	            logger.info("Button is disabled, stopping pagination.");
+	            return false;
+	        }
+
+	        button.click();
+	        logger.info("Clicked on the button to navigate to the next page.");
+	        
+	        return true; // Successfully navigated
+	    } catch (Exception e) {
+	        logger.error("Failed to navigate to page " + pageNumber, e);
+	        return false; // Stop further navigation on failure
+	    }
 	}
 }

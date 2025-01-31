@@ -12,12 +12,6 @@ public class MouseActions {
 
     private static final Logger logger = LogManager.getLogger(MouseActions.class);
 
-    /**
-     * Constructor to initialize the MouseActions instance.
-     * 
-     * @param driver the WebDriver instance used to control the browser.
-     * @throws IllegalArgumentException if the WebDriver instance is null.
-     */
     public MouseActions(WebDriver driver) {
         if (driver == null) {
             logger.error("WebDriver instance is null. Cannot initialize MouseActions.");
@@ -29,11 +23,6 @@ public class MouseActions {
         logger.info("MouseActions instance initialized successfully.");
     }
 
-    /**
-     * Moves the mouse to the specified WebElement.
-     * 
-     * @param element the WebElement to move the mouse to.
-     */
     public void moveToElement(WebElement element) {
         if (element == null) {
             logger.error("WebElement is null. Cannot perform moveToElement action.");
@@ -50,11 +39,6 @@ public class MouseActions {
         }
     }
 
-    /**
-     * Clicks the specified WebElement.
-     * 
-     * @param element the WebElement to click.
-     */
     public void clickElement(WebElement element) {
         if (element == null) {
             logger.error("WebElement is null. Cannot perform clickElement action.");
@@ -71,11 +55,6 @@ public class MouseActions {
         }
     }
 
-    /**
-     * Double-clicks the specified WebElement.
-     * 
-     * @param element the WebElement to double-click.
-     */
     public void doubleClickElement(WebElement element) {
         if (element == null) {
             logger.error("WebElement is null. Cannot perform doubleClickElement action.");
@@ -92,11 +71,6 @@ public class MouseActions {
         }
     }
 
-    /**
-     * Right-clicks the specified WebElement.
-     * 
-     * @param element the WebElement to right-click.
-     */
     public void rightClickElement(WebElement element) {
         if (element == null) {
             logger.error("WebElement is null. Cannot perform rightClickElement action.");

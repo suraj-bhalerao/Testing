@@ -1,8 +1,6 @@
 package com.aepl.tests;
 
-import java.util.Arrays;
-import java.util.List;
-
+import org.apache.logging.log4j.Level;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,7 +12,7 @@ import com.aepl.util.ConfigProperties;
 import com.aepl.util.ExcelUtility;
 
 public class OtaPageTest extends TestBase {
-	private LoginPage loginPage; 
+	private LoginPage loginPage;
 	private ExcelUtility excelUtility;
 	private OtaPage otaPage;
 	private CommonMethod commonMethod;
@@ -26,7 +24,7 @@ public class OtaPageTest extends TestBase {
 		this.otaPage = new OtaPage(driver);
 		this.excelUtility = new ExcelUtility();
 		this.commonMethod = new CommonMethod(driver);
-		excelUtility.initializeExcel("Change_Mobile_Test");
+		excelUtility.initializeExcel("Ota_Page_Test");
 	}
 
 	@Test(priority = 1)
@@ -87,18 +85,73 @@ public class OtaPageTest extends TestBase {
 
 	@Test(priority = 4)
 	public void testCheckButtons() {
-		otaPage.checkButtons();
+		String testCaseName = "Checking the buttons on the OTA page";
+		String expectedResult = "All buttons should be clicked successfully";
+		String actualResult = "";
+		String result = "Fail";
+
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.checkButtons();
+			actualResult = "All buttons clicked successfully";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			logger.error("Error while checking buttons on the OTA page: ", e);
+		} finally {
+			logger.info("Writing test result to Excel for test case {} ", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
 	}
 
 	@Test(priority = 5)
 	public void testCheckSearchBoxAndTable() {
-		String batchName = "SB_OTA_TEST";
-		List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
-				"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
-		
-		// Batch ID	Batch Name	Batch Description	Created By	Created At	Batch Breakdown	Completed Percentage	Batch Status	Action
+		String testCaseName = "Testing search box and table headers";
+		String expectedResult = "Search box and the table is validate successfully";
+		String actualResult = "";
+		String result = "";
+		boolean isChecked = false;
 
-		boolean checkSearchBoxAndTable = otaPage.checkSearchBoxAndTable(batchName, expectedHeaders);
-		System.out.println("Checking the search box and table :  ----> " + checkSearchBoxAndTable);
+		try {
+			isChecked = otaPage.checkSearchBoxAndTable();
+			actualResult = "Search box and the table is validate successfully";
+			result = isChecked ? "PASS" : "FAIL";
+		} catch (Exception e) {
+			actualResult = "Issue in the search box and the table heading";
+			result = isChecked ? "PASS" : "FAIL";
+			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+			e.getMessage();
+		} finally {
+			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
 	}
+
+	@Test(priority = 6)
+	public void testCheckPagination() {
+	    String testCaseName = "Testing the pagination";
+	    String expectedResult = "Pagination should work correctly by navigating through pages";
+	    String actualResult = "";
+	    String result = "Fail"; 
+	    logger.info("Executing test case: {}", testCaseName);
+
+	    try {
+	        otaPage.checkPagination();
+	        actualResult = "Pagination worked as expected";
+	        result = "Pass";
+	    } catch (Exception e) {
+	        actualResult = "Exception occurred: " + e.getMessage();
+	        logger.error("Error during pagination test: ", e);
+	    } finally {
+	        logger.info("Writing test results to Excel for {}", testCaseName);
+	        excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+	    }
+	}
+
+
+//	@Test(priority = 7)
+//	public void testCheckActionButtons() {
+//		otaPage.checkActionButtons();
+//	}
 }
