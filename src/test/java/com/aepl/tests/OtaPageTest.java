@@ -149,9 +149,8 @@ public class OtaPageTest extends TestBase {
 	    }
 	}
 
-
-//	@Test(priority = 7)
-//	public void testCheckActionButtons() {
-//		otaPage.checkActionButtons();
-//	}
+	@Test(priority = 7)
+	public void testCheckActionButtons() {
+		otaPage.checkActionButtons();
+	}
 }

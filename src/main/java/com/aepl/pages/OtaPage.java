@@ -36,8 +36,8 @@ public class OtaPage {
 	private By otaLink = By.xpath("//a[@class='dropdown-item ng-star-inserted'][4]");
 	private By buttonsList = By.xpath("//button[@class='btn btn-outline-primary ng-star-inserted']");
 
-	private By nextBtn = By.cssSelector(".pagination-next.ng-star-inserted");
-	private By prevBtn = By.cssSelector("a[aria-label='Previous page']");
+	private By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	private By prevBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 
 	// Methods
@@ -104,13 +104,17 @@ public class OtaPage {
 	public void checkPagination() {
 		try {
 			WebElement nextButton = wait.until(ExpectedConditions.visibilityOfElementLocated(nextBtn));
-
+			WebElement prevButton = wait.until(ExpectedConditions.visibilityOfElementLocated(prevBtn));
+			WebElement actButton = wait.until(ExpectedConditions.visibilityOfElementLocated(activeBtn));
+			
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextButton);
-
+			
 			Thread.sleep(2000);
-			driver.switchTo().frame(nextButton);
-			commonMethod.checkPagination(activeBtn, prevBtn, activeBtn);
+			
+			logger.log(Level.INFO, "checking the pagination button here");
+			commonMethod.checkPagination(nextButton, prevButton, actButton);
+			logger.log(Level.INFO, "log after checking the pagination");
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -118,7 +122,7 @@ public class OtaPage {
 
 	public void checkActionButtons() {
 		commonMethod.clickEyeActionButton();
-		commonMethod.switchToTabByIndex(driver, 1);
-		commonMethod.switchBackToOriginalTab(driver, "0");
+//		commonMethod.switchToTabByIndex(driver, 1);
+//		commonMethod.switchBackToOriginalTab(driver, "0");
 	}
 }

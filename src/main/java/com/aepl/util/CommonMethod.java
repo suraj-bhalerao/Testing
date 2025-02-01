@@ -37,7 +37,7 @@ public class CommonMethod {
 
 	public By searchBox = By.xpath("//*[@placeholder='Search and Press Enter']");
 	private By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
-	private By eyeActionButtons = By.xpath("(//mat-icon[@role='img'][normalize-space()='visibility'])[2]");
+	private By eyeActionButtons = By.xpath("//mat-icon[contains(text(),'visibility')]");
 
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
@@ -70,9 +70,12 @@ public class CommonMethod {
 
 			logger.info("Waiting for the table to update...");
 			Thread.sleep(2000);
-			search.clear();
-			Thread.sleep(2000);
-			search.sendKeys(Keys.ENTER);
+//			search.clear();
+//			Thread.sleep(2000);
+//			search.sendKeys(Keys.ENTER);
+//			Thread.sleep(2000);
+//			search.sendKeys(Keys.TAB);
+//			Thread.sleep(2000);
 
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
@@ -110,6 +113,11 @@ public class CommonMethod {
 		try {
 			WebElement eyeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeActionButtons));
 			logger.info("Eye action button located. Clicking on it.");
+			
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", eyeButton);
+			
+			Thread.sleep(1000);
 			eyeButton.click();
 			logger.info("Page validation successful. Navigating back.");
 			driver.navigate().back();
@@ -119,10 +127,6 @@ public class CommonMethod {
 			logger.error("An error occurred while interacting with the eye action button.", e);
 			throw new RuntimeException("Failed to process the eye action button.", e);
 		}
-	}
-
-	public void clickDeleteButton() {
-		
 	}
 	
 	public static String randomStringGen() {
@@ -163,16 +167,16 @@ public class CommonMethod {
 	}
 
 	// Below two methods are for pagination check
-	public void checkPagination(By nextButton, By previousButton, By activeBtn) {
+	public void checkPagination(WebElement nextButton, WebElement previousButton, WebElement activeBtn) {
 	    logger.info("Starting pagination validation with scrolling and delay.");
 
 	    try {
 	        for (int i = 1; i <= 5; i++) {
-	            if (!navigateToPage(i, nextButton, activeBtn)) break; // Stop if Next is disabled
+	            if (!navigateToPage(i, nextButton, activeBtn)) break; 
 	        }
 
 	        for (int i = 4; i >= 1; i--) {
-	            if (!navigateToPage(i, previousButton, activeBtn)) break; // Stop if Prev is disabled
+	            if (!navigateToPage(i, previousButton, activeBtn)) break; 
 	        }
 
 	        logger.info("Pagination validation completed successfully.");
@@ -182,20 +186,15 @@ public class CommonMethod {
 	    }
 	}
 
-	private boolean navigateToPage(int pageNumber, By buttonLocator, By activeBtn) {
-	    try {
-	        WebElement activeElement = wait.until(ExpectedConditions.presenceOfElementLocated(activeBtn));
-	        if (!activeElement.getText().equals(String.valueOf(pageNumber))) {
-	            wait.until(ExpectedConditions.textToBePresentInElementLocated(activeBtn, String.valueOf(pageNumber)));
-	        }
+	private boolean navigateToPage(int pageNumber, WebElement buttonLocator, WebElement activeBtn) {
+	    try {     
+	        
 	        logger.info("Successfully navigated to page: " + pageNumber);
 
 	        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
 
-	        // Scroll smoothly to center the button
 	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", button);
 	        
-	        // Check if the button is enabled before clicking
 	        if (!button.isEnabled()) {
 	            logger.info("Button is disabled, stopping pagination.");
 	            return false;
@@ -204,10 +203,10 @@ public class CommonMethod {
 	        button.click();
 	        logger.info("Clicked on the button to navigate to the next page.");
 	        
-	        return true; // Successfully navigated
+	        return true;
 	    } catch (Exception e) {
 	        logger.error("Failed to navigate to page " + pageNumber, e);
-	        return false; // Stop further navigation on failure
+	        return false; 
 	    }
 	}
 }
