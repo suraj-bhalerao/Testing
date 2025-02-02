@@ -1,10 +1,15 @@
 package com.aepl.base;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 
 import com.aepl.util.ConfigProperties;
 import com.aepl.util.WebDriverFactory;
@@ -13,6 +18,16 @@ public class TestBase {
 
 	protected WebDriver driver;
 	protected final Logger logger = LogManager.getLogger(TestBase.class);
+	
+	 @BeforeSuite
+	    public void printBanner() {
+	        try {
+	            String banner = new String(Files.readAllBytes(Paths.get("src/main/resources/banner.txt")));
+	            System.out.println(banner);
+	        } catch (IOException e) {
+	            System.out.println("Custom Banner not found!");
+	        }
+	    }
 
 	@BeforeClass
 	public void setUp() {
@@ -25,7 +40,7 @@ public class TestBase {
 		logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
 	}
 
-	@AfterSuite
+	@AfterClass
 	public void tearDown() {
 		if (driver != null) {
 			logger.info("Closing the browser after all test classes and suite.");

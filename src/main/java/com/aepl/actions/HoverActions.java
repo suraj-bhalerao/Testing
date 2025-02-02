@@ -12,6 +12,7 @@ public class HoverActions {
 
     private static final Logger logger = LogManager.getLogger(HoverActions.class);
 
+    // Constructors 
     public HoverActions(WebDriver driver) {
         if (driver == null) {
             logger.error("WebDriver instance is null. Cannot initialize HoverActions.");

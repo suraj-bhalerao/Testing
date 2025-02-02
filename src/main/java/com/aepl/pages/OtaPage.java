@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aepl.actions.HoverActions;
 import com.aepl.util.CommonMethod;
 
 public class OtaPage {
@@ -23,12 +24,14 @@ public class OtaPage {
 	private WebDriverWait wait;
 	private static final Logger logger = LogManager.getLogger(OtaPage.class);
 	private CommonMethod commonMethod;
-
+	private HoverActions hover;
+	
 	// Constructor
 	public OtaPage(WebDriver driver) {
 		this.driver = driver;
-		this.commonMethod = new CommonMethod(this.driver);
+		this.commonMethod = new CommonMethod(driver);
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		this.hover = new HoverActions(driver);
 	}
 
 	// Locators
@@ -39,7 +42,9 @@ public class OtaPage {
 	private By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By prevBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
-
+	
+	public By eyeActionButton = By.xpath("//tbody/tr[1]/td[9]/mat-icon[1]");
+	
 	// Methods
 	public void clickNavBar() {
 		List<WebElement> navBarLinks = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(navBarLink));
@@ -121,6 +126,7 @@ public class OtaPage {
 	}
 
 	public void checkActionButtons() {
+		hover.hoverOverElement(wait.until(ExpectedConditions.presenceOfElementLocated(eyeActionButton)));
 		commonMethod.clickEyeActionButton();
 //		commonMethod.switchToTabByIndex(driver, 1);
 //		commonMethod.switchBackToOriginalTab(driver, "0");

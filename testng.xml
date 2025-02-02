@@ -6,7 +6,7 @@
 	<test name="AllTests">
 		<classes>
 			<class name="com.aepl.tests.LoginTest" /> 		
-			             
+			             	
 			<class name="com.aepl.tests.DeviceDashboardPageTest" />		
 			<class name="com.aepl.tests.UserComplaintsDashboardPageTest" />
 			<class name="com.aepl.tests.TicketDashboardPageTest" />

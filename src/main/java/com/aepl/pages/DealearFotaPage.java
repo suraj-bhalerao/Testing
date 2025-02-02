@@ -5,11 +5,13 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,9 +44,10 @@ public class DealearFotaPage {
 	private final By searchBox = By.name("searchInput");
 	private final By tableHeadings = By.xpath("//tr[@class=\"text-center\"]");
 	private final By deleteBtn = By.xpath("//i[@class=\"mat-tooltip-trigger fas fa-trash pl-3 ng-star-inserted\"]");
-	private final By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
-	private final By prevBtn = By.xpath("//li[@class=\"pagination-previous disabled ng-star-inserted\"]");
-	private final By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	
+	private By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	private By prevBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
+	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	
 	// Global variables goes here
 	String fileNameToSearch;
@@ -79,23 +82,84 @@ public class DealearFotaPage {
 		}
 	}
 
+//	public void checkPagination() {
+//		try {
+//			logger.info("Starting pagination validation using CommonMethod.");
+//
+//			logger.info("Validating the presence of next, previous, and active buttons.");
+//			WebElement nextButton = wait.until(ExpectedConditions.visibilityOfElementLocated(nextBtn));
+//			WebElement prevButton = wait.until(ExpectedConditions.visibilityOfElementLocated(prevBtn));
+//			WebElement activeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(activeBtn));
+//			
+//			JavascriptExecutor js = (JavascriptExecutor) driver;
+//			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextButton);
+//			
+//			Thread.sleep(5000);
+//			
+//			System.out.println("Trying to click on next button");
+//			commMethod.checkPagination(nextButton, prevButton, activeButton);
+//			System.out.println("Button clicked...");
+//			
+//			Thread.sleep(2000);
+//			System.out.println("Trying to scroll......");
+//			JavascriptExecutor js1 = (JavascriptExecutor) driver;
+//			js1.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextButton);
+//			System.out.println("Scrolled agian to active button...");
+//			
+//			System.out.println("Sleeping");
+//			Thread.sleep(6000);
+//			
+//			logger.info("Pagination validation completed successfully.");
+//		} catch (Exception e) {
+//			logger.error("Error occurred during pagination validation.", e);
+//			throw new RuntimeException("Pagination validation failed due to an exception.", e);
+//		}
+//	}
+	
 	public void checkPagination() {
-		try {
-			logger.info("Starting pagination validation using CommonMethod.");
+	    try {
+	        logger.info("Starting pagination validation using CommonMethod.");
 
-			logger.info("Validating the presence of next, previous, and active buttons.");
-			wait.until(ExpectedConditions.visibilityOfElementLocated(nextBtn));
-			wait.until(ExpectedConditions.visibilityOfElementLocated(prevBtn));
-			wait.until(ExpectedConditions.visibilityOfElementLocated(activeBtn));
-			
-			commMethod.checkPagination(nextBtn, prevBtn, activeBtn);
+	        WebElement nextButton = wait.until(ExpectedConditions.presenceOfElementLocated(nextBtn));
+	        WebElement prevButton = wait.until(ExpectedConditions.presenceOfElementLocated(prevBtn));
+	        WebElement activeButton = wait.until(ExpectedConditions.presenceOfElementLocated(activeBtn));
 
-			logger.info("Pagination validation completed successfully.");
-		} catch (Exception e) {
-			logger.error("Error occurred during pagination validation.", e);
-			throw new RuntimeException("Pagination validation failed due to an exception.", e);
-		}
+	        if (!nextButton.isDisplayed()) {
+	            throw new NoSuchElementException("Next button is not visible.");
+	        }
+
+	        logger.info("Scrolling to next button...");
+	        JavascriptExecutor js = (JavascriptExecutor) driver;
+	        for (int i = 0; i < 3; i++) { 
+	            try {
+	                js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextButton);
+	                Thread.sleep(2000);
+	                break;
+	            } catch (Exception e) {
+	                logger.warn("Scrolling attempt " + (i + 1) + " failed. Retrying...");
+	            }
+	        }
+
+	        logger.info("Clicking on next button...");
+	        try {
+	            nextButton.click();
+	        } catch (Exception e) {
+	            logger.warn("Normal click failed. Trying JavaScript click.");
+	            js.executeScript("arguments[0].click();", nextButton);
+	        }
+
+	        Thread.sleep(2000);
+
+	        logger.info("Calling commMethod.checkPagination()...");
+	        commMethod.checkPagination(nextButton, prevButton, activeButton);
+	        logger.info("Pagination validation completed successfully.");
+
+	    } catch (Exception e) {
+	        logger.error("Error occurred during pagination validation.", e);
+	        throw new RuntimeException("Pagination validation failed due to an exception.", e);
+	    }
 	}
+
 
 	public void clickSearchAndTable() {
 		logger.info("Starting validation of search box functionality and table headings.");

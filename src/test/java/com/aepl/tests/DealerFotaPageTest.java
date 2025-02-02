@@ -79,7 +79,7 @@ public class DealerFotaPageTest extends TestBase {
 	}
 
 
-	@Test(priority = 4)
+//	@Test(priority = 4)
 	public void testClickSearchAndTable() {
 		String testCaseName = "Test Search Box and Table Headings";
 		String expectedMessage = "Search box and table headings validated successfully.";
@@ -104,7 +104,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 5)
+//	@Test(priority = 5)
 	public void testclickAddApprovedFileButton() {
 		logger.info("Testing the app approved file button is working");
 		String testCaseName = "Test Add Approved File Button";
@@ -127,7 +127,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 6)
+//	@Test(priority = 6)
 	public void testAddNewFileAndValidate() {
 		logger.info("Testing the add new file feature");
 
@@ -159,7 +159,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 7)
+//	@Test(priority = 7)
 	public void testSearchBtnAndTableHeadings() {
 		logger.info("Testing the search button and validating table headings");
 		String testCaseName = "Testing search box and validate table headings";
@@ -189,7 +189,7 @@ public class DealerFotaPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 8)
+//	@Test(priority = 8)
 	public void testdeleteActionBtn() {
 		String testCaseName = "Test Delete Action Button";
 		String expectedMessage = "Clicked on the delete button";

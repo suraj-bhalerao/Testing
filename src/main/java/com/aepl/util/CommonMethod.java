@@ -36,8 +36,9 @@ public class CommonMethod {
 	}
 
 	public By searchBox = By.xpath("//*[@placeholder='Search and Press Enter']");
-	private By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
-	private By eyeActionButtons = By.xpath("//mat-icon[contains(text(),'visibility')]");
+	public By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
+	public By eyeActionButton = By.xpath("//tbody/tr[1]/td[9]/mat-icon[1]");
+
 
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
@@ -111,7 +112,7 @@ public class CommonMethod {
 	public void clickEyeActionButton() {
 		logger.info("Locating the eye action button...");
 		try {
-			WebElement eyeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeActionButtons));
+			WebElement eyeButton = wait.until(ExpectedConditions.presenceOfElementLocated(eyeActionButton));
 			logger.info("Eye action button located. Clicking on it.");
 			
 			JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -201,6 +202,9 @@ public class CommonMethod {
 	        }
 
 	        button.click();
+	        
+	        Thread.sleep(500);
+	        
 	        logger.info("Clicked on the button to navigate to the next page.");
 	        
 	        return true;
