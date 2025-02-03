@@ -123,7 +123,7 @@ public class CommonMethod {
 		}
 	}
 
-	public static String randomStringGen() {
+	public  String randomStringGen() {
 		int length = 10;
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();

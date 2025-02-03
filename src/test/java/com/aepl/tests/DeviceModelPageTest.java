@@ -98,35 +98,8 @@ public class DeviceModelPageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 4)
+	@Test(priority = 5)
 	public void testAddNewDeviceModel() {
-//		logger.info("Testing the add new file feature");
-//
-//		String testCaseName = "Testing new file added and validating it";
-//		String expectedToastMessage = "File uploaded successfully";
-//		String actualMessage = "";
-//		String result = "";
-//
-//		try {
-//			boolean isFileValidated = deviceModel.AddNewDeviceModel(expectedToastMessage);
-//			System.out.println(isFileValidated);
-//
-//			if (isFileValidated) {
-//				result = "Pass";
-//				actualMessage = "File uploaded and validated successfully";
-//				logger.info("Test case passed: " + testCaseName);
-//			} else {
-//				result = "Fail";
-//				actualMessage = "File validation failed";
-//				logger.error("Test case failed: " + testCaseName);
-//			}
-//		} catch (Exception e) {
-//			result = "Fail";
-//			actualMessage = e.getMessage();
-//			logger.error("Exception occurred during test execution: " + testCaseName, e);
-//		} finally {
-//			excelUtility.writeTestDataToExcel(testCaseName, expectedToastMessage, actualMessage, result);
-//		}
 		deviceModel.AddNewDeviceModel();
 	}
 }

@@ -13,16 +13,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aepl.util.CommonMethod;
+
 public class DeviceModelPage {
+	// Global variables
 	private final WebDriver driver;
 	private final WebDriverWait wait;
-
+	private CommonMethod commonMethod;
 	private final Logger logger = LogManager.getLogger(DeviceModelPage.class);
-	private final By ModelNameInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-1']");
-	private final By ModelCodeInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-2']");
-	private final By HWVersionInput = By.xpath("//div[@class='mat-form-field-infix ng-tns-c68-3']");
+	
+	// Locators
+	private final By ModelNameInput = By.xpath("//input[@formcontrolname='modelName']");
+	private final By ModelCodeInput = By.xpath("//input[@formcontrolname='modelCode']");
+	private final By HWVersionInput = By.xpath("//input[@formcontrolname='hwVersion']");
 	private final By SubmitButton = By.xpath("//button[contains(.,'Submit')]");
-	private final By ToastLocator = By.xpath("//span[text()='Fetched Successfully']");
 	private final By dropDown = By.xpath("//span[@class='headers_custom color_3D5772']");
 	private final By DeviceModel = By.xpath("//a[@routerlink='model']");
 	private final By AddDeviceModel = By.xpath("//button[contains(.,'Add Device Model')]");
@@ -30,10 +34,9 @@ public class DeviceModelPage {
 
 	// Constructor
 	public DeviceModelPage(WebDriver driver) {
-		super();
-		logger.info("Launching the constructor of 'Device Model Page...'");
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		this.commonMethod = new CommonMethod(driver);	
 	}
 
 	// Methods Goes here
@@ -102,9 +105,9 @@ public class DeviceModelPage {
 			WebElement HWVersion = wait.until(ExpectedConditions.visibilityOfElementLocated(HWVersionInput));
 			WebElement SubmitBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(SubmitButton));
 
-			String ModelNameInput = "asdkjfgaskjd";
-			String ModelCodeInput = "ajklsdhfasdjk";
-			String HWVersionInput = "jklahsdjk";
+			String ModelNameInput = commonMethod.randomStringGen();
+			String ModelCodeInput = commonMethod.randomStringGen();
+			String HWVersionInput = commonMethod.randomStringGen();
 
 			ModelName.click();
 			ModelName.sendKeys(ModelNameInput);
@@ -117,34 +120,6 @@ public class DeviceModelPage {
 
 			logger.info("Clicking on the save file button");
 			SubmitBtn.click();
-
-//			// Validate Toast Message
-//			WebElement toastElement = wait.until(ExpectedConditions.visibilityOfElementLocated(ToastLocator));
-//			String actualToastMessage = toastElement.getText(); // Ensure toastLocator is correct
-//			logger.info("Captured toast message: " + actualToastMessage);
-//
-//			if (!expectedToastMessage.equals(actualToastMessage)) {
-//				logger.error("Expected toast message: " + expectedToastMessage + ", but found: " + actualToastMessage);
-//				throw new RuntimeException("Toast message validation failed");
-//			}
-//
-//			// Validate File in the Table
-//			Thread.sleep(2000); // Replace with explicit waits if possible
-//			/*
-//			 * By tableRowsLocator; List<WebElement> tableRows =
-//			 * driver.findElements(tableRowsLocator); for (WebElement row : tableRows) {
-//			 * List<WebElement> cells = row.findElements(By.tagName("td")); if (cells.size()
-//			 * > 0) { String rowFileName = cells.get(1).getText(); String rowDateTime =
-//			 * cells.get(2).getText(); logger.info("File Name: " + rowFileName +
-//			 * ", Date Time: " + rowDateTime);
-//			 * 
-//			 * if (fileName.equals(rowFileName) && capturedDateTime.equals(rowDateTime)) {
-//			 * logger.info("File and date-time validated successfully in the table"); return
-//			 * true;
-//			 */
-//			// }
-//			// }
-//			// }
 		} catch (Exception e) {
 			logger.error("An error occurred while adding or validating the file", e);
 			throw new RuntimeException("File addition or validation failed", e);
