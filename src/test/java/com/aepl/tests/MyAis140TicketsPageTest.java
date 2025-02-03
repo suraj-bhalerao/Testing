@@ -30,12 +30,36 @@ public class MyAis140TicketsPageTest extends TestBase {
 	private ExcelUtility excelUtility;
 	private MyAis140TicketsPage myais140tickets;
 	private WebDriverWait wait;
+	
 	public static String Ticket_No;
 	private String uinNo;
 	private String imeiNo;
 	private String iccidNo;
 	private String devicemodel;
-
+	private String devicemake;
+	private String primaryoperator;
+	private String primarynumber;
+	private String secondaryoperator;
+	private String secondarynumber;
+	private String ownername;
+	private String mobilenumber;
+	private String POAdocname;
+	private String POAdocnumber;
+	private String POIdocname;
+	private String POIdocnumber;
+	private String address;
+	private String vehiclemodel;
+	private String vehiclemake = "Tata Motors Pvt. Ltd.";
+	int mfgyear;
+	private String vinno;
+	private String engineno;
+	private String regno;
+	private String invoicedate;
+	private String invoiceno;
+	private String rtostate;
+	private String rtocode;
+	private String dealercode;
+	
 	@Override
 	@BeforeClass
 	public void setUp() {
@@ -163,40 +187,165 @@ public class MyAis140TicketsPageTest extends TestBase {
 		
 		// Parse the `requestBodyCRM` string into a JSONArray
         JSONArray parsedArray = new JSONArray(requestBodyCRM);
+        
+        System.out.println("Request Body:");		
+		System.out.println(prettyJson);
+		String requestBody1 = responseCRM.getBody().prettyPrint();
+        
 
         // Extract the desired key value (e.g., "UIN_NO") from the first object
         if (parsedArray.length() > 0) {
             JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
             uinNo = firstObject.getString("UIN_NO"); // Extract "UIN_NO"
-//            System.out.println("Extracted UIN_NO from Request Body: " + uinNo);
-        } else {
-//            System.out.println("JSON Array is empty in the request body.");
-        }
+        	}
 
         // Extract the desired key value (e.g., "IMEI_NO") from the first object
         if (parsedArray.length() > 0) {
             JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
             imeiNo = firstObject.getString("DEVICE_IMEI"); 
-//            System.out.println("Extracted DEVICE_IMEI from Request Body: " + imeiNo);
-        } else {
-//            System.out.println("JSON Array is empty in the request body.");
-        }
+        } 
         
      // Extract the desired key value (e.g., "ICCID_NO") from the first object
         if (parsedArray.length() > 0) {
             JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
             iccidNo = firstObject.getString("ICCID"); 
-        } else {}
+        } 
         
         // Extract the desired key value (e.g., "DEVICE_MODEL") from the first object
         if (parsedArray.length() > 0) {
             JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
             devicemodel = firstObject.getString("DEVICE_MODEL"); 
-        } else {}
+        }
         
-		System.out.println("Request Body:");		
-		System.out.println(prettyJson);
-		String requestBody1 = responseCRM.getBody().prettyPrint();
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            devicemake = firstObject.getString("DEVICE_MAKE"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            primaryoperator = firstObject.getString("PRIMARY_OPERATOR"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            primarynumber = firstObject.getString("PRIMARY_MOBILE_NUMBER"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            secondaryoperator = firstObject.getString("SECONDARY_OPERATOR"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            secondarynumber = firstObject.getString("SECONDARY_MOBILE_NUMBER"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+         // Retrieve values separately
+            String firstName = firstObject.optString("VEHICLE_OWNER_FIRST_NAME", "");
+            String middleName = firstObject.optString("VEHICLE_OWNER_MIDDLE_NAME", "");
+            String lastName = firstObject.optString("VEHICLE_OWNER_LAST_NAME", "");
+            // Concatenate with spaces
+            ownername = (firstName+middleName+lastName); 
+            System.out.println(ownername);
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            mobilenumber = firstObject.getString("VEHICLE_OWNER_REGISTERED_MOBILE" ); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            POAdocname = firstObject.getString("POA_DOC_NAME" ); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            POAdocnumber = firstObject.getString("POA_DOC_NO" ); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            POIdocname = firstObject.getString("POI_DOC_TYPE" ); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            POIdocnumber = firstObject.getString("POI_DOC_NO"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            String address1 = firstObject.optString("ADDRESS_LINE_1");
+            String address2 = firstObject.optString("ADDRESS_LINE_2");
+            // Concatenate with spaces
+            address = (address1 + " " + address2 ).trim(); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            vehiclemodel = firstObject.getString("VEHICLE_MODEL"); 
+        }
+        
+//        if (parsedArray.length() > 0) {
+//            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+//            mfgyear = firstObject.getString("MFG_YEAR"); 
+//        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            mfgyear = firstObject.getInt("MFG_YEAR"); // Retrieve MFG_YEAR as an int
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            vinno = firstObject.getString("VIN_NO" ); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            engineno = firstObject.getString("ENGINE_NO" ); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            regno = firstObject.getString("REG_NUMBER" ); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            invoicedate = firstObject.getString("INVOICE_DATE"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            invoiceno = firstObject.getString("INVOICE_NUMBER"); 
+        }
+                
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            rtostate = firstObject.getString("RTO_STATE"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            rtocode = firstObject.getString("RTO_OFFICE_CODE"); 
+        }
+        
+        if (parsedArray.length() > 0) {
+            JSONObject firstObject = parsedArray.getJSONObject(0); // Get the first JSON object
+            dealercode = firstObject.getString("DEALER_CODE"); 
+        }
+        
+        
+                
+//		System.out.println("Request Body:");		
+//		System.out.println(prettyJson);
+//		String requestBody1 = responseCRM.getBody().prettyPrint();
 	}
 
 	@Test(priority = 3)
@@ -289,7 +438,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 	@Test(priority = 6)
 	public void testClickOnMyAIS140Ticket() {
 		String testCaseName = "Test My AIS140 Tickets Link";
-		String expectedURL = "";
+		String expectedURL =  ConfigProperties.getProperty("myTickets.url");;
 		String actualURL = "";
 		String result = "";
 
@@ -318,7 +467,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 	public void clickSearchBox() {
 		String testCaseName = "Test Click in Search Box";
 		String expectedURL = ConfigProperties.getProperty("myTickets.url");
-		String actualURL;
+		String actualURL= "";
 //		String actual = ConfigProperties.getProperty("myTickets.url");
 //		String expected = "Search Button Clicked";
 		String result;
@@ -327,16 +476,17 @@ public class MyAis140TicketsPageTest extends TestBase {
 			myais140tickets.ClickSearchBox();
 			logger.info("Attempting  to click in the My AIS140 search box...");
 			actualURL = driver.getCurrentUrl();
+			System.out.println(actualURL);
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			logger.info("Result is : " + result);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		} catch (Exception e) {
-//			logger.error("An error occurred while clicking on the in the search box.", e);
-//			e.printStackTrace();
-//			actual = driver.getCurrentUrl();
+			logger.error("An error occurred while clicking on the in the search box.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
 //			captureScreenshot(testCaseName);
-//			result = expectedURL.equalsIgnoreCase(actual) ? "PASS" : "FAIL";
-//			excelUtility.writeTestDataToExcel(testCaseName, expected, actual, result);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		}
 		logger.info("Successfully executed the ClickSearchBox test case.");
 		System.out.println("Succesfully click on Search Box ");
@@ -697,13 +847,13 @@ public class MyAis140TicketsPageTest extends TestBase {
 	@Test(priority = 21)
 	public void clickDeviceInformationUINNumber() {
 		String testCaseName = "Test Click on Ticket details of Device Information of UIN option";
-		String expectedURL ="" ;
+		String expectedURL = myais140tickets.DeviceUINNumber();
 		String actualURL = uinNo;
 		String result = "";
 		logger.info("Executing the test Click on Ticket details of Device Information of UIN Number option test case:" + testCaseName);
 		try {
 			logger.info("Attempting  to click on the Device Information UIN Number option...");
-			actualURL = myais140tickets.DeviceUINNumber();
+//			actualURL = myais140tickets.DeviceUINNumber();
 //			actualURL = driver.getCurrentUrl();
 			expectedURL = actualURL;
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
@@ -711,7 +861,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 		} catch (Exception e) {
 			logger.error("An error occurred while clicking on the  UIN Number of Device Information option.", e);
 			e.printStackTrace();
-			actualURL = driver.getCurrentUrl();
+//			actualURL = driver.getCurrentUrl();
 //			captureScreenshot(testCaseName);
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
@@ -723,24 +873,24 @@ public class MyAis140TicketsPageTest extends TestBase {
 	@Test(priority = 22)
 	public void clickDeviceInformationIMEINumber() {
 		String testCaseName = "Test Click on Ticket details of Device Information of IMEI option";
-		String expectedURL = imeiNo;
-		String actualURL = "";
+		String expectedIMEI = myais140tickets.DeviceIMEINumber();
+		String actualIMEI = imeiNo;
 		String result = "";
 		logger.info("Executing the test Click on Ticket details of Device Information of IMEI Number option test case:" + testCaseName);
 		try {
 			logger.info("Attempting  to click on the Device Information IMEI Number option...");
-			actualURL = myais140tickets.DeviceIMEINumber();
-			actualURL = driver.getCurrentUrl();
-			expectedURL = actualURL;
-			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+//			actualIMEI = myais140tickets.DeviceIMEINumber();
+//			actualURL = driver.getCurrentUrl();
+			expectedIMEI = actualIMEI;
+			result = expectedIMEI.equalsIgnoreCase(actualIMEI) ? "PASS" : "FAIL";
 			logger.info("Result is : " + result);
 		} catch (Exception e) {
 			logger.error("An error occurred while clicking on the IMEI Number of Device Information option.", e);
 			e.printStackTrace();
-			actualURL = driver.getCurrentUrl();
+//			actualIMEI = driver.getCurrentUrl();
 //			captureScreenshot(testCaseName);
-			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
-			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+			result = expectedIMEI.equalsIgnoreCase(actualIMEI) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedIMEI, actualIMEI, result);
 		}
 		logger.info("Completed the test case: " + testCaseName);
 		System.out.println("Succesfully click on Device Information of IMEI Number option");
@@ -749,24 +899,24 @@ public class MyAis140TicketsPageTest extends TestBase {
 	@Test(priority = 23)
 	public void clickDeviceInformationICCIDNumber() {
 		String testCaseName = "Test Click on Ticket details of Device Information ICCID option";
-		String expectedURL = iccidNo;
-		String actualURL = myais140tickets.DeviceICCIDNumber();
+		String expectedICCID = iccidNo;
+		String actualICCID = myais140tickets.DeviceICCIDNumber();
 		String result = "";
 		logger.info("Executing the test Click on Ticket details of Device Information of ICCID Number option test case:" + testCaseName);
 		try {
 			logger.info("Attempting  to click on the Device Information ICCID Number option...");
 //			actualURL = myais140tickets.DeviceICCIDNumber();
 //			actualURL = driver.getCurrentUrl();
-			expectedURL = actualURL;
-			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			expectedICCID = actualICCID;
+			result = expectedICCID.equalsIgnoreCase(actualICCID) ? "PASS" : "FAIL";
 			logger.info("Result is : " + result);
 		} catch (Exception e) {
 			logger.error("An error occurred while clicking on the ICCID Number of Device Information option.", e);
 			e.printStackTrace();
 //			actualURL = driver.getCurrentUrl();
 //			captureScreenshot(testCaseName);
-			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
-			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+			result = expectedICCID.equalsIgnoreCase(actualICCID) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedICCID, actualICCID, result);
 		}
 		logger.info("Completed the test case: " + testCaseName);
 		System.out.println("Succesfully click on Device Information of ICCID Number option");
@@ -796,6 +946,737 @@ public class MyAis140TicketsPageTest extends TestBase {
 		}
 		logger.info("Completed the test case: " + testCaseName);
 		System.out.println("Succesfully click on Device Information of Device Model option");
+	}
+
+	@Test(priority = 25)
+	public void clickDeviceInformationDeviceMake() {
+		String testCaseName = "Test Click on Ticket details of Device Information Device Make option";
+		String expectedDeviceMake = devicemake;
+		String actualDeviceMake = myais140tickets.DeviceMake();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information of Device Make option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information Device Make option...");
+			expectedDeviceMake = actualDeviceMake;
+			result = expectedDeviceMake.equalsIgnoreCase(actualDeviceMake) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device Make of Device Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedDeviceMake.equalsIgnoreCase(actualDeviceMake) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedDeviceMake, actualDeviceMake, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information of Device Make option");
+	}
+	
+	@Test(priority = 26)
+	public void clickDeviceInformationPriOprName() {
+		String testCaseName = "Test Click on Ticket details of Device Information Primary Operator Name option";
+		String expectedPriOpeName = primaryoperator;
+		String actualPriOpeName = myais140tickets.DevicePriOprName();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information of Primary Operator Name option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information Primary Operator Name option...");
+			expectedPriOpeName = actualPriOpeName;
+			result = expectedPriOpeName.equalsIgnoreCase(actualPriOpeName) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Primary Operator Name of Device Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedPriOpeName.equalsIgnoreCase(actualPriOpeName) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedPriOpeName, actualPriOpeName, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information of Primary Operator Name option");
+	}
+	
+	@Test(priority = 27)
+	public void clickDeviceInformationPriOprNumber() {
+		String testCaseName = "Test Click on Ticket details of Device Information Primary Operator Number option";
+		String expectedPriOpeNumber = primarynumber;
+		String actualPriOpeNumber = myais140tickets.DevicePriOprNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information of Primary Operator Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information Primary Operator Number option...");
+			expectedPriOpeNumber = actualPriOpeNumber;
+			result = expectedPriOpeNumber.equalsIgnoreCase(actualPriOpeNumber) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Primary Operator Number of Device Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedPriOpeNumber.equalsIgnoreCase(actualPriOpeNumber) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedPriOpeNumber, actualPriOpeNumber, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information of Primary Operator Number option");
+	}
+	
+	
+	@Test(priority = 28)
+	public void clickDeviceInformationSecOprName() {
+		String testCaseName = "Test Click on Ticket details of Device Information Secondary Operator Name option";
+		String expectedSecOpeName = secondaryoperator;
+		String actualSecOpeName = myais140tickets.DeviceSecOprName();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information of Secondary Operator Name option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information Secondary Operator Name option...");
+			expectedSecOpeName = actualSecOpeName;
+			result = expectedSecOpeName.equalsIgnoreCase(actualSecOpeName) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Secondary Operator Name of Device Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedSecOpeName.equalsIgnoreCase(actualSecOpeName) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedSecOpeName, actualSecOpeName, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information of Secondary Operator Name option");
+	}
+	
+	@Test(priority = 29)
+	public void clickDeviceInformationSecOprNumber() {
+		String testCaseName = "Test Click on Ticket details of Device Information Secondary Operator Number option";
+		String expectedSecOpeNumber = secondarynumber;
+		String actualSecOpeNumber = myais140tickets.DeviceSecOprNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device Information of Secondary Operator Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Information Secondary Operator Number option...");
+			expectedSecOpeNumber = actualSecOpeNumber;
+			result = expectedSecOpeNumber.equalsIgnoreCase(actualSecOpeNumber) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Secondary Operator Number of Device Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedSecOpeNumber.equalsIgnoreCase(actualSecOpeNumber) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedSecOpeNumber, actualSecOpeNumber, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Information of Secondary Operator Number option");
+	}
+	
+	@Test(priority = 30)
+	public void clickVehicleOwnerInformation() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information option";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Vehicle Owner Information option...");
+			myais140tickets.ClickVehicleOwnerInformation();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Vehicle Owner Information option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information option");
+	}
+	
+	@Test(priority = 31)
+	public void clickVehicleOwnerInformationOwnerName() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information of Owner Name option";
+		String expectedOwnerName = ownername;
+		String actualOwnerName = myais140tickets.DeviceVehicleOwnerName();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information of Owner Name option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Owner Information Owner Name option...");
+			expectedOwnerName = actualOwnerName;
+			result = expectedOwnerName.equalsIgnoreCase(actualOwnerName) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Owner Name of Vehicle Owner Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedOwnerName.equalsIgnoreCase(actualOwnerName) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedOwnerName, actualOwnerName, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information of Owner Name option");
+	}
+	
+	@Test(priority = 32)
+	public void clickVehicleOwnerInformationMoileNumber() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information of Mobile Number option";
+		String expectedMobileNumber = mobilenumber;
+		String actualMobileNumber = myais140tickets.VehicleOwnerMobileNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information of  Mobile Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Owner Information Mobile Number option...");
+			expectedMobileNumber = actualMobileNumber;
+			result = expectedMobileNumber.equalsIgnoreCase(actualMobileNumber) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Mobile Number of Vehicle Owner Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedMobileNumber.equalsIgnoreCase(actualMobileNumber) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedMobileNumber, actualMobileNumber, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information of Mobile Number option");
+	}
+	
+	@Test(priority = 33)
+	public void clickVehicleOwnerInformationPOADocName() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information of POA DOC Name option";
+		String expectedPOADOCName = POAdocname;
+		String actualPOADOCName = myais140tickets.VehicleOwnerPOADocName();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information of POA DOC Name option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Owner Information POA DOC Name option...");
+			expectedPOADOCName = actualPOADOCName;
+			result = expectedPOADOCName.equalsIgnoreCase(actualPOADOCName) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the POA DOC Name of Vehicle Owner Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedPOADOCName.equalsIgnoreCase(actualPOADOCName) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedPOADOCName, actualPOADOCName, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information of POA DOC Name option");
+	}
+	
+	@Test(priority = 34)
+	public void clickVehicleOwnerInformationPOADocNumber() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information of POA DOC Number option";
+		String expectedPOADOCNumber = POAdocnumber;
+		String actualPOADOCNumber = myais140tickets.VehicleOwnerPOADocNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information of POA DOC Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Owner Information POA DOC Number option...");
+			expectedPOADOCNumber = actualPOADOCNumber;
+			result = expectedPOADOCNumber.equalsIgnoreCase(actualPOADOCNumber) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the POA DOC Number of Vehicle Owner Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedPOADOCNumber.equalsIgnoreCase(actualPOADOCNumber) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedPOADOCNumber, actualPOADOCNumber, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information of POA DOC Number option");
+	}
+	
+	@Test(priority = 35)
+	public void clickVehicleOwnerInformationPOIDocName() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information of POI DOC Name option";
+		String expectedPOIDOCName = POIdocname;
+		String actualPOIDOCName = myais140tickets.VehicleOwnerPOIDocName();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information of POI DOC Name option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Owner Information POI DOC Name option...");
+			expectedPOIDOCName = actualPOIDOCName;
+			result = expectedPOIDOCName.equalsIgnoreCase(actualPOIDOCName) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the POI DOC Name of Vehicle Owner Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedPOIDOCName.equalsIgnoreCase(actualPOIDOCName) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedPOIDOCName, actualPOIDOCName, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information of POI DOC Name option");
+	}
+	
+	@Test(priority = 36)
+	public void clickVehicleOwnerInformationPOIDocNumber() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information of POI DOC Number option";
+		String expectedPOIDOCNumber = POIdocnumber;
+		String actualPOIDOCNumber = myais140tickets.VehicleOwnerPOIDocNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information of POI DOC Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Owner Information POI DOC Number option...");
+			expectedPOIDOCNumber = actualPOIDOCNumber;
+			result = expectedPOIDOCNumber.equalsIgnoreCase(actualPOIDOCNumber) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the POI DOC Number of Vehicle Owner Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedPOIDOCNumber.equalsIgnoreCase(actualPOIDOCNumber) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedPOIDOCNumber, actualPOIDOCNumber, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information of POI DOC Number option");
+	}
+	
+	@Test(priority = 37)
+	public void clickVehicleOwnerInformationAddress() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information of Address option";
+		String expectedOwnerAddress = address;
+		String actualOwnerAddress = myais140tickets.VehicleOwnerAddress();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Owner Information of Address option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Owner Information Address option...");
+			expectedOwnerAddress = actualOwnerAddress;
+			result = expectedOwnerAddress.equalsIgnoreCase(actualOwnerAddress) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Address of Vehicle Owner Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedOwnerAddress.equalsIgnoreCase(actualOwnerAddress) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedOwnerAddress, actualOwnerAddress, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Owner Information of Address option");
+	}
+	
+	@Test(priority = 38)
+	public void clickVehicleInformation() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Owner Information option";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Vehicle Information option...");
+			myais140tickets.ClickVehicleInformation();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Vehicle Information option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information option");
+	}
+	
+	@Test(priority = 39)
+	public void clickVehicleInformationVehicleModel() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Model option";
+		String expectedVehicleModel = vehiclemodel ;
+		String actualVehicleModel = myais140tickets.VehicleModel();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Model option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Model option...");
+			expectedVehicleModel = actualVehicleModel;
+			result = expectedVehicleModel.equalsIgnoreCase(actualVehicleModel) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Vehicle Model of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedVehicleModel.equalsIgnoreCase(actualVehicleModel) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedVehicleModel, actualVehicleModel, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Vehicle Model option");
+	}
+	
+	@Test(priority = 40)
+	public void clickVehicleInformationVehicleMake() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Make option";
+		String expectedVehicleMake = vehiclemake ;
+		String actualVehicleMake = myais140tickets.VehicleMake();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Make option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Make option...");
+			expectedVehicleMake = actualVehicleMake;
+			result = expectedVehicleMake.equalsIgnoreCase(actualVehicleMake) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Vehicle Make of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedVehicleMake.equalsIgnoreCase(actualVehicleMake) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedVehicleMake, actualVehicleMake, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Vehicle Make option");
+	}
+	
+	@Test(priority = 41)
+	public void clickVehicleInformationVehicleManufactureYear() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Manufacture Year option";
+		String expectedYear = ""; 
+		String actualYear = myais140tickets.VehicleManufactureYear();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Manufacture Year option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Manufacture Year option...");
+			expectedYear = actualYear;
+			result = expectedYear.equalsIgnoreCase(actualYear) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Manufacture Year of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedYear.equalsIgnoreCase(actualYear) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedYear, actualYear, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Manufacture Year option");
+	}
+	
+	@Test(priority = 42)
+	public void clickVehicleInformationChassisNo() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Chassis No option";
+		String expectedVINNo = vinno ;
+		String actualVINNo = myais140tickets.VehicleChassisNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Chassis No option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Chassis No option...");
+			expectedVINNo = actualVINNo;
+			result = expectedVINNo.equalsIgnoreCase(actualVINNo) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Chassis No of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedVINNo.equalsIgnoreCase(actualVINNo) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedVINNo, actualVINNo, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Chassis No option");
+	}
+	
+	@Test(priority = 43)
+	public void clickVehicleInformationEngineNo() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Engine No option";
+		String expectedEngineNo = engineno ;
+		String actualEngineNo = myais140tickets.VehicleEngineNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Engine No option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Engine No option...");
+			expectedEngineNo = actualEngineNo;
+			result = expectedEngineNo.equalsIgnoreCase(actualEngineNo) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Engine No of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedEngineNo.equalsIgnoreCase(actualEngineNo) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedEngineNo, actualEngineNo, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Engine No option");
+	}
+	
+	@Test(priority = 44)
+	public void clickVehicleInformationRegNo() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Registration No option";
+		String expectedRegNo = regno ;
+		String actualRegNo = myais140tickets.VehicleRegistrationNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Registration No option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Registration No option...");
+			expectedRegNo = actualRegNo;
+			result = expectedRegNo.equalsIgnoreCase(actualRegNo) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Registration No of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedRegNo.equalsIgnoreCase(actualRegNo) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedRegNo, actualRegNo, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Registration No option");
+	}
+	
+	@Test(priority = 45)
+	public void clickVehicleInformationInvoiceDate() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Invoice Date option";
+		String expectedInvoiceDate = invoicedate;
+		String actualInvoiceDate = myais140tickets.VehicleInvoiceDate();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Invoice Date option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Invoice Date option...");
+			expectedInvoiceDate = actualInvoiceDate;
+			result = expectedInvoiceDate.equalsIgnoreCase(actualInvoiceDate) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Invoice Date of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedInvoiceDate.equalsIgnoreCase(actualInvoiceDate) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedInvoiceDate, actualInvoiceDate, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Invoice Date option");
+	}
+	
+	@Test(priority = 46)
+	public void clickVehicleInformationInvoiceNo() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle Invoice Number option";
+		String expectedInvoiceNo = invoiceno;
+		String actualInvoiceNo = myais140tickets.VehicleInvoiceNumber();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle Invoice Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle Invoice Number option...");
+			expectedInvoiceNo = actualInvoiceNo;
+			result = expectedInvoiceNo.equalsIgnoreCase(actualInvoiceNo) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Invoice Number of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedInvoiceNo.equalsIgnoreCase(actualInvoiceNo) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedInvoiceNo, actualInvoiceNo, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of Invoice Number option");
+	}
+	
+	@Test(priority = 47)
+	public void clickVehicleInformationRTOState() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle RTO State option";
+		String expectedRTOState = rtostate;
+		String actualRTOState = myais140tickets.VehicleRTOState();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle RTO State option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle RTO State option...");
+			expectedRTOState = actualRTOState;
+			result = expectedRTOState.equalsIgnoreCase(actualRTOState) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the RTO State of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedRTOState.equalsIgnoreCase(actualRTOState) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedRTOState, actualRTOState, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of RTO State option");
+	}
+	
+	@Test(priority = 48)
+	public void clickVehicleInformationRTOCode() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle RTO Code option";
+		String expectedRTOCode = rtocode;
+		String actualRTOCode = myais140tickets.VehicleRTOCode();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle RTO Code option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle RTO Code option...");
+			expectedRTOCode = actualRTOCode;
+			result = expectedRTOCode.equalsIgnoreCase(actualRTOCode) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the RTO Code of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedRTOCode.equalsIgnoreCase(actualRTOCode) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedRTOCode, actualRTOCode, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of RTO Code option");
+	}
+		
+	@Test(priority = 49)
+	public void clickIGNReloadButton() {
+		String testCaseName = "Test Click on Vehicle IGN Status Reload Button";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on IGN Reload button for test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the IGN Reload button...");
+			myais140tickets.VehicleIGNButton();
+			actualURL = driver.getCurrentUrl();
+//			System.out.println(actualURL);
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the view icon button.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			result = "FAIL"; // Mark the test case as failed
+//			captureScreenshot(testCaseName);
+//			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on IGN Reload button");
+	}
+	
+	@Test(priority = 50)
+	public void clickVehicleInformationIGNStatus() {
+		String testCaseName = "Test Click on Ticket details of Vehicle Information of Vehicle IGN Status option";
+		String expectedIGNStatus ="";
+		String actualIGNStatus = myais140tickets.VehicleIGNSatus();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Vehicle Information of Vehicle IGN Status option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Vehicle Information of Vehicle IGN Status option...");
+			expectedIGNStatus = actualIGNStatus;
+			result = expectedIGNStatus.equalsIgnoreCase(actualIGNStatus) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the IGN Status of Vehicle Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedIGNStatus.equalsIgnoreCase(actualIGNStatus) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedIGNStatus, actualIGNStatus, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Vehicle Information of IGN Status option");
+	}
+	
+	@Test(priority = 51)
+	public void ClickDealerInformation() {
+		String testCaseName = "Test Click on Ticket details of Dealear Information option";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Dealear Information option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Dealear Information option...");
+			myais140tickets.ClickDealerInformation();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Dealear Information option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Dealear Information option");
+	}
+	
+	@Test(priority = 52)
+	public void clickDealerInformationDealerCode() {
+		String testCaseName = "Test Click on Ticket details of Dealer Information of Dealer Code option";
+		String expectedDealerCode = dealercode;
+		String actualDealerCode = myais140tickets.VehicleDealerCode();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Dealer Information of Dealer Code option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Dealer Information of Dealer Code option...");
+			expectedDealerCode = actualDealerCode;
+			result = expectedDealerCode.equalsIgnoreCase(actualDealerCode) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Dealer Code of Dealer Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedDealerCode.equalsIgnoreCase(actualDealerCode) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedDealerCode, actualDealerCode, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Dealer Information of Dealer Code option");
+	}
+	
+	@Test(priority = 53)
+	public void clickDealerInformationDealerEmail() {
+		String testCaseName = "Test Click on Ticket details of Dealer Information of Dealer Email option";
+		String expectedDealerEmail = "";
+		String actualDealerEmail = myais140tickets.VehicleDealerEmail();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Dealer Information of Dealer Email option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Dealer Information of Dealer Email option...");
+			expectedDealerEmail = actualDealerEmail;
+			result = expectedDealerEmail.equalsIgnoreCase(actualDealerEmail) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Dealer Email of Dealer Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedDealerEmail.equalsIgnoreCase(actualDealerEmail) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedDealerEmail, actualDealerEmail, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Dealer Information of Dealer Email option");
+	}
+	
+	@Test(priority = 54)
+	public void clickDealerInformationDealerCity() {
+		String testCaseName = "Test Click on Ticket details of Dealer Information of Dealer City option";
+		String expectedDealerCity = "";
+		String actualDealerCity = myais140tickets.VehicleDealerEmail();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Dealer Information of Dealer City option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Dealer Information of Dealer City option...");
+			expectedDealerCity = actualDealerCity;
+			result = expectedDealerCity.equalsIgnoreCase(actualDealerCity) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Dealer City of Dealer Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedDealerCity.equalsIgnoreCase(actualDealerCity) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedDealerCity, actualDealerCity, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Dealer Information of Dealer City option");
 	}
 
 }

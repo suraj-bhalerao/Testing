@@ -88,6 +88,38 @@ public class MyAis140TicketsPage {
 	private By IMEINumber = By.id("mat-input-32");
 	private By ICCIDNumber = By.id("mat-input-33");
 	private By DeviceModel = By.id("mat-input-34");
+	private By DeviceMake = By.id("mat-input-35");
+	private By primaryOperatorName = By.id("mat-input-36");
+	private By primaryOperatorNumber = By.id("mat-input-37");
+	private By secondaryOperatorName = By.id("mat-input-38");
+	private By secondaryOperatorNumber = By.id("mat-input-39");
+	private By vehicleOwnerName = By.id("mat-input-40");
+	private By vehicleOwnerMobileNumber = By.id("mat-input-41");
+	private By vehicleOwnerPOAdocname = By.id("mat-input-42");
+	private By vehicleOwnerPOAdocnumber = By.id("mat-input-43");
+	private By vehicleOwnerPOIdocname = By.id("mat-input-44");
+	private By vehicleOwnerPOIdocnumber = By.id("mat-input-45");
+	private By vehicleOwnerAddress = By.id("mat-input-46");
+	private By vehiclemodel = By.id("mat-input-47");
+	private By vehiclemake = By.id("mat-input-48");
+	private By manufacturingyear = By.id("mat-input-49");
+	private By chassisnumber = By.id("mat-input-50");
+	private By enginenumber = By.id("mat-input-51");
+	private By registrationnumber = By.id("mat-input-52");
+	private By invoicedate = By.id("mat-input-53");
+	private By invoicenumber = By.id("mat-input-54");
+	private By rtostate = By.id("mat-input-55");
+	private By rtocode = By.id("mat-input-56");
+	private By ignstatus = By.id("mat-input-57");
+	private By ignButton = By.xpath("/html/body/app-root/app-my-activations-details-page/div/form/div/div[5]/div/div[2]/div[23]/button");
+	private By dealercode = By.id("mat-input-58");
+	private By dealeremail = By.id("mat-input-59");
+	private By dealercity = By.id("mat-input-60");
+	private By dealerphoneno = By.id("mat-input-61");
+	private By posname = By.id("mat-input-62");
+	private By poscode = By.id("mat-input-63");
+//	private By dealearcode = By.id("mat-input-64");
+	
 	
 
 	
@@ -604,7 +636,7 @@ public class MyAis140TicketsPage {
 			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceUINElement);
 			} catch (Exception e) {
 			logger.error("Error while interacting with Device Information for UIN Number.", e);
-			throw new RuntimeException("Failed to read Ticket Information for UIN Number.", e);
+			throw new RuntimeException("Failed to read Device Information for UIN Number.", e);
 		}
 		return "inputValue";
 	}
@@ -622,7 +654,7 @@ public class MyAis140TicketsPage {
 			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceIMEIElement);
 			} catch (Exception e) {
 			logger.error("Error while interacting with Device Information for IMEI Number.", e);
-			throw new RuntimeException("Failed to read Ticket Information for IMEI Number.", e);
+			throw new RuntimeException("Failed to read Device Information for IMEI Number.", e);
 		}
 		return "inputValue";
 	}
@@ -640,7 +672,7 @@ public class MyAis140TicketsPage {
 			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceICCIDElement);
 			} catch (Exception e) {
 			logger.error("Error while interacting with Device Information for ICCID Number.", e);
-			throw new RuntimeException("Failed to read Ticket Information for ICCID Number.", e);
+			throw new RuntimeException("Failed to read Device Information for ICCID Number.", e);
 		}
 		return "inputValue";
 	}
@@ -658,7 +690,628 @@ public class MyAis140TicketsPage {
 			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceModelElement);
 			} catch (Exception e) {
 			logger.error("Error while interacting with Device Information for Device Model.", e);
-			throw new RuntimeException("Failed to read Ticket Information for Device Model.", e);
+			throw new RuntimeException("Failed to read Device Information for Device Model.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceMake() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceMakeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(DeviceMake));
+			js.executeScript("arguments[0].click();", deviceMakeElement);
+			String inputValue = deviceMakeElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDevice Make :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceMakeElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for Device Make.", e);
+			throw new RuntimeException("Failed to read Device Information for Device Make.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DevicePriOprName() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement devicePriOprNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(primaryOperatorName));
+			js.executeScript("arguments[0].click();", devicePriOprNameElement);
+			String inputValue = devicePriOprNameElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mPrimary Operator Name :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", devicePriOprNameElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for Primary Operator Name.", e);
+			throw new RuntimeException("Failed to read Device Information for Primary Operator Name.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DevicePriOprNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement devicePriOprNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(primaryOperatorNumber));
+			js.executeScript("arguments[0].click();", devicePriOprNumberElement);
+			String inputValue = devicePriOprNumberElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mPrimary Operator Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", devicePriOprNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for Primary Operator Number.", e);
+			throw new RuntimeException("Failed to read Device Information for Primary Operator Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceSecOprName() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceSecOprNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(secondaryOperatorName));
+			js.executeScript("arguments[0].click();", deviceSecOprNameElement);
+			String inputValue = deviceSecOprNameElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mSecondary Operator Name :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceSecOprNameElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for Secondary Operator Name.", e);
+			throw new RuntimeException("Failed to read Device Information for Secondary Operator Name.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceSecOprNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement deviceSecOprNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(secondaryOperatorNumber));
+			js.executeScript("arguments[0].click();", deviceSecOprNumberElement);
+			String inputValue = deviceSecOprNumberElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mSecondary Operator Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", deviceSecOprNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device Information for Secondary Operator Number.", e);
+			throw new RuntimeException("Failed to read Device Information for Secondary Operator Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public void ClickVehicleOwnerInformation() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,400)");
+			// Wait for the elements to be clickable
+			List<WebElement> vehicleownerList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(DeviceInfo));
+			int indexToClick = 2; // Change this to the desired index
+			// Check if the index is valid
+			if (indexToClick >= 0 && indexToClick < vehicleownerList.size()) {
+				WebElement elementToClick = vehicleownerList.get(indexToClick);
+				// Wait until the specific element is clickable
+				wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
+				// Click the element
+				elementToClick.click();
+				// Log or perform additional actions after clicking
+				System.out.println("\u001B[1m\u001B[34mVehicle Owner Information Clicked \u001B[0m ");
+				// Optionally, add a delay for visual confirmation (avoid in real tests)
+				Thread.sleep(2000);
+				} else {
+					System.err.println("Invalid index: " + indexToClick + ". Total elements found: " + vehicleownerList.size());
+					throw new IllegalArgumentException("Index out of bounds for Device list.");
+				}
+			} catch (Exception e) {
+				logger.error("Error while clicking with Vehicle Owner Information elements.", e);
+				throw new RuntimeException("Failed to clicking with Vehicle Owner Information.", e);
+			}
+	}
+	
+	public String DeviceVehicleOwnerName() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleOwnerNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerName));
+			js.executeScript("arguments[0].click();", VehicleOwnerNameElement);
+			String inputValue = VehicleOwnerNameElement.getAttribute("value");   
+			
+			// Print Ticket Information
+	    	System.out.println("\u001B[1m\u001B[34mVehicle Owner Information:\u001B[0m");
+			System.out.println("\u001B[1m\u001B[35mVehicle Owner Name :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleOwnerNameElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Owner Information for Vehicle Owner Name.", e);
+			throw new RuntimeException("Failed to read Vehicle Owner Information for Vehicle Owner Name.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleOwnerMobileNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleOwnerMobileNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerMobileNumber));
+			js.executeScript("arguments[0].click();", VehicleOwnerMobileNumberElement);
+			String inputValue = VehicleOwnerMobileNumberElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Owner Mobile Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleOwnerMobileNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Owner Information for Vehicle Owner Mobile Number.", e);
+			throw new RuntimeException("Failed to read Vehicle Owner Information for Vehicle Owner Mobile Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleOwnerPOADocName() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleOwnerPOADOCNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerPOAdocname));
+			js.executeScript("arguments[0].click();", VehicleOwnerPOADOCNameElement);
+			String inputValue = VehicleOwnerPOADOCNameElement.getAttribute("value");   
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Owner POA DOC Name :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleOwnerPOADOCNameElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Owner Information for Vehicle Owner POA DOC Name.", e);
+			throw new RuntimeException("Failed to read Vehicle Owner Information for Vehicle Owner POA DOC Name.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleOwnerPOADocNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleOwnerPOADOCNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerPOAdocnumber));
+			js.executeScript("arguments[0].click();", VehicleOwnerPOADOCNumberElement);
+			String inputValue = VehicleOwnerPOADOCNumberElement.getAttribute("value");   
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Owner POA DOC Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleOwnerPOADOCNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Owner Information for Vehicle Owner POA DOC Number.", e);
+			throw new RuntimeException("Failed to read Vehicle Owner Information for Vehicle Owner POA DOC Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleOwnerPOIDocName() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleOwnerPOIDOCNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerPOIdocname));
+			js.executeScript("arguments[0].click();", VehicleOwnerPOIDOCNameElement);
+			String inputValue = VehicleOwnerPOIDOCNameElement.getAttribute("value");   
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Owner POI DOC Name :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleOwnerPOIDOCNameElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Owner Information for Vehicle Owner POI DOC Name.", e);
+			throw new RuntimeException("Failed to read Vehicle Owner Information for Vehicle Owner POI DOC Name.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleOwnerPOIDocNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleOwnerPOIDOCNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerPOIdocnumber));
+			js.executeScript("arguments[0].click();", VehicleOwnerPOIDOCNumberElement);
+			String inputValue = VehicleOwnerPOIDOCNumberElement.getAttribute("value");   
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Owner POI DOC Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleOwnerPOIDOCNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Owner Information for Vehicle Owner POI DOC Number.", e);
+			throw new RuntimeException("Failed to read Vehicle Owner Information for Vehicle Owner POI DOC Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleOwnerAddress() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,400)");
+			WebElement VehicleOwnerAddressElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerAddress));
+			js.executeScript("arguments[0].click();", VehicleOwnerAddressElement);
+			String inputValue = VehicleOwnerAddressElement.getAttribute("value");   
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Owner Address :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleOwnerAddressElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Owner Information for Vehicle Owner Address.", e);
+			throw new RuntimeException("Failed to read Vehicle Owner Information for Vehicle Owner Address.", e);
+		}
+		return "inputValue";
+	}
+	
+	public void ClickVehicleInformation() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,400)");
+			// Wait for the elements to be clickable
+			List<WebElement> vehicleList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(DeviceInfo));
+			int indexToClick = 3; // Change this to the desired index
+			// Check if the index is valid
+			if (indexToClick >= 0 && indexToClick < vehicleList.size()) {
+				WebElement elementToClick = vehicleList.get(indexToClick);
+				// Wait until the specific element is clickable
+				wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
+				// Click the element
+				elementToClick.click();
+				// Log or perform additional actions after clicking
+				System.out.println("\u001B[1m\u001B[34mVehicle Information Clicked \u001B[0m ");
+				// Optionally, add a delay for visual confirmation (avoid in real tests)
+				Thread.sleep(2000);
+				} else {
+					System.err.println("Invalid index: " + indexToClick + ". Total elements found: " + vehicleList.size());
+					throw new IllegalArgumentException("Index out of bounds for Device list.");
+				}
+			} catch (Exception e) {
+				logger.error("Error while clicking with Vehicle Information elements.", e);
+				throw new RuntimeException("Failed to clicking with Vehicle Information.", e);
+			}
+	}
+	
+	public String VehicleModel() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleModelElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehiclemodel));
+			js.executeScript("arguments[0].click();", VehicleModelElement);
+			String inputValue = VehicleModelElement.getAttribute("value");   
+			
+			// Print Ticket Information
+	    	System.out.println("\u001B[1m\u001B[34mVehicle Information:\u001B[0m");
+			System.out.println("\u001B[1m\u001B[35mVehicle Model :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleModelElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Vehicle Model.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Vehicle Model.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleMake() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleMakeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehiclemake));
+			js.executeScript("arguments[0].click();", VehicleMakeElement);
+			String inputValue = VehicleMakeElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Model :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleMakeElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Vehicle Make.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Vehicle Make.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleManufactureYear() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleManufactureyearElement = wait.until(ExpectedConditions.visibilityOfElementLocated(manufacturingyear));
+			js.executeScript("arguments[0].click();", VehicleManufactureyearElement);
+			String inputValue = VehicleManufactureyearElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Manfacture Year :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleManufactureyearElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Manfacture Year.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Manfacture Year.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleChassisNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleChassisNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(chassisnumber));
+			js.executeScript("arguments[0].click();", VehicleChassisNumberElement);
+			String inputValue = VehicleChassisNumberElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Chassis Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleChassisNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Chassis Number.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Chassis Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleEngineNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleEngineNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(enginenumber));
+			js.executeScript("arguments[0].click();", VehicleEngineNumberElement);
+			String inputValue = VehicleEngineNumberElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Engine Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleEngineNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Engine Number.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Engine Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleRegistrationNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleRegiNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(registrationnumber));
+			js.executeScript("arguments[0].click();", VehicleRegiNumberElement);
+			String inputValue = VehicleRegiNumberElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Registration Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleRegiNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Registration Number.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Registration Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleInvoiceDate() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleInvoiceDateElement = wait.until(ExpectedConditions.visibilityOfElementLocated(invoicedate));
+			js.executeScript("arguments[0].click();", VehicleInvoiceDateElement);
+			String inputValue = VehicleInvoiceDateElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Invoice Date :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleInvoiceDateElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Invoice Date.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Invoice Date.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleInvoiceNumber() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleInvoiceNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(invoicenumber));
+			js.executeScript("arguments[0].click();", VehicleInvoiceNumberElement);
+			String inputValue = VehicleInvoiceNumberElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle Invoice Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleInvoiceNumberElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for Invoice Number.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for Invoice Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleRTOState() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleRTOStateElement = wait.until(ExpectedConditions.visibilityOfElementLocated(rtostate));
+			js.executeScript("arguments[0].click();", VehicleRTOStateElement);
+			String inputValue = VehicleRTOStateElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle RTO State :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleRTOStateElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for RTO State.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for RTO State.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleRTOCode() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleRTOCodeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(rtocode));
+			js.executeScript("arguments[0].click();", VehicleRTOCodeElement);
+			String inputValue = VehicleRTOCodeElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle RTO Code :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleRTOCodeElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for RTO Code.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for RTO Code.", e);
+		}
+		return "inputValue";
+	}
+	
+	
+	public WebElement VehicleIGNButton() {
+		try {
+			// Wait for the navigation bar links to be visible
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			WebElement reload = wait.until(ExpectedConditions.visibilityOfElementLocated(ignButton));
+			Thread.sleep(2000);
+				reload.click();
+			js.executeScript("arguments[0].style.border='5px solid Yellow'");
+			return reload;
+		} catch (Exception e) {
+			logger.error("Error while clicking on IGN Status Reload Button option.", e);
+			throw new RuntimeException("Failed to click on IGN Status Reload Button option", e);
+		}
+	}
+	
+	
+	public String VehicleIGNSatus() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement VehicleIGNStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(ignstatus));
+			js.executeScript("arguments[0].click();", VehicleIGNStatusElement);
+			String inputValue = VehicleIGNStatusElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mVehicle IGN Status :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", VehicleIGNStatusElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Vehicle Information for IGN Status.", e);
+			throw new RuntimeException("Failed to read Vehicle Information for IGN Status.", e);
+		}
+		return "inputValue";
+	}
+	
+	public void ClickDealerInformation() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			// Wait for the elements to be clickable
+			List<WebElement> dealerList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(DeviceInfo));
+			int indexToClick = 4; // Change this to the desired index
+			// Check if the index is valid
+			if (indexToClick >= 0 && indexToClick < dealerList.size()) {
+				WebElement elementToClick = dealerList.get(indexToClick);
+				// Wait until the specific element is clickable
+				wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
+				// Click the element
+				elementToClick.click();
+				// Log or perform additional actions after clicking
+				System.out.println("\u001B[1m\u001B[34mDealear Information Clicked \u001B[0m ");
+				// Optionally, add a delay for visual confirmation (avoid in real tests)
+				Thread.sleep(2000);
+				} else {
+					System.err.println("Invalid index: " + indexToClick + ". Total elements found: " + dealerList.size());
+					throw new IllegalArgumentException("Index out of bounds for Device list.");
+				}
+			} catch (Exception e) {
+				logger.error("Error while clicking with Dealear Information elements.", e);
+				throw new RuntimeException("Failed to clicking with Dealear Information.", e);
+			}
+	}
+	
+	public String VehicleDealerCode() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement DealerCodeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealercode));
+			js.executeScript("arguments[0].click();", DealerCodeElement);
+			String inputValue = DealerCodeElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDealer Information :");
+			System.out.println("\u001B[1m\u001B[35mDealer Code :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", DealerCodeElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Dealer Information for Dealer Code.", e);
+			throw new RuntimeException("Failed to read Dealer Information for Dealer Code.", e);
+		}
+		return "inputValue";
+	}
+
+	public String VehicleDealerEmail() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement DealerEmailElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealeremail));
+			js.executeScript("arguments[0].click();", DealerEmailElement);
+			String inputValue = DealerEmailElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDealer Email :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", DealerEmailElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Dealer Information for Dealer Email.", e);
+			throw new RuntimeException("Failed to read Dealer Information for Dealer Email.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleDealerCity() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement DealerCityElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealercity));
+			js.executeScript("arguments[0].click();", DealerCityElement);
+			String inputValue = DealerCityElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDealer City :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", DealerCityElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Dealer Information for Dealer City.", e);
+			throw new RuntimeException("Failed to read Dealer Information for Dealer City.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleDealerPhoneNo() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement DealerPhoneNoElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealerphoneno));
+			js.executeScript("arguments[0].click();", DealerPhoneNoElement);
+			String inputValue = DealerPhoneNoElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDealer Phone Number :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", DealerPhoneNoElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Dealer Information for Dealer Phone Number.", e);
+			throw new RuntimeException("Failed to read Dealer Information for Dealer Phone Number.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleDealerPOSName() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement DealerPOSNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(posname));
+			js.executeScript("arguments[0].click();", DealerPOSNameElement);
+			String inputValue = DealerPOSNameElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDealer POS Name :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", DealerPOSNameElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Dealer Information for Dealer POS Name.", e);
+			throw new RuntimeException("Failed to read Dealer Information for Dealer POS Name.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleDealerPOSCode() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement DealerPOSCodeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(poscode));
+			js.executeScript("arguments[0].click();", DealerPOSCodeElement);
+			String inputValue = DealerPOSCodeElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDealer POS Code :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", DealerPOSCodeElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Dealer Information for Dealer POS Code.", e);
+			throw new RuntimeException("Failed to read Dealer Information for Dealer POS Code.", e);
 		}
 		return "inputValue";
 	}
