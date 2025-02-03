@@ -98,6 +98,7 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error while checking buttons on the OTA page: ", e);
 		} finally {
 			logger.info("Writing test result to Excel for test case {} ", testCaseName);
@@ -120,6 +121,7 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Issue in the search box and the table heading";
 			result = isChecked ? "PASS" : "FAIL";
+			commonMethod.captureScreenshot(testCaseName);
 			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
 			e.getMessage();
 		} finally {
@@ -129,28 +131,92 @@ public class OtaPageTest extends TestBase {
 	}
 
 	@Test(priority = 6)
-	public void testCheckPagination() {
-	    String testCaseName = "Testing the pagination";
-	    String expectedResult = "Pagination should work correctly by navigating through pages";
-	    String actualResult = "";
-	    String result = "Fail"; 
-	    logger.info("Executing test case: {}", testCaseName);
+	public void testCheckActionButtons() {
+		String testCaseName = "Testing the action buttons";
+		String expectedResult = "Action buttons should work correctly";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
 
-	    try {
-	        otaPage.checkPagination();
-	        actualResult = "Pagination worked as expected";
-	        result = "Pass";
-	    } catch (Exception e) {
-	        actualResult = "Exception occurred: " + e.getMessage();
-	        logger.error("Error during pagination test: ", e);
-	    } finally {
-	        logger.info("Writing test results to Excel for {}", testCaseName);
-	        excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
-	    }
+		try {
+			otaPage.checkActionButtons();
+			actualResult = "Action buttons worked as expected";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during action buttons test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+
 	}
 
 	@Test(priority = 7)
-	public void testCheckActionButtons() {
-		otaPage.checkActionButtons();
+	public void testCheckPagination() {
+		String testCaseName = "Testing the pagination";
+		String expectedResult = "Pagination should work correctly by navigating through pages";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.checkPagination();
+			actualResult = "Pagination worked as expected";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during pagination test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 8)
+	public void testclickOtaBatchReport() {
+		String testCaseName = "Testing the OTA Batch Report button";
+		String expectedResult = "OTA Batch Report button should be clicked successfully";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+
+			otaPage.clickOtaBatchReport();
+			actualResult = "OTA Batch Report button clicked successfully";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during OTA Batch Report button test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 9)
+	public void testGetOtaBatchDateWise() {
+		String testCaseName = "Testing the OTA Batch Date Wise button";
+		String expectedResult = "OTA Batch Date Wise button should be clicked successfully";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.getOtaBatchDateWise();
+			actualResult = "OTA Batch Date Wise button clicked successfully";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during OTA Batch Date Wise button test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
 	}
 }

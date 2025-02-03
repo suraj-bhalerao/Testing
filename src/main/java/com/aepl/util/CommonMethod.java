@@ -39,7 +39,6 @@ public class CommonMethod {
 	public By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
 	public By eyeActionButton = By.xpath("//tbody/tr[1]/td[9]/mat-icon[1]");
 
-
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
 			logger.error("Driver is null, unable to capture screenshot.");
@@ -80,19 +79,13 @@ public class CommonMethod {
 
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
-			
-			List<String> actualHeaderTexts = actualHeaderElements
-					.stream()
-					.map(WebElement::getText)
-					.map(String::trim)
+
+			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
 					.map(String::toLowerCase)
 //					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
 					.collect(Collectors.toList());
 
-			List<String> normalizedExpectedHeaders = expectedHeaders
-					.stream()
-					.map(String::trim)
-					.map(String::toLowerCase)
+			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
 //					.peek(header -> System.out.println("Expected Header: " + header)) 
 					.collect(Collectors.toList());
 
@@ -101,7 +94,7 @@ public class CommonMethod {
 			if (!headersMatch) {
 				logger.error("Table headers do not match!");
 			}
-			
+
 			return headersMatch;
 		} catch (Exception e) {
 			logger.error("Exception during search or validation process", e);
@@ -109,17 +102,17 @@ public class CommonMethod {
 		}
 	}
 
-	public void clickEyeActionButton() {
+	public void clickEyeActionButton(By eyeButton) {
 		logger.info("Locating the eye action button...");
 		try {
-			WebElement eyeButton = wait.until(ExpectedConditions.presenceOfElementLocated(eyeActionButton));
+			WebElement eye = wait.until(ExpectedConditions.presenceOfElementLocated(eyeButton));
 			logger.info("Eye action button located. Clicking on it.");
-			
+
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", eyeButton);
-			
+
 			Thread.sleep(1000);
-			eyeButton.click();
+			eye.click();
 			logger.info("Page validation successful. Navigating back.");
 			driver.navigate().back();
 			wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
@@ -129,7 +122,7 @@ public class CommonMethod {
 			throw new RuntimeException("Failed to process the eye action button.", e);
 		}
 	}
-	
+
 	public static String randomStringGen() {
 		int length = 10;
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -169,48 +162,51 @@ public class CommonMethod {
 
 	// Below two methods are for pagination check
 	public void checkPagination(WebElement nextButton, WebElement previousButton, WebElement activeBtn) {
-	    logger.info("Starting pagination validation with scrolling and delay.");
+		logger.info("Starting pagination validation with scrolling and delay.");
 
-	    try {
-	        for (int i = 1; i <= 5; i++) {
-	            if (!navigateToPage(i, nextButton, activeBtn)) break; 
-	        }
+		try {
+			for (int i = 1; i <= 5; i++) {
+				if (!navigateToPage(i, nextButton, activeBtn))
+					break;
+			}
 
-	        for (int i = 4; i >= 1; i--) {
-	            if (!navigateToPage(i, previousButton, activeBtn)) break; 
-	        }
+			for (int i = 4; i >= 1; i--) {
+				if (!navigateToPage(i, previousButton, activeBtn))
+					break;
+			}
 
-	        logger.info("Pagination validation completed successfully.");
-	    } catch (Exception e) {
-	        logger.error("An error occurred during pagination validation.", e);
-	        throw new RuntimeException("Pagination validation failed due to an exception.", e);
-	    }
+			logger.info("Pagination validation completed successfully.");
+		} catch (Exception e) {
+			logger.error("An error occurred during pagination validation.", e);
+			throw new RuntimeException("Pagination validation failed due to an exception.", e);
+		}
 	}
 
 	private boolean navigateToPage(int pageNumber, WebElement buttonLocator, WebElement activeBtn) {
-	    try {     
-	        
-	        logger.info("Successfully navigated to page: " + pageNumber);
+		try {
 
-	        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
+			logger.info("Successfully navigated to page: " + pageNumber);
 
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", button);
-	        
-	        if (!button.isEnabled()) {
-	            logger.info("Button is disabled, stopping pagination.");
-	            return false;
-	        }
+			WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
 
-	        button.click();
-	        
-	        Thread.sleep(500);
-	        
-	        logger.info("Clicked on the button to navigate to the next page.");
-	        
-	        return true;
-	    } catch (Exception e) {
-	        logger.error("Failed to navigate to page " + pageNumber, e);
-	        return false; 
-	    }
+			((JavascriptExecutor) driver)
+					.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", button);
+
+			if (!button.isEnabled()) {
+				logger.info("Button is disabled, stopping pagination.");
+				return false;
+			}
+
+			button.click();
+
+			Thread.sleep(500);
+
+			logger.info("Clicked on the button to navigate to the next page.");
+
+			return true;
+		} catch (Exception e) {
+			logger.error("Failed to navigate to page " + pageNumber, e);
+			return false;
+		}
 	}
 }
