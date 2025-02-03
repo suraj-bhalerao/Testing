@@ -101,5 +101,6 @@ public class DeviceModelPageTest extends TestBase {
 	@Test(priority = 5)
 	public void testAddNewDeviceModel() {
 		deviceModel.AddNewDeviceModel();
+		// from dhananjay branch 
 	}
 }
