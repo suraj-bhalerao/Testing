@@ -23,12 +23,12 @@ import com.aepl.util.CommonMethod;
 public class DealearFotaPage {
 	private final WebDriver driver;
 	private final WebDriverWait wait;
-	private final CommonMethod commMethod;
+	private final CommonMethod commonMethod;
 	private static final Logger logger = LogManager.getLogger(DealearFotaPage.class);
 
 	public DealearFotaPage(WebDriver driver) {
 		this.driver = driver;
-		this.commMethod = new CommonMethod(driver);
+		this.commonMethod = new CommonMethod(driver);
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		logger.info("Initialized the driver and wait ");
 	}
@@ -151,7 +151,7 @@ public class DealearFotaPage {
 	        Thread.sleep(2000);
 
 	        logger.info("Calling commMethod.checkPagination()...");
-	        commMethod.checkPagination(nextButton, prevButton, activeButton);
+	        commonMethod.checkPagination(nextButton, prevButton, activeButton);
 	        logger.info("Pagination validation completed successfully.");
 
 	    } catch (Exception e) {
@@ -172,7 +172,7 @@ public class DealearFotaPage {
 			logger.info("Input value for search: " + input);
 			logger.info("Expected table headers: " + expectedTableHeaders);
 
-			boolean isValidationSuccessful = commMethod.checkSearchBoxWithTableHeadings(input, expectedTableHeaders);
+			boolean isValidationSuccessful = commonMethod.checkSearchBoxWithTableHeadings(input, expectedTableHeaders);
 
 			if (isValidationSuccessful) {
 				logger.info("Search box functionality and table headings validated successfully.");
@@ -182,7 +182,7 @@ public class DealearFotaPage {
 			}
 		} catch (Exception e) {
 			logger.error("An error occurred during the search and table headings validation process.", e);
-			commMethod.captureScreenshot("clickSearchAndTable");
+			commonMethod.captureScreenshot("clickSearchAndTable");
 			throw new RuntimeException("Search and table headings validation failed due to an exception.", e);
 		}
 	}
@@ -205,7 +205,7 @@ public class DealearFotaPage {
 			WebElement inputBox = wait.until(ExpectedConditions.visibilityOfElementLocated(fileNameInput));
 			WebElement fileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(saveFileButton));
 
-			String fileName = CommonMethod.randomStringGen();
+			String fileName = commonMethod.randomStringGen();
 			fileNameToSearch = fileName;
 			logger.info("Generated file name: " + fileName);
 			inputBox.sendKeys(Keys.ENTER);
@@ -302,7 +302,7 @@ public class DealearFotaPage {
 		} catch (Exception e) {
 			logger.error("An error occurred during search and table headings validation", e);
 
-			commMethod.captureScreenshot("searchBtnAndTableHeadings");
+			commonMethod.captureScreenshot("searchBtnAndTableHeadings");
 
 			throw new RuntimeException("Validation failed due to an exception", e);
 		}
