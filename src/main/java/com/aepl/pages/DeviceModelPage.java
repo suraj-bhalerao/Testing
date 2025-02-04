@@ -21,7 +21,7 @@ public class DeviceModelPage {
 	private final WebDriverWait wait;
 	private CommonMethod commonMethod;
 	private final Logger logger = LogManager.getLogger(DeviceModelPage.class);
-	
+
 	// Locators
 	private final By ModelNameInput = By.xpath("//input[@formcontrolname='modelName']");
 	private final By ModelCodeInput = By.xpath("//input[@formcontrolname='modelCode']");
@@ -36,7 +36,7 @@ public class DeviceModelPage {
 	public DeviceModelPage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		this.commonMethod = new CommonMethod(driver);	
+		this.commonMethod = new CommonMethod(driver);
 	}
 
 	// Methods Goes here

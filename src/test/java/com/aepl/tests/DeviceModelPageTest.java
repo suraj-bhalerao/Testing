@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import com.aepl.base.TestBase;
 import com.aepl.pages.DeviceModelPage;
 import com.aepl.pages.LoginPage;
+import com.aepl.util.CommonMethod;
 import com.aepl.util.ConfigProperties;
 import com.aepl.util.ExcelUtility;
 
@@ -13,6 +14,7 @@ public class DeviceModelPageTest extends TestBase {
 	private LoginPage loginPage;
 	private DeviceModelPage deviceModel;
 	private ExcelUtility excelUtility;
+	private CommonMethod commonMethod;
 
 	@Override
 	@BeforeClass
@@ -100,7 +102,33 @@ public class DeviceModelPageTest extends TestBase {
 
 	@Test(priority = 5)
 	public void testAddNewDeviceModel() {
-		deviceModel.AddNewDeviceModel();
-		
+		String testCaseName = "Test Add New Device Model";
+		String expectedMessage = ConfigProperties.getProperty("device.model");
+		String actualMessage = "";
+		String result;
+
+		logger.info("Executing the testAddNewDeviceModel");
+		try {
+			logger.info("Trying to add a new device model");
+			deviceModel.AddNewDeviceModel();
+			Thread.sleep(1000);
+			actualMessage = driver.getCurrentUrl();
+
+			result = expectedMessage.equalsIgnoreCase(actualMessage) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+
+			excelUtility.writeTestDataToExcel(testCaseName, expectedMessage, actualMessage, result);
+		} catch (Exception e) {
+			logger.warn("Error occurred while adding a new device model");
+			e.printStackTrace();
+
+			commonMethod.captureScreenshot(testCaseName);
+			actualMessage = "Error"; // Adjust based on failure scenario
+
+			result = "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedMessage, actualMessage, result);
+		}
+		logger.info("Successfully executed testAddNewDeviceModel.");
 	}
+
 }
