@@ -91,82 +91,90 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CalendarActions {
-    private final WebDriver driver;
-    private final WebDriverWait wait;
-    private static final Logger logger = LogManager.getLogger(CalendarActions.class);
+	private final WebDriver driver;
+	private final WebDriverWait wait;
+	private static final Logger logger = LogManager.getLogger(CalendarActions.class);
 
-    public CalendarActions(WebDriver driver) {
-        if (driver == null) {
-            throw new IllegalArgumentException("WebDriver instance cannot be null");
-        }
-        this.driver = driver;
-        this.wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
-    }
+//	public By calendarPeriod = By.xpath("//button[@class=\"mat-focus-indicator mat-calendar-period-button mat-button mat-button-base\"]");
 
-    /**
-     * Selects a date from the calendar in the format dd-MM-yyyy.
-     */
-    public void selectDate(By calendarLocator, String targetDate) {
-        if (calendarLocator == null || targetDate == null || targetDate.isEmpty()) {
-            logger.error("Invalid calendarLocator or targetDate. Both must be non-null and targetDate must be non-empty.");
-            throw new IllegalArgumentException("calendarLocator and targetDate cannot be null or empty");
-        }
+	public CalendarActions(WebDriver driver) {
+		if (driver == null) {
+			throw new IllegalArgumentException("WebDriver instance cannot be null");
+		}
+		this.driver = driver;
+		this.wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
+	}
 
-        logger.info("Attempting to select date: " + targetDate);
+	// To select a single date
+	public void selectDate(By calendarLocator, String targetDate) {
+		// Check for the string date
+		if (calendarLocator == null || targetDate == null || targetDate.isEmpty()) {
+			logger.error(
+					"Invalid calendarLocator or targetDate. Both must be non-null and targetDate must be non-empty.");
+			throw new IllegalArgumentException("calendarLocator and targetDate cannot be null or empty");
+		}
 
-        try {
-            // Open the calendar
-            logger.info("Waiting for the calendar element to be clickable...");
-            WebElement calendarElement = wait.until(ExpectedConditions.elementToBeClickable(calendarLocator));
-            calendarElement.click();
-            logger.info("Calendar opened successfully.");
+		logger.info("Attempting to select date: " + targetDate);
 
-            // Parse target date
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate targetLocalDate = LocalDate.parse(targetDate, formatter);
-            String targetDay = String.valueOf(targetLocalDate.getDayOfMonth());
-            String targetMonth = targetLocalDate.getMonth().name().substring(0, 3); // First 3 letters of month
-            String targetYear = String.valueOf(targetLocalDate.getYear());
+		try {
+			// Open the calendar
+			logger.info("Waiting for the calendar element to be clickable...");
+			WebElement calendarElement = wait.until(ExpectedConditions.elementToBeClickable(calendarLocator));
+			calendarElement.click();
+			logger.info("Calendar opened successfully.");
 
-            logger.info("Target date details: Day=" + targetDay + ", Month=" + targetMonth + ", Year=" + targetYear);
+			// Parse target date
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			LocalDate targetLocalDate = LocalDate.parse(targetDate, formatter);
+			String targetDay = String.valueOf(targetLocalDate.getDayOfMonth());
+			String targetMonth = targetLocalDate.getMonth().name().substring(0, 3); // First 3 letters of month
+			String targetYear = String.valueOf(targetLocalDate.getYear());
 
-            // Navigate to the correct month and year
-            while (true) {
-                WebElement displayedMonthYearElement = driver.findElement(By.cssSelector(".mat-calendar-period-button"));
-                String displayedText = displayedMonthYearElement.getText(); // Example: "FEB 2025"
-                logger.info("Displayed month and year: " + displayedText);
+			System.out.println(
+					"Target date details: Day=" + targetDay + ", Month=" + targetMonth + ", Year=" + targetYear);
 
-                if (displayedText.contains(targetMonth.toUpperCase()) && displayedText.contains(targetYear)) {
-                    logger.info("Target month and year found: " + displayedText);
-                    break;
-                }
+			// Navigate to the correct month and year
+			while (true) {
+				WebElement displayedMonthYearElement = driver.findElement(By.xpath(
+						"//button[@class=\"mat-focus-indicator mat-calendar-period-button mat-button mat-button-base\"]"));
+				displayedMonthYearElement.click();
+				String displayedText = displayedMonthYearElement.getText(); // Example: "FEB 2025"
+				logger.info("Displayed month and year: " + displayedText);
 
-                logger.info("Clicking next button to navigate...");
-                driver.findElement(By.cssSelector(".mat-calendar-next-button")).click();
-                Thread.sleep(500); // Small delay to allow UI update
-            }
+				// To check the year
+				if (displayedText.contains(targetYear)) {
+					logger.info("Target year found: " + displayedText);
+					displayedMonthYearElement.click();
 
-            // Select the day
-            By dayLocator = By.xpath("//td[not(contains(@class, 'mat-calendar-body-disabled')) and contains(@class, 'mat-calendar-body-cell')]/div[text()='" + targetDay + "']");
-            WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(dayLocator));
-            logger.info("Clicking on day: " + targetDay);
-            dayElement.click();
+					// To check the month
+					if (displayedText.contains(targetMonth)) {
+						logger.info("Target month found: " + displayedText);
+						displayedMonthYearElement.click();
 
-            logger.info("Successfully selected date: " + targetDate);
-        } catch (Exception e) {
-            logger.error("Error selecting date: " + targetDate, e);
-            throw new RuntimeException("Failed to select date: " + targetDate, e);
-        }
-    }
+						// To check the day
+						if (displayedText.contains(targetDay)) {
+							logger.info("Target day found: " + displayedText);
+							displayedMonthYearElement.click();
+							break;
+						}
+						
+						break;
+					}
+					break;
+				}
 
-    /**
-     * Selects a date range by first selecting the "from date" and then the "to date".
-     */
-    public void selectDateRange(By fromDateLocator, String fromDate, By toDateLocator, String toDate) {
-        logger.info("Selecting date range: From " + fromDate + " to " + toDate);
-        selectDate(fromDateLocator, fromDate);
-        selectDate(toDateLocator, toDate);
-        logger.info("Date range selection completed.");
-    }
+			}
+		} catch (Exception e) {
+			logger.error("Error selecting date: " + targetDate, e);
+			throw new RuntimeException("Failed to select date: " + targetDate, e);
+		}
+	}
+
+	// To select range of dates
+	public void selectDateRange(By fromDateLocator, String fromDate, By toDateLocator, String toDate) {
+		logger.info("Selecting date range: From " + fromDate + " to " + toDate);
+		selectDate(fromDateLocator, fromDate);
+		selectDate(toDateLocator, toDate);
+		logger.info("Date range selection completed.");
+	}
 }
-
