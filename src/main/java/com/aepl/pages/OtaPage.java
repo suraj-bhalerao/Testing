@@ -42,7 +42,7 @@ public class OtaPage {
 	private By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By prevBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
-	private By eyeActionButton = By.className(".view-icon");
+	private By eyeActionButton = By.xpath("//mat-icon[@class=\"mat-icon notranslate mat-tooltip-trigger view-icon material-icons mat-icon-no-color ng-star-inserted\"]");
 	private By calendar = By.xpath("//button[@class=\"mat-focus-indicator mat-icon-button mat-button-base\"]");
 
 	// Methods

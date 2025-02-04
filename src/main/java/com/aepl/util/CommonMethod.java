@@ -123,7 +123,7 @@ public class CommonMethod {
 		}
 	}
 
-	public  String randomStringGen() {
+	public String randomStringGen() {
 		int length = 10;
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();
@@ -199,7 +199,7 @@ public class CommonMethod {
 
 			button.click();
 
-			Thread.sleep(500);
+			Thread.sleep(8000);
 
 			logger.info("Clicked on the button to navigate to the next page.");
 
@@ -209,4 +209,5 @@ public class CommonMethod {
 			return false;
 		}
 	}
+
 }
