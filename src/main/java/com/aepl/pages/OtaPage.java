@@ -42,7 +42,7 @@ public class OtaPage {
 	private By nextBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By prevBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
-	private By eyeActionButton = By.className(".view-icon");
+	private By eyeActionButton = By.xpath("//mat-icon[@mattooltip='View']");
 	private By calendar = By.xpath("//button[@class=\"mat-focus-indicator mat-icon-button mat-button-base\"]");
 
 	// Methods
@@ -109,6 +109,7 @@ public class OtaPage {
 	public void checkActionButtons() {
 		logger.log(Level.INFO, "Checking the eye action button");
 		try {
+			driver.switchTo().activeElement().findElement(By.xpath("//table/tbody/tr/td[9]"));
 			commonMethod.clickEyeActionButton(eyeActionButton);
 		} catch (Exception e) {
 			logger.error("Error while clicking on the eye action button", e);
@@ -162,19 +163,21 @@ public class OtaPage {
 
 	public void getOtaBatchDateWise() {
 		try {
-			WebElement calendarButton = wait.until(ExpectedConditions.visibilityOfElementLocated(calendar));
-//			calendarButton.click();
+			wait.until(ExpectedConditions.elementToBeClickable(calendar));
 			logger.info("Clicked on the calendar button");
 
-			calendarActions.selectDate(calendar, "01-02-2025");
+			Thread.sleep(5000);
+			calendarActions.selectDate(calendar, "15-01-2025");
 			logger.info("Selected the date from the calendar");
-
-			calendarButton.sendKeys(Keys.TAB);
+			Thread.sleep(2000);
 			
+//			calendarButton.sendKeys(Keys.TAB);
+			
+			Thread.sleep(5000);
 			calendarActions.selectDate(calendar, "03-02-2025");
             logger.info("Selected the date from the calendar");
-            
 			Thread.sleep(2000);
+			
 			logger.info("Waiting for the page to load");
 		} catch (Exception e) {
 			e.getMessage();

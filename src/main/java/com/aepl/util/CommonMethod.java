@@ -37,7 +37,6 @@ public class CommonMethod {
 
 	public By searchBox = By.xpath("//*[@placeholder='Search and Press Enter']");
 	public By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
-	public By eyeActionButton = By.xpath("//tbody/tr[1]/td[9]/mat-icon[1]");
 
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
@@ -70,10 +69,10 @@ public class CommonMethod {
 
 			logger.info("Waiting for the table to update...");
 			Thread.sleep(2000);
-//			search.clear();
-//			Thread.sleep(2000);
-//			search.sendKeys(Keys.ENTER);
-//			Thread.sleep(2000);
+			search.clear();
+			Thread.sleep(2000);
+			search.sendKeys(Keys.ENTER);
+			Thread.sleep(2000);
 //			search.sendKeys(Keys.TAB);
 //			Thread.sleep(2000);
 
@@ -105,17 +104,22 @@ public class CommonMethod {
 	public void clickEyeActionButton(By eyeButton) {
 		logger.info("Locating the eye action button...");
 		try {
-			WebElement eye = wait.until(ExpectedConditions.presenceOfElementLocated(eyeButton));
+			Thread.sleep(1000);
+			WebElement eye = wait.until(ExpectedConditions.visibilityOfElementLocated(eyeButton));
 			logger.info("Eye action button located. Clicking on it.");
 
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", eyeButton);
 
 			Thread.sleep(1000);
+			
 			eye.click();
 			logger.info("Page validation successful. Navigating back.");
+			
 			driver.navigate().back();
+			
 			wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
+			
 			logger.info("Navigated back to the original page.");
 		} catch (Exception e) {
 			logger.error("An error occurred while interacting with the eye action button.", e);

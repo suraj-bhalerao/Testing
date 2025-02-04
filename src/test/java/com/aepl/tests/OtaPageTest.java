@@ -107,6 +107,29 @@ public class OtaPageTest extends TestBase {
 	}
 
 	@Test(priority = 5)
+	public void testCheckActionButtons() {
+		String testCaseName = "Testing the action buttons";
+		String expectedResult = "Action buttons should work correctly";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.checkActionButtons();
+			actualResult = "Action buttons worked as expected";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during action buttons test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+
+	}
+
+	@Test(priority = 6)
 	public void testCheckSearchBoxAndTable() {
 		String testCaseName = "Testing search box and table headers";
 		String expectedResult = "Search box and the table is validate successfully";
@@ -128,29 +151,6 @@ public class OtaPageTest extends TestBase {
 			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
-	}
-
-	@Test(priority = 6)
-	public void testCheckActionButtons() {
-		String testCaseName = "Testing the action buttons";
-		String expectedResult = "Action buttons should work correctly";
-		String actualResult = "";
-		String result = "Fail";
-		logger.info("Executing test case: {}", testCaseName);
-
-		try {
-			otaPage.checkActionButtons();
-			actualResult = "Action buttons worked as expected";
-			result = "Pass";
-		} catch (Exception e) {
-			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
-			logger.error("Error during action buttons test: ", e);
-		} finally {
-			logger.info("Writing test results to Excel for {}", testCaseName);
-			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
-		}
-
 	}
 
 	@Test(priority = 7)
@@ -219,4 +219,5 @@ public class OtaPageTest extends TestBase {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}
+
 }
