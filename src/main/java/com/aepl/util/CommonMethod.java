@@ -38,6 +38,9 @@ public class CommonMethod {
 	public By searchBox = By.xpath("//*[@placeholder='Search and Press Enter']");
 	public By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
 	public By eyeActionButton = By.xpath("//tbody/tr[1]/td[9]/mat-icon[1]");
+	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet (3).xlsx");
+    private By uploadButton = By.id("txtFileUpload");
+    private By uploadedFileName = By.id("Sample_Dispatch_Sheet (3).xlsx");
 
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
@@ -209,5 +212,47 @@ public class CommonMethod {
 			return false;
 		}
 	}
+	
+	public String uploadFileAndGetFileName(String filePath) {
+        try {
+            logger.info("Starting file upload for: " + filePath);
+
+            // Locate elements
+            WebElement inputField = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
+            WebElement uploadBtn = wait.until(ExpectedConditions.elementToBeClickable(uploadButton));
+
+            // Scroll into view and enter file path
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", inputField);
+            inputField.sendKeys(filePath);
+            logger.info("File path entered successfully.");
+
+            // Check if upload button is enabled
+            if (!uploadBtn.isEnabled()) {
+                logger.warn("Upload button is disabled. Cannot proceed with file upload.");
+                return null;
+            }
+
+            // Click the upload button
+            uploadBtn.click();
+            logger.info("Clicked on the upload button.");
+
+            // Wait for the upload to complete
+            Thread.sleep(5000);
+
+            // Retrieve uploaded file name
+            WebElement uploadedFileElement = wait.until(ExpectedConditions.visibilityOfElementLocated(uploadedFileName));
+            String uploadedFile = uploadedFileElement.getText();
+            logger.info("File uploaded successfully. Uploaded file name: " + uploadedFile);
+            
+            return uploadedFile;
+
+        } catch (Exception e) {
+            logger.error("Failed to upload file.", e);
+            return null;
+        }
+    }
+	
+	
+	
 
 }
