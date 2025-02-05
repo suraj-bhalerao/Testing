@@ -93,7 +93,8 @@ public class DispachedDevicePage {
 	}
 	
 	public String uploadFile(String filePath) {
-        return fileUploadHelper.uploadAndFetchFileName(filePath);
+//        return CommonMethod.uploadAndFetchFileName(filePath);
+		return "";
     }
 	
 	
