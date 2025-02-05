@@ -245,12 +245,17 @@ public class OtaPage {
 			for (WebElement button : reportButtons) {
 				if (button.isEnabled() && button.isDisplayed()) {
 					logger.info("Button is enabled and displayed. Moving to the button.");
-					Thread.sleep(2000);
 					mouseAction.moveToElement(button);
 					logger.info("Moved to the button. Clicking the button.");
-					Thread.sleep(1000);
 					mouseAction.clickElement(button);
 					logger.info("Clicked the button successfully.");
+					Thread.sleep(2000);
+					try {
+						commonMethod.checkReportDownloadForAllbuttons(button);
+						Thread.sleep(2000);
+					} catch (Exception e) {
+						System.err.println(e.getMessage());
+					}
 					return true;
 				} else {
 					logger.warn("Button is either not enabled or not displayed.");
@@ -262,5 +267,4 @@ public class OtaPage {
 		logger.info("Finished checking report buttons. No clickable button found.");
 		return false;
 	}
-
 }
