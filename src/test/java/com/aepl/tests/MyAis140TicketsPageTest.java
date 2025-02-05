@@ -1714,7 +1714,7 @@ public class MyAis140TicketsPageTest extends TestBase {
 	public void clickDealerInformationDealerCity() {
 		String testCaseName = "Test Click on Ticket details of Dealer Information of Dealer City option";
 		String expectedDealerCity = "";
-		String actualDealerCity = myais140tickets.VehicleDealerEmail();
+		String actualDealerCity = myais140tickets.VehicleDealerCity();
 		String result = "";
 		logger.info("Executing the test Click on Ticket details of Dealer Information of Dealer City option test case:" + testCaseName);
 		try {
@@ -1733,5 +1733,155 @@ public class MyAis140TicketsPageTest extends TestBase {
 		logger.info("Completed the test case: " + testCaseName);
 		System.out.println("Succesfully click on Dealer Information of Dealer City option");
 	}
+	
+	@Test(priority = 55)
+	public void clickDealerInformationDealerPhoneNo() {
+		String testCaseName = "Test Click on Ticket details of Dealer Information of Dealer Phone Number option";
+		String expectedDealerPhoneNo = "";
+		String actualDealerPhoneNo = myais140tickets.VehicleDealerPhoneNo();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Dealer Information of Dealer Phone Number option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Dealer Information of Dealer Phone Number option...");
+			expectedDealerPhoneNo = actualDealerPhoneNo;
+			result = expectedDealerPhoneNo.equalsIgnoreCase(actualDealerPhoneNo) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Dealer Phone Number of Dealer Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedDealerPhoneNo.equalsIgnoreCase(actualDealerPhoneNo) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedDealerPhoneNo, actualDealerPhoneNo, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Dealer Information of Dealer Phone Number option");
+	}
+	
+	@Test(priority = 56)
+	public void clickDealerInformationDealerPOSName() {
+		String testCaseName = "Test Click on Ticket details of Dealer Information of Dealer POS Name option";
+		String expectedDealerPOSName = "";
+		String actualDealerPOSName = myais140tickets.VehicleDealerPOSName();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Dealer Information of Dealer POS Name option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Dealer Information of Dealer POS Name option...");
+			expectedDealerPOSName = actualDealerPOSName;
+			result = expectedDealerPOSName.equalsIgnoreCase(actualDealerPOSName) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Dealer POS Name of Dealer Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedDealerPOSName.equalsIgnoreCase(actualDealerPOSName) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedDealerPOSName, actualDealerPOSName, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Dealer Information of Dealer POS Name option");
+	}
+	
+	@Test(priority = 57)
+	public void clickDealerInformationDealerPOSCode() {
+		String testCaseName = "Test Click on Ticket details of Dealer Information of Dealer POS Code option";
+		String expectedDealerPOSCode = "";
+		String actualDealerPOSCode = myais140tickets.VehicleDealerPOSCode();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Dealer Information of Dealer POS Code option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the  Dealer Information of Dealer POS Code option...");
+			expectedDealerPOSCode = actualDealerPOSCode;
+			result = expectedDealerPOSCode.equalsIgnoreCase(actualDealerPOSCode) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Dealer POS Code of Dealer Information option.", e);
+			e.printStackTrace();
+//			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedDealerPOSCode.equalsIgnoreCase(actualDealerPOSCode) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedDealerPOSCode, actualDealerPOSCode, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Dealer Information of Dealer POS Code option");
+	}
+	
+	@Test(priority = 58)
+	public void ClickDeviceFOTAStatus() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status option";
+		String expectedURL = "";
+		String actualURL = "";
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status option...");
+			myais140tickets.ClickDeviceFOTAStatus();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status option");
+	}
+	
+	@Test(priority = 59)
+	public void ClickDeviceFOTABatchId() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of FOTA Batch ID option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceFOTABatchID();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of FOTA Batch ID option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of FOTA Batch ID option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of FOTA Batch ID option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of FOTA Batch ID option");
+	}
+	
+	@Test(priority = 60)
+	public void ClickDeviceCurrentFWVer() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of Current Firmware Version option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceCurrentFWVer();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of Current Firmware Version option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of Current Firmware Version option...");
+//			myais140tickets.ClickDeviceFOTAStatus();
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of Current Firmware Version option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of Current Firmware Version option");
+	}
+
 
 }

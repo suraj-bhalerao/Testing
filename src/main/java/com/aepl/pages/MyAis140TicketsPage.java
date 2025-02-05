@@ -125,8 +125,19 @@ public class MyAis140TicketsPage {
 	private By dealerphoneno = By.id("mat-input-61");
 	private By posname = By.id("mat-input-62");
 	private By poscode = By.id("mat-input-63");
-//	private By dealearcode = By.id("mat-input-64");
-	
+	private By fotabatchid = By.id("mat-input-64");
+	private By currentfw = By.id("mat-input-65");
+	private By assinedfw = By.id("mat-input-66");
+	private By fotastatus = By.id("mat-input-67");
+	private By fotaprogress = By.id("mat-input-68");
+	private By fotapriip = By.id("mat-input-69");
+	private By fotapriipstatus = By.id("mat-input-70");
+	private By fotasecip = By.id("mat-input-71");
+	private By fotasecipstatus = By.id("mat-input-72");
+	private By stateenableota = By.id("mat-input-73");
+	private By Reason2skipstage= By.id("mat-input-74");
+	private By Remark2skipstage= By.id("mat-input-75");
+	private By skippedby= By.id("mat-input-76");
 	
 
 
@@ -1255,7 +1266,7 @@ public class MyAis140TicketsPage {
 	public String VehicleDealerCity() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement DealerCityElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealercity));
 			js.executeScript("arguments[0].click();", DealerCityElement);
 			String inputValue = DealerCityElement.getAttribute("value");   
@@ -1320,6 +1331,234 @@ public class MyAis140TicketsPage {
 			} catch (Exception e) {
 			logger.error("Error while interacting with Dealer Information for Dealer POS Code.", e);
 			throw new RuntimeException("Failed to read Dealer Information for Dealer POS Code.", e);
+		}
+		return "inputValue";
+	}
+	
+	public void ClickDeviceFOTAStatus() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			// Wait for the elements to be clickable
+			List<WebElement>fotastatusList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(DeviceInfo));
+			int indexToClick = 5; // Change this to the desired index
+			// Check if the index is valid
+			if (indexToClick >= 0 && indexToClick < fotastatusList.size()) {
+				WebElement elementToClick = fotastatusList.get(indexToClick);
+				// Wait until the specific element is clickable
+				wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
+				// Click the element
+				elementToClick.click();
+				// Log or perform additional actions after clicking
+				System.out.println("\u001B[1m\u001B[34mDevice FOTA Status Clicked \u001B[0m ");
+				// Optionally, add a delay for visual confirmation (avoid in real tests)
+				Thread.sleep(2000);
+				} else {
+					System.err.println("Invalid index: " + indexToClick + ". Total elements found: " + fotastatusList.size());
+					throw new IllegalArgumentException("Index out of bounds for Device list.");
+				}
+			} catch (Exception e) {
+				logger.error("Error while clicking with Device FOTA Status elements.", e);
+				throw new RuntimeException("Failed to clicking with Device FOTA Status.", e);
+			}
+	}
+	
+	public String DeviceFOTABatchID() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement FoatBatchIDElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotabatchid));
+			js.executeScript("arguments[0].click();", FoatBatchIDElement);
+			String inputValue = FoatBatchIDElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDevice FOTA Status Information :");
+			System.out.println("\u001B[1m\u001B[35mFOTA Batch ID :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", FoatBatchIDElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device FOTA Status for FOTA Batch ID.", e);
+			throw new RuntimeException("Failed to read Device FOTA Status for FOTA Batch ID.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String VehicleFOTABatchID() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement FoatBatchIDElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealercode));
+			js.executeScript("arguments[0].click();", FoatBatchIDElement);
+			String inputValue = FoatBatchIDElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDevice FOTA Status Information :");
+			System.out.println("\u001B[1m\u001B[35mFOTA Batch ID :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", FoatBatchIDElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with Device FOTA Status Information for FOTA Batch ID.", e);
+			throw new RuntimeException("Failed to read Device FOTA Status Information for FOTA Batch ID.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceCurrentFWVer() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement CurrentFWVerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(currentfw));
+			js.executeScript("arguments[0].click();", CurrentFWVerElement);
+			String inputValue = CurrentFWVerElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mCurrent Firmware Version :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", CurrentFWVerElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for Current Firmware Version.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Current Firmware Version.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceAssignedFWVer() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement AssignedFWVerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(assinedfw));
+			js.executeScript("arguments[0].click();", AssignedFWVerElement);
+			String inputValue = AssignedFWVerElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mAssigned Firmware Version :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", AssignedFWVerElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for Assigned Firmware Version.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Assigned Firmware Version.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceFOTAStatus() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement FOTAStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotastatus));
+			js.executeScript("arguments[0].click();", FOTAStatusElement);
+			String inputValue = FOTAStatusElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mFOTA Status :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", FOTAStatusElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for FOTA Status.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for FOTA Status.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceFOTAProgress() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement FOTAProgressElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotaprogress));
+			js.executeScript("arguments[0].click();", FOTAProgressElement);
+			String inputValue = FOTAProgressElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mFOTA Progress in % :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", FOTAProgressElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for FOTA Progress in %.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for FOTA Progress in %.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceOTAPriIP() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement OTAPriIPElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotapriip));
+			js.executeScript("arguments[0].click();", OTAPriIPElement);
+			String inputValue = OTAPriIPElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mOTA Primary IP :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", OTAPriIPElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for OTA Primary IP.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for OTA Primary IP.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceOTAPriStatus() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement OTAPriIPStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotapriipstatus));
+			js.executeScript("arguments[0].click();", OTAPriIPStatusElement);
+			String inputValue = OTAPriIPStatusElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mOTA Primary IP Status :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", OTAPriIPStatusElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for OTA Primary IP Status.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for OTA Primary IP Status.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceOTASecIP() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement OTASecIPElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotasecip));
+			js.executeScript("arguments[0].click();", OTASecIPElement);
+			String inputValue = OTASecIPElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mOTA Secondary IP :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", OTASecIPElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for OTA Secondary IP.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for OTA Secondary IP.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceOTASecStatus() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement OTASecIPStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotasecipstatus));
+			js.executeScript("arguments[0].click();", OTASecIPStatusElement);
+			String inputValue = OTASecIPStatusElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mOTA Secondary IP Status :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", OTASecIPStatusElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for OTA Secondary IP Status.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for OTA Secondary IP Status.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceStateEnOTAStatus() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement OTAStateEnStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotasecipstatus));
+			js.executeScript("arguments[0].click();", OTAStateEnStatusElement);
+			String inputValue = OTAStateEnStatusElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDevice Enable OTA Status :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", OTAStateEnStatusElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for Device Enable OTA Statu.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Device Enable OTA Statu.", e);
 		}
 		return "inputValue";
 	}
