@@ -57,6 +57,7 @@ public class CommonMethod {
 		}
 	}
 
+	// Tables having the search box and the table headings also
 	public boolean checkSearchBoxWithTableHeadings(String input, List<String> expectedHeaders) {
 		try {
 			logger.info("Performing search with input: " + input);
@@ -66,7 +67,7 @@ public class CommonMethod {
 			search.clear();
 			search.sendKeys(input);
 			search.sendKeys(Keys.ENTER);
-
+			
 			logger.info("Waiting for the table to update...");
 			Thread.sleep(2000);
 			search.clear();
@@ -86,6 +87,35 @@ public class CommonMethod {
 
 			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
 //					.peek(header -> System.out.println("Expected Header: " + header)) 
+					.collect(Collectors.toList());
+
+			boolean headersMatch = actualHeaderTexts.equals(normalizedExpectedHeaders);
+
+			if (!headersMatch) {
+				logger.error("Table headers do not match!");
+			}
+
+			return headersMatch;
+		} catch (Exception e) {
+			logger.error("Exception during search or validation process", e);
+			throw new RuntimeException("Validation failed due to an exception", e);
+		}
+	}
+	
+	// Only for table to have only headings not the search box 
+	public boolean checkTableHeadings(List<String> expectedHeaders) {
+		try {
+			
+			List<WebElement> actualHeaderElements = wait
+					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
+
+			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
+					.map(String::toLowerCase)
+					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
+					.collect(Collectors.toList());
+
+			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
+					.peek(header -> System.out.println("Expected Header: " + header)) 
 					.collect(Collectors.toList());
 
 			boolean headersMatch = actualHeaderTexts.equals(normalizedExpectedHeaders);
@@ -213,5 +243,10 @@ public class CommonMethod {
 			return false;
 		}
 	}
-
+	
+	// Highlight some element on the page
+	public void highlightElement(WebElement element, String color) {
+		String script = "arguments[0].style.border='10px solid " + color + "'";
+		((JavascriptExecutor) driver).executeScript(script, element);
+	}
 }

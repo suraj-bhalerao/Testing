@@ -220,4 +220,19 @@ public class OtaPageTest extends TestBase {
 		}
 	}
 
+	@Test(priority = 10)
+	public void testChecktableHeading() {
+		otaPage.checktableHeading();
+	}
+	
+	@Test(priority= 11)
+	public void testCheckReportsButtons() {
+		boolean isChecked = otaPage.checkReportsButtons();
+		
+		if(!isChecked) {
+			System.err.println("Error in checking report buttons");
+		}else {
+			System.out.println("Checked the report buttons");
+		}
+	}
 }

@@ -9,13 +9,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aepl.actions.CalendarActions;
+import com.aepl.actions.MouseActions;
 import com.aepl.util.CommonMethod;
 
 public class OtaPage {
@@ -25,6 +25,7 @@ public class OtaPage {
 	private WebDriverWait wait;
 	private CommonMethod commonMethod;
 	private CalendarActions calendarActions;
+	private MouseActions mouseAction;
 	private static final Logger logger = LogManager.getLogger(OtaPage.class);
 
 	// Constructor
@@ -32,8 +33,12 @@ public class OtaPage {
 		this.driver = driver;
 		this.commonMethod = new CommonMethod(driver);
 		this.calendarActions = new CalendarActions(driver);
+		this.mouseAction = new MouseActions(driver);
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
+
+	// Variables
+	public String batchCount = "";
 
 	// Locators
 	private By navBarLink = By.xpath("//span[@class='headers_custom color_3D5772']");
@@ -44,6 +49,11 @@ public class OtaPage {
 	private By activeBtn = By.xpath("//a[@class=\"ng-star-inserted\"]");
 	private By eyeActionButton = By.xpath("//mat-icon[@mattooltip='View']");
 	private By calendar = By.xpath("//button[@class=\"mat-focus-indicator mat-icon-button mat-button-base\"]");
+	private By batchIdFrom = By.id("fromBatchId");
+	private By batchIdTo = By.id("toBatchId");
+	private By batchSubmitBtn = By.xpath("//button[@class=\"btn-sm btn btn-outline-primary example-full-width\"]");
+	private By clearButton = By.xpath("//button[@class=\"btn-sm btn btn-outline-secondary example-full-width\"]");
+	private By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
 
 	// Methods
 	public void clickNavBar() {
@@ -103,6 +113,9 @@ public class OtaPage {
 				"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
 
 		logger.log(Level.INFO, "Taking table heading before the search");
+
+		batchCount = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]")).getText();
+
 		return commonMethod.checkSearchBoxWithTableHeadings(batchName, expectedHeaders);
 	}
 
@@ -164,23 +177,66 @@ public class OtaPage {
 	public void getOtaBatchDateWise() {
 		try {
 			wait.until(ExpectedConditions.elementToBeClickable(calendar));
-			logger.info("Clicked on the calendar button");
+			WebElement fromBatch = wait.until(ExpectedConditions.visibilityOfElementLocated(batchIdFrom));
+			WebElement toBatch = wait.until(ExpectedConditions.visibilityOfElementLocated(batchIdTo));
+			WebElement submitBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(batchSubmitBtn));
+			WebElement clearBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(clearButton));
 
-			Thread.sleep(5000);
-			calendarActions.selectDate(calendar, "15-01-2025");
-			logger.info("Selected the date from the calendar");
-			Thread.sleep(2000);
-			
-//			calendarButton.sendKeys(Keys.TAB);
-			
-			Thread.sleep(5000);
-			calendarActions.selectDate(calendar, "03-02-2025");
-            logger.info("Selected the date from the calendar");
-			Thread.sleep(2000);
-			
-			logger.info("Waiting for the page to load");
+			for (int i = 0; i < 4; i++) {
+				// From Date
+				calendarActions.selectDate(calendar, "31-01-2025");
+				logger.info("Selected the date from the calendar");
+
+				// To Date
+				calendarActions.selectDate(calendar, "03-02-2025");
+				logger.info("Selected the date from the calendar");
+
+				int toCount = Integer.parseInt(batchCount) - 20;
+
+				Thread.sleep(1000);
+				fromBatch.click();
+				fromBatch.sendKeys(String.valueOf(toCount));
+
+				Thread.sleep(1000);
+				toBatch.click();
+				toBatch.sendKeys(String.valueOf(batchCount));
+
+				// After the loop end submitting the value
+				if (i == 1) {
+					Thread.sleep(1000);
+					submitBtn.click();
+					break;
+				}
+				// in first iteration press on clear
+				Thread.sleep(1000);
+				clearBtn.click();
+			}
+
 		} catch (Exception e) {
 			e.getMessage();
 		}
+	}
+
+	public void checktableHeading() {
+		commonMethod.checkTableHeadings(
+				Arrays.asList("Batch ID", "Batch Type", "Batch Date", "Total Device Uploaded", "Total Device Completed",
+						"Total Device Aborted", "Total Device In-progress/Pending", "Batch Percentage"));
+	}
+
+	public boolean checkReportsButtons() {
+		List<WebElement> reportButtons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(reportButton));
+		try {
+			for (WebElement button : reportButtons) {
+				if (button.isEnabled() && button.isDisplayed()) {
+					mouseAction.moveToElement(button);
+					Thread.sleep(1000);
+					mouseAction.clickElement(button);
+					return true;
+				}
+			}
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		return false;
 	}
 }

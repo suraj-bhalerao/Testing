@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
-    <!-- Define properties for reusability -->
+<Configuration status="INFO">
     <Properties>
         <Property name="logDir">logs</Property>
-        <Property name="logPattern">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level: %msg%n%throwable</Property>
-        <Property name="logHtmlPattern">
-            <![CDATA[
-            <tr class="%level"><td>%d{yyyy-MM-dd HH:mm:ss}</td>
-                <td>[%t]</td>
-                <td>%-5level</td>
-                <td>%msg</td></tr>
-            ]]>
-        </Property>
-        <!-- Unique log file name based on timestamp -->
+        <Property name="logPattern">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level: %c{1} - %msg%n</Property>
         <Property name="logFileName">test-automation-${date:yyyy-MM-dd-HH-mm-ss}.log</Property>
         <Property name="htmlLogFileName">test-automation-${date:yyyy-MM-dd-HH-mm-ss}.html</Property>
     </Properties>
@@ -22,68 +12,82 @@
             <PatternLayout pattern="${logPattern}" />
         </Console>
 
-        <!-- Rolling File Appender for text logs -->
+        <!-- Plain text log file -->
         <RollingFile name="RollingFile" fileName="${logDir}/${logFileName}"
                      filePattern="${logDir}/test-automation-%d{yyyy-MM-dd-HH-mm-ss}.log.gz">
             <PatternLayout pattern="${logPattern}" />
             <Policies>
                 <OnStartupTriggeringPolicy />
             </Policies>
+            <DefaultRolloverStrategy max="10" fileIndex="min" />
         </RollingFile>
 
-  		<RollingFile name="HtmlFile" fileName="${logDir}/${htmlLogFileName}"
-             filePattern="${logDir}/test-automation-%d{yyyy-MM-dd-HH-mm-ss}.html.gz">
-    <PatternLayout>
-        <Pattern>
-            <![CDATA[
-            <html>
-            <head>
-                <style>
-                    body { font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 0; color: black; }
-                    .log-container { width: 100%; height: 80vh; overflow-y: auto; border: 1px solid #ddd; }
-                    table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 0; }
-                    th, td { border: 1px solid black; padding: 6px; text-align: left; }
-                    th { background-color: #2D5D8C; color: white; font-weight: bold; position: sticky; top: 0; z-index: 2; }
-                    tr:nth-child(even) { background-color: #F2F2F2; } /* Alternate row coloring */
-                    tr { height: 20px; line-height: 1; margin: 0; padding: 0; } /* FIXES SPACING ISSUE */
-                    .INFO { color: black; }
-                    .ERROR { color: red; font-weight: bold; }
-                    .WARN { color: orange; }
-                    .DEBUG { color: green; }
-                </style>
-            </head>
-            <body>
-            <div class="log-container">
-                <table>
-                    <thead>
-                        <tr><th>Timestamp</th><th>Thread</th><th>Level</th><th>Message</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr class="%level">
-                            <td>%d{yyyy-MM-dd HH:mm:ss}</td>
-                            <td>%t</td>
-                            <td>%-5level</td>
-                            <td>%msg</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            </body>
-            </html>
-            ]]>
-        </Pattern>
-    </PatternLayout>
-    <Policies>
-        <OnStartupTriggeringPolicy />
-    </Policies>
-</RollingFile>
-  		
+        <!-- HTML Log File -->
+        <RollingFile name="HtmlFile" fileName="${logDir}/${htmlLogFileName}"
+                     filePattern="${logDir}/test-automation-%d{yyyy-MM-dd-HH-mm-ss}.html.gz">
+            <PatternLayout>
+                <Pattern>
+                    <![CDATA[
+                    <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 0; color: black; }
+                            table { width: 100%; border-collapse: collapse; table-layout: fixed; } /* Fix table layout */
+                            th, td { border: 1px solid black; padding: 6px; text-align: left; white-space: nowrap; }
+                            th { background-color: #2D5D8C; color: white; font-weight: bold; }
+                            tr:nth-child(even) { background-color: #F2F2F2; } /* Alternate row colors */
+                            
+                            /* Fixed column widths */
+                            th:nth-child(1), td:nth-child(1) { width: 10%; } /* Time */
+                            th:nth-child(2), td:nth-child(2) { width: 10%; } /* Thread */
+                            th:nth-child(3), td:nth-child(3) { width: 8%; }  /* Level */
+                            th:nth-child(4), td:nth-child(4) { width: 15%; } /* Category */
+                            th:nth-child(5), td:nth-child(5) { width: 15%; } /* File:Line */
+                            th:nth-child(6), td:nth-child(6) { width: 42%; } /* Message */
 
+                            .DEBUG { color: green; }
+                            .INFO { color: black; }
+                            .ERROR { color: red; font-weight: bold; }
+                            .FATAL { color: darkred; font-weight: bold; }
+                        </style>
+                    </head>
+                    <body>
+                        <h3>Log session start time %d{EEE MMM dd HH:mm:ss z yyyy}</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Time</th><th>Thread</th><th>Level</th><th>Category</th><th>File:Line</th><th>Message</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="%level">
+                                    <td>%d{HH:mm:ss}</td>
+                                    <td>%t</td>
+                                    <td>%-5level</td>
+                                    <td>%c{1}</td>
+                                    <td>%F:%L</td>
+                                    <td>%msg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </body>
+                    </html>
+                    ]]>
+                </Pattern>
+            </PatternLayout>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="10" fileIndex="min" />
+        </RollingFile>
     </Appenders>
 
     <Loggers>
-        <!-- Root logger with INFO level logging -->
-        <Root level="info">
+        <!-- Suppress Apache POI Debug Logs -->
+        <Logger name="org.apache.poi" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- Root logger for general application logs -->
+        <Root level="debug">
             <AppenderRef ref="Console" />
             <AppenderRef ref="RollingFile" />
             <AppenderRef ref="HtmlFile" />
