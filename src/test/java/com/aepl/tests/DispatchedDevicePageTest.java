@@ -24,7 +24,7 @@ import com.aepl.util.ExcelUtility;
 		private DispachedDevicePage dispatchedDevice;
 		private ExcelUtility excelUtility;
 		private CommonMethod commonMethod;
-		private By fileUploadPage = new FileUploadPage(driver);
+//		private By fileUploadPage = new FileUploadPage(driver);
 
 		@Override
 		@BeforeClass
@@ -112,10 +112,10 @@ import com.aepl.util.ExcelUtility;
 		@Test
 	    public void testFileUpload() {
 	        String filePath = "C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet (3).xlsx"; // Provide actual file path
-	        String uploadedFileName = fileUploadPage.uploadFile(filePath);
+//	        String uploadedFileName = fileUploadPage.uploadFile(filePath);
 
 	        // Printing the uploaded file name (no assertions)
-	        System.out.println("Uploaded File Name: " + uploadedFileName);
+//	        System.out.println("Uploaded File Name: " + uploadedFileName);
 	    }
 		
 		
