@@ -80,12 +80,18 @@ public class CommonMethod {
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
 
-			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
+			List<String> actualHeaderTexts = actualHeaderElements
+					.stream()
+					.map(WebElement::getText)
+					.map(String::trim)
 					.map(String::toLowerCase)
 //					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
 					.collect(Collectors.toList());
 
-			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
+			List<String> normalizedExpectedHeaders = expectedHeaders
+					.stream()
+					.map(String::trim)
+					.map(String::toLowerCase)
 //					.peek(header -> System.out.println("Expected Header: " + header)) 
 					.collect(Collectors.toList());
 
@@ -109,13 +115,19 @@ public class CommonMethod {
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
 
-			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
+			List<String> actualHeaderTexts = actualHeaderElements
+					.stream()
+					.map(WebElement::getText)
+					.map(String::trim)
 					.map(String::toLowerCase)
-					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
+//					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
 					.collect(Collectors.toList());
 
-			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
-					.peek(header -> System.out.println("Expected Header: " + header)) 
+			List<String> normalizedExpectedHeaders = expectedHeaders
+					.stream()
+					.map(String::trim)
+					.map(String::toLowerCase)
+//					.peek(header -> System.out.println("Expected Header: " + header)) 
 					.collect(Collectors.toList());
 
 			boolean headersMatch = actualHeaderTexts.equals(normalizedExpectedHeaders);

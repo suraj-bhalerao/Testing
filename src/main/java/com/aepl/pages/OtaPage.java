@@ -218,25 +218,49 @@ public class OtaPage {
 	}
 
 	public void checktableHeading() {
-		commonMethod.checkTableHeadings(
-				Arrays.asList("Batch ID", "Batch Type", "Batch Date", "Total Device Uploaded", "Total Device Completed",
-						"Total Device Aborted", "Total Device In-progress/Pending", "Batch Percentage"));
+		logger.info("Starting to check table headings.");
+
+		List<String> expectedHeadings = Arrays.asList("Batch ID", "Batch Type", "Batch Date", "Total Device Uploaded",
+				"Total Device Completed", "Total Device Aborted", "Total Device In-progress/Pending",
+				"Batch Percentage");
+
+		logger.info("Expected table headings: " + expectedHeadings);
+
+		boolean result = commonMethod.checkTableHeadings(expectedHeadings);
+
+		if (result) {
+			logger.info("Table headings are as expected.");
+		} else {
+			logger.warn("Table headings do not match the expected values.");
+		}
 	}
 
 	public boolean checkReportsButtons() {
+		logger.info("Starting to check report buttons.");
+
 		List<WebElement> reportButtons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(reportButton));
+		logger.info("Found " + reportButtons.size() + " report buttons.");
+
 		try {
 			for (WebElement button : reportButtons) {
 				if (button.isEnabled() && button.isDisplayed()) {
+					logger.info("Button is enabled and displayed. Moving to the button.");
+					Thread.sleep(2000);
 					mouseAction.moveToElement(button);
+					logger.info("Moved to the button. Clicking the button.");
 					Thread.sleep(1000);
 					mouseAction.clickElement(button);
+					logger.info("Clicked the button successfully.");
 					return true;
+				} else {
+					logger.warn("Button is either not enabled or not displayed.");
 				}
 			}
 		} catch (Exception e) {
-			e.getMessage();
+			logger.error("An error occurred while checking report buttons.", e);
 		}
+		logger.info("Finished checking report buttons. No clickable button found.");
 		return false;
 	}
+
 }
