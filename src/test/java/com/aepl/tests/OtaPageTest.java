@@ -222,7 +222,24 @@ public class OtaPageTest extends TestBase {
 
 	@Test(priority = 10)
 	public void testChecktableHeading() {
-		otaPage.checktableHeading();
+		String testCaseName = "Testing table headings";
+		String expectedResult = "Table headings should match the expected values";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.checktableHeading();
+			actualResult = "Table headings matched the expected values";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during table headings test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
 	}
 	
 	@Test(priority= 11)
@@ -235,4 +252,6 @@ public class OtaPageTest extends TestBase {
 			System.out.println("Checked the report buttons");
 		}
 	}
+	
+	// added new changes 
 }
