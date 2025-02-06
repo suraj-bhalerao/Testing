@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aepl.actions.CalendarActions;
+import com.aepl.actions.MouseActions;
 import com.aepl.util.CommonMethod;
 
 public class OtaPage {
@@ -24,6 +25,7 @@ public class OtaPage {
 	private WebDriverWait wait;
 	private CommonMethod commonMethod;
 	private CalendarActions calendarActions;
+	private MouseActions mouseActions;
 	private static final Logger logger = LogManager.getLogger(OtaPage.class);
 
 	// Constructor
@@ -31,6 +33,7 @@ public class OtaPage {
 		this.driver = driver;
 		this.commonMethod = new CommonMethod(driver);
 		this.calendarActions = new CalendarActions(driver);
+		this.mouseActions = new MouseActions(driver);
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
@@ -51,6 +54,12 @@ public class OtaPage {
 	private By batchSubmitBtn = By.xpath("//button[@class=\"btn-sm btn btn-outline-primary example-full-width\"]");
 	private By clearButton = By.xpath("//button[@class=\"btn-sm btn btn-outline-secondary example-full-width\"]");
 	public By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
+	private By allInputFields = By.tagName("input");
+	private By toastMessageOfOtaAdd = By.xpath("//simple-snack-bar//span[text()='Success']");
+	private By editButtonOfOta = By
+			.xpath("//mat-icon[@class=\"mat-icon notranslate mx-2 material-icons mat-icon-no-color\"]");
+	private By deleteButtonOfOta = By.xpath(
+			"//mat-icon[class=\"mat-icon notranslate mat-tooltip-trigger delete-icon material-icons mat-icon-no-color\"]");
 
 	// Methods
 	public void clickNavBar() {
@@ -111,6 +120,7 @@ public class OtaPage {
 
 		logger.log(Level.INFO, "Taking table heading before the search");
 
+		// this is to get the latest batch number of the ota table.
 		batchCount = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]")).getText();
 
 		return commonMethod.checkSearchBoxWithTableHeadings(batchName, expectedHeaders);
@@ -259,12 +269,13 @@ public class OtaPage {
 		}
 
 		logger.info("Finished checking report buttons. No clickable button found.");
-		driver.navigate().back();
 		return false;
 	}
 
 	public String clickOtaMaster() {
 		try {
+			driver.navigate().back();
+			Thread.sleep(1000);
 			List<WebElement> buttonList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(buttonsList));
 
 			JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -285,39 +296,108 @@ public class OtaPage {
 		}
 		return "link not found";
 	}
-	
-	// all other methods here
-	public void addNewOta() {
-		// Add all types of all ota one by one like 
-		/*
-		 *  *SET#Example# /
-		 	*SET#Example#VAL# /
-		 	*SET#Example#VAL#VAL /
-		 	*GET#Example# /
-		 	*CLR#Example#
-		 * */
+
+	public String fillAndSubmitOtaForm() {
+		WebElement addButton = driver
+				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
+		WebElement toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
+
+		// Update Button element when it is called
+		WebElement updateButton = driver
+				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
+
+		try {
+			List<WebElement> inputFields = wait
+					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allInputFields));
+			for (WebElement inputField : inputFields) {
+				String placeholder = inputField.getDomAttribute("placeholder");
+				switch (placeholder) {
+				case "Please Enter OTA Command Name":
+					inputField.sendKeys("DEMO");
+					Thread.sleep(1000);
+					break;
+				case "Please Enter OTA Command":
+					inputField.sendKeys("*GET#CIIP1#");
+					Thread.sleep(1000);
+					break;
+				case "Please Enter Keyword":
+					inputField.sendKeys("CIP1");
+					Thread.sleep(1000);
+					break;
+				case "Please Enter Example":
+					inputField.sendKeys("*GET#Example#");
+					Thread.sleep(1000);
+					break;
+				case "Please Enter Min Value":
+					inputField.sendKeys("0");
+					Thread.sleep(1000);
+					break;
+				case "Please Enter Max Value":
+					inputField.sendKeys("1");
+					Thread.sleep(1000);
+					break;
+				default:
+					logger.warn("Unknown placeholder: " + placeholder);
+				}
+			}
+			Thread.sleep(2000);
+
+			if (addButton.isDisplayed() && addButton.isEnabled()) {
+				addButton.click();
+				Thread.sleep(2000);
+				return toastConfirmation.getText();
+			}else {
+				updateButton.click();
+				Thread.sleep(2000);
+				return toastConfirmation.getText();
+			}
+		} catch (Exception e) {
+			logger.error("An error occurred while filling and submitting the OTA form.", e);
+		}
+		return "No toast message found";
 	}
-	
-	public void checkSearchAndTable() {
-		// step 1: search ota that is added
-		// step 2: check the table
-		
+
+	public boolean checkSearchAndTableOfOtaMaster() {
+		String searchInput = "*GET#CIIP1#";
+		List<String> expectedHeaders = Arrays.asList("OTA Command Name", "OTA Command", "Keyword", "Example", "Min",
+				"Max", "Action");
+		return commonMethod.checkSearchBoxWithTableHeadings(searchInput, expectedHeaders);
 	}
-	
+
 	public void checkOtaMasterActionButtons() {
-		// step 1: search ota that is added 
-		// step 2: click on the edit button
-		// step 3: edit the same ota
-		// step 4: come back 
-		// step 5: click on the delete button
+		// step 1: search ota that is added
+		String searchInput = "*GET#CIIP1#";
+		try {
+			commonMethod.checkSearchBox(searchInput);
+			Thread.sleep(1000);
+			// step 2: click on the edit button
+			WebElement editButton = wait.until(ExpectedConditions.visibilityOfElementLocated(editButtonOfOta));
+			editButton.click();
+			Thread.sleep(1000);
+			// step 3: edit the same ota
+			String updateMessage = fillAndSubmitOtaForm();
+			boolean isOtaUpdate = updateMessage.contains("Successfully updated.");
+			System.out.println("OTA UPDATED ? " + isOtaUpdate);
+			if (isOtaUpdate) {
+				logger.info("OTA command updated successfully.");
+			} else {
+				logger.warn("OTA command not updated.");
+			}
+			// step 5: click on the delete button
+			mouseActions.moveToElement(driver.findElement(deleteButtonOfOta));
+			Thread.sleep(1000);
+			mouseActions.clickElement(driver.findElement(deleteButtonOfOta));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void checkOtaMasterPagination() {
 		// step 1: check the pagination
-		
+
 		// NOTE : you have to update the logic of the pagination firstly
 	}
-	
+
 	public void selectOtaTypeDropdown() {
 		// step 1: select the ota type dropdown
 		// step 2: click on the ota type : ALL
@@ -328,19 +408,21 @@ public class OtaPage {
 		// step 7: validate the pagination and count of GET ota type
 		// step 8: click on the ota type : CLR
 		// step 9: validate the pagination and count of CLR ota type
-		
+
 		// Thank You !!!
 	}
-	
+
 	// Navigate Back to device-batch page
-	
-	public void clickCreateNewOtaBatch() {}
-	
+
+	public void clickCreateNewOtaBatch() {
+	}
+
 	public void createManualOtaBatch() {
-		/* idea is that run this code in loop thrice, make array of UIN in constants and loop through it 
-		 * to have multiple batches Min - 3 
+		/*
+		 * idea is that run this code in loop thrice, make array of UIN in constants and
+		 * loop through it to have multiple batches Min - 3
 		 */
-		
+
 		// step 1 : input batch name - SB_OTA_TEST_MANUAL
 		// step 2 : input batch description - SB_OTA_TEST_MANUAL
 		// step 3 : select the batch type - Manual OTA
@@ -348,38 +430,47 @@ public class OtaPage {
 		// step 5 : enter in input box of search box and press enter
 		// step 6 : select the UIN from the table by clicking the checkbox
 		// step 7 : try for all UIN from the array
-		// step 8 : call    selectOtaCommandsList();
+		// step 8 : call selectOtaCommandsList();
 	}
-	
+
 	public void selectOtaCommandsList() {
 		// step 1 : select the ota type from the dropdown
-		// step 2 : match this all ota commands from to the previous function that add that specific ota type 
-		//			example if you have added SET ota type then select SET from the dropdown and match all the commands.
-		
+		// step 2 : match this all ota commands from to the previous function that add
+		// that specific ota type
+		// example if you have added SET ota type then select SET from the dropdown and
+		// match all the commands.
+
 		// step 3 : select CHTP ota by clicking on the checkbox
 		// step 4 : scrol down to the setBatch button
-		// step 5 : check the set Batch and select All button is enable 
+		// step 5 : check the set Batch and select All button is enable
 		// step 6 : click on the set Batch button
-		// step 7 : call     setConfigurationValue();
+		// step 7 : call setConfigurationValue();
 	}
-	
+
 	public void setConfigurationValue() {
-		// step 1 : check the above selected ota from the list that is exact same as the ota commnand name in the table
-        
-		/* if the ota command have to input some value in the input box of the input value input box field 
-		 * then take the max value from the table and input that value in the input box
-         * */
-		
+		// step 1 : check the above selected ota from the list that is exact same as the
+		// ota commnand name in the table
+
+		/*
+		 * if the ota command have to input some value in the input box of the input
+		 * value input box field then take the max value from the table and input that
+		 * value in the input box
+		 */
+
 		// step 2 : check the action buttons
-		// step 3 : scroll to the submit button 
+		// step 3 : scroll to the submit button
 		// step 4 : click on the submit button
 		// step 5 : accept the alert
-		
-		/* it will redirect to the device-batch page then validate the batch name and batch description is same
-		 * as that is given in the above function of creation of ota*/
+
+		/*
+		 * it will redirect to the device-batch page then validate the batch name and
+		 * batch description is same as that is given in the above function of creation
+		 * of ota
+		 */
 	}
-	
-	/* After that validate the created at 05 Feb 2025 | 11:55:15 PM in this format.
+
+	/*
+	 * After that validate the created at 05 Feb 2025 | 11:55:15 PM in this format.
 	 * then validate the batch breakdown and completed percentage and batch status
-	 * */
+	 */
 }

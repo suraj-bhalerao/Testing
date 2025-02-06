@@ -138,6 +138,20 @@ public class CommonMethod {
 		}
 	}
 
+	// Only for the search box field
+	public void checkSearchBox(String input) {
+		try {
+			WebElement search = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
+			search.click();
+			search.clear();
+			search.sendKeys(input);
+			search.sendKeys(Keys.ENTER);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void clickEyeActionButton(By eyeButton) {
 		logger.info("Locating the eye action button...");
 		try {
@@ -294,7 +308,7 @@ public class CommonMethod {
 
 	public void reportDownloadButtons(WebElement button) {
 		String downloadDirectory = "C:\\Users\\Suraj Bhaleroa\\Downloads";
-		String filePrefix = "OverallBatchReport_export_"; 
+		String filePrefix = "OverallBatchReport_export_";
 		long timeoutInSeconds = 60;
 
 		if (button.isEnabled()) {
