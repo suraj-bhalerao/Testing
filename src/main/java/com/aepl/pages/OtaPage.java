@@ -15,7 +15,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aepl.actions.CalendarActions;
-import com.aepl.actions.MouseActions;
 import com.aepl.util.CommonMethod;
 
 public class OtaPage {
@@ -25,7 +24,6 @@ public class OtaPage {
 	private WebDriverWait wait;
 	private CommonMethod commonMethod;
 	private CalendarActions calendarActions;
-	private MouseActions mouseAction;
 	private static final Logger logger = LogManager.getLogger(OtaPage.class);
 
 	// Constructor
@@ -33,7 +31,6 @@ public class OtaPage {
 		this.driver = driver;
 		this.commonMethod = new CommonMethod(driver);
 		this.calendarActions = new CalendarActions(driver);
-		this.mouseAction = new MouseActions(driver);
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
@@ -53,7 +50,7 @@ public class OtaPage {
 	private By batchIdTo = By.id("toBatchId");
 	private By batchSubmitBtn = By.xpath("//button[@class=\"btn-sm btn btn-outline-primary example-full-width\"]");
 	private By clearButton = By.xpath("//button[@class=\"btn-sm btn btn-outline-secondary example-full-width\"]");
-	private By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
+	public By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
 
 	// Methods
 	public void clickNavBar() {
@@ -238,25 +235,21 @@ public class OtaPage {
 	public boolean checkReportsButtons() {
 		logger.info("Starting to check report buttons.");
 
-		List<WebElement> reportButtons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(reportButton));
-		logger.info("Found " + reportButtons.size() + " report buttons.");
-
 		try {
+			List<WebElement> reportButtons = wait
+					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(reportButton));
+			logger.info("Found " + reportButtons.size() + " report buttons.");
+
 			for (WebElement button : reportButtons) {
 				if (button.isEnabled() && button.isDisplayed()) {
-					logger.info("Button is enabled and displayed. Moving to the button.");
-					mouseAction.moveToElement(button);
-					logger.info("Moved to the button. Clicking the button.");
-					mouseAction.clickElement(button);
-					logger.info("Clicked the button successfully.");
 					Thread.sleep(2000);
-					try {
-						commonMethod.checkReportDownloadForAllbuttons(button);
-						Thread.sleep(2000);
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
+					System.out.println("Button text: " + button.getText());
+					if (button.getText().contains("Batch Summary Report")) {
+						commonMethod.reportDownloadButtons(button);
+						return true;
+					} else {
+						logger.warn("Button text does not match the expected value.");
 					}
-					return true;
 				} else {
 					logger.warn("Button is either not enabled or not displayed.");
 				}
@@ -264,7 +257,129 @@ public class OtaPage {
 		} catch (Exception e) {
 			logger.error("An error occurred while checking report buttons.", e);
 		}
+
 		logger.info("Finished checking report buttons. No clickable button found.");
+		driver.navigate().back();
 		return false;
 	}
+
+	public String clickOtaMaster() {
+		try {
+			List<WebElement> buttonList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(buttonsList));
+
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", buttonList.get(1));
+
+			Thread.sleep(2000);
+
+			for (WebElement button : buttonList) {
+				if (button.getText().equalsIgnoreCase("OTA Master")) {
+					button.click();
+					logger.info("Clicked on the OTA Master button");
+					System.out.println("Navigated to URL: " + driver.getCurrentUrl());
+					return driver.getCurrentUrl();
+				}
+			}
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		return "link not found";
+	}
+	
+	// all other methods here
+	public void addNewOta() {
+		// Add all types of all ota one by one like 
+		/*
+		 *  *SET#Example# /
+		 	*SET#Example#VAL# /
+		 	*SET#Example#VAL#VAL /
+		 	*GET#Example# /
+		 	*CLR#Example#
+		 * */
+	}
+	
+	public void checkSearchAndTable() {
+		// step 1: search ota that is added
+		// step 2: check the table
+		
+	}
+	
+	public void checkOtaMasterActionButtons() {
+		// step 1: search ota that is added 
+		// step 2: click on the edit button
+		// step 3: edit the same ota
+		// step 4: come back 
+		// step 5: click on the delete button
+	}
+	
+	public void checkOtaMasterPagination() {
+		// step 1: check the pagination
+		
+		// NOTE : you have to update the logic of the pagination firstly
+	}
+	
+	public void selectOtaTypeDropdown() {
+		// step 1: select the ota type dropdown
+		// step 2: click on the ota type : ALL
+		// step 3: validate the pagination and count of ALL ota type
+		// step 4: click on the ota type : SET
+		// step 5: validate the pagination and count of SET ota type
+		// step 6: click on the ota type : GET
+		// step 7: validate the pagination and count of GET ota type
+		// step 8: click on the ota type : CLR
+		// step 9: validate the pagination and count of CLR ota type
+		
+		// Thank You !!!
+	}
+	
+	// Navigate Back to device-batch page
+	
+	public void clickCreateNewOtaBatch() {}
+	
+	public void createManualOtaBatch() {
+		/* idea is that run this code in loop thrice, make array of UIN in constants and loop through it 
+		 * to have multiple batches Min - 3 
+		 */
+		
+		// step 1 : input batch name - SB_OTA_TEST_MANUAL
+		// step 2 : input batch description - SB_OTA_TEST_MANUAL
+		// step 3 : select the batch type - Manual OTA
+		// step 4 : search the UIN from the UIN array and check the table headings
+		// step 5 : enter in input box of search box and press enter
+		// step 6 : select the UIN from the table by clicking the checkbox
+		// step 7 : try for all UIN from the array
+		// step 8 : call    selectOtaCommandsList();
+	}
+	
+	public void selectOtaCommandsList() {
+		// step 1 : select the ota type from the dropdown
+		// step 2 : match this all ota commands from to the previous function that add that specific ota type 
+		//			example if you have added SET ota type then select SET from the dropdown and match all the commands.
+		
+		// step 3 : select CHTP ota by clicking on the checkbox
+		// step 4 : scrol down to the setBatch button
+		// step 5 : check the set Batch and select All button is enable 
+		// step 6 : click on the set Batch button
+		// step 7 : call     setConfigurationValue();
+	}
+	
+	public void setConfigurationValue() {
+		// step 1 : check the above selected ota from the list that is exact same as the ota commnand name in the table
+        
+		/* if the ota command have to input some value in the input box of the input value input box field 
+		 * then take the max value from the table and input that value in the input box
+         * */
+		
+		// step 2 : check the action buttons
+		// step 3 : scroll to the submit button 
+		// step 4 : click on the submit button
+		// step 5 : accept the alert
+		
+		/* it will redirect to the device-batch page then validate the batch name and batch description is same
+		 * as that is given in the above function of creation of ota*/
+	}
+	
+	/* After that validate the created at 05 Feb 2025 | 11:55:15 PM in this format.
+	 * then validate the batch breakdown and completed percentage and batch status
+	 * */
 }

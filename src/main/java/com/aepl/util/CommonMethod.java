@@ -292,34 +292,36 @@ public class CommonMethod {
 		}
 	}
 
-	public void checkReportDownloadForAllbuttons(WebElement button) {
+	public void reportDownloadButtons(WebElement button) {
 		String downloadDirectory = "C:\\Users\\Suraj Bhaleroa\\Downloads";
-		String expectedFileName = "SampleOTATemplate.csv"; 
-		long timeoutInSeconds = 120;
+		String filePrefix = "OverallBatchReport_export_"; 
+		long timeoutInSeconds = 60;
 
 		if (button.isEnabled()) {
 			button.click();
 			logger.info("Clicked on the report button, waiting for the file to be downloaded...");
 		}
 
-		File downloadedFile = new File(downloadDirectory + File.separator + expectedFileName);
+		File downloadFolder = new File(downloadDirectory);
 		long endTime = System.currentTimeMillis() + timeoutInSeconds * 1000;
-		boolean fileExists = false;
+		File downloadedFile = null;
 
 		while (System.currentTimeMillis() < endTime) {
-			if (downloadedFile.exists()) {
-				fileExists = true;
-				logger.info("File found: " + expectedFileName);
+			File[] files = downloadFolder
+					.listFiles((dir, name) -> name.startsWith(filePrefix) && name.endsWith(".xlsx"));
+			if (files != null && files.length > 0) {
+				downloadedFile = files[0];
+				logger.info("File found: " + downloadedFile.getName());
 				break;
 			}
 			try {
-				Thread.sleep(1000); 
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
 		}
 
-		if (!fileExists) {
+		if (downloadedFile == null) {
 			logger.error("File was not downloaded within the timeout.");
 			throw new AssertionError("File not downloaded.");
 		}
@@ -337,4 +339,5 @@ public class CommonMethod {
 			throw new RuntimeException("Error while verifying downloaded file.");
 		}
 	}
+
 }
