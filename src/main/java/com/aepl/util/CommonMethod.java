@@ -293,8 +293,8 @@ public class CommonMethod {
 	}
 
 	public void checkReportDownloadForAllbuttons(WebElement button) {
-		String downloadDirectory = "C:\\Users\\Suraj Bhaleroa\\Downloads";
-		String expectedFileName = "SampleOTATemplate.csv"; 
+		String downloadDirectory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
+		String expectedFileName = "Sample_Dispatch_Sheet.csv"; 
 		long timeoutInSeconds = 120;
 
 		if (button.isEnabled()) {
