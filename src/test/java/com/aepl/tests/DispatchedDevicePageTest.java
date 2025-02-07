@@ -117,7 +117,7 @@ public class DispatchedDevicePageTest extends TestBase {
 
 		try {
 			dispatchedDevice.clickdownloadSample();
-			
+
 			result = "PASS";
 			logger.info("Test case '{}' completed successfully.", testCaseName);
 		} catch (Exception e) {
