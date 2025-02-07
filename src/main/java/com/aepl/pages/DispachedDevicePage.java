@@ -28,11 +28,11 @@ public class DispachedDevicePage {
 	private final By AddDispatchedDevice = By.xpath("//button[contains(.,'Add Dispatched Device')]");
 	private final By ChooseFile = By.id("txtFileUpload");
 	private CommonMethod uploadFileAndGetFileName;
-	private final By downloadReportButton = By.xpath("//button[contains(.,'Download Sample')]");
+	private final By downloadSampleButton = By.xpath("//button[contains(.,'Download Sample')]");
 
 	public DispachedDevicePage(WebDriver driver) {
 		this.driver = driver;
-		
+
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		this.commonMethod = new CommonMethod(driver);
 		this.uploadFileAndGetFileName = new CommonMethod(driver);
@@ -81,35 +81,34 @@ public class DispachedDevicePage {
 		}
 	}
 
-	public void downloadAndVerifyReport() {
-		WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadReportButton));
-		commonMethod.checkReportDownloadForAllbuttons(downloadButton);
-		
+	public void clickdownloadSample() {
+	    // Click on the element 'Download Sample' and verify the download
+	    try {
+	        WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
+	        
+	        commonMethod.checkReportDownloadForAllbuttons(downloadButton);
+	        downloadButton.click();
+	        wait.until(ExpectedConditions.invisibilityOf(downloadButton));
+	    } catch (Exception e) {
+	        logger.error("Error while downloading the sample report.", e);
+	        throw new RuntimeException("Failed to download the sample report", e);
+	    }
 	}
 
-	public String clickChooseFile(String filePath) {
-		// Click on the element 'Choose File' and return the current
+	public String clickChooseFileBtn() {
+		// Click on the element 'Add Device Model' and return the current URL
 		try {
-
 			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
 			ChooseFileBtn.click();
-			File file = new File(filePath);
-			System.out.println(file.getName());
-//		uploadFile(file);
-			return "";
-
-//			WebElement ChooseFileBtn= wait.until(ExpectedConditions.visibilityOfElementLocated(commonMethod.uploadFileAndGetFileName()));
-//			ChooseFileBtn.click();
 			return driver.getCurrentUrl();
-
 		} catch (Exception e) {
 			logger.error("Error while clicking on Choose File button.", e);
 			throw new RuntimeException("Failed to click on Choose File button", e);
 		}
 	}
 
-	public String uploadFile(String filePath) {
-		return commonMethod.uploadFileAndGetFileName(filePath);
-	}
+//	public String uploadFile(String filePath) {
+//		return commonMethod.uploadFileAndGetFileName(filePath);
+//	}
 
 }

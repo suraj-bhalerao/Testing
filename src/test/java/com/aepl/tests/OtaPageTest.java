@@ -272,6 +272,78 @@ public class OtaPageTest extends TestBase {
 			logger.info("Writing test results to Excel for {}", testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedUrl, actualUrl, result);
 		}
+<<<<<<< HEAD
 
+=======
+	}
+
+	@Test(priority = 13)
+	public void testAddNewOta() {
+		String testCaseName = "Testing the Add New OTA functionality";
+		String expectedResult = "OTA form should be filled and submitted successfully";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			actualResult = otaPage.fillAndSubmitOtaForm();
+			result = actualResult.contains("success") ? "Pass" : "Fail";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during Add New OTA test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 14)
+	public void testCheckSearchAndTableOfOtaMaster() {
+		String testCaseName = "Testing search box and table headers of OTA Master";
+		String expectedResult = "Search box and the table is validate successfully";
+		String actualResult = "";
+		String result = "";
+		boolean isChecked = false;
+
+		try {
+			isChecked = otaPage.checkSearchBoxAndTable();
+			actualResult = "Search box and the table is validate successfully";
+			result = isChecked ? "PASS" : "FAIL";
+		} catch (Exception e) {
+			actualResult = "Issue in the search box and the table heading";
+			result = isChecked ? "PASS" : "FAIL";
+			commonMethod.captureScreenshot(testCaseName);
+			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+			e.getMessage();
+		} finally {
+			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 15)
+	public void testCheckOtaMasterActionButtons() {
+		String testCaseName = "Testing the action buttons of OTA Master";
+		String expectedResult = "Action buttons should work correctly";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			actualResult = "Action buttons worked as expected";
+			otaPage.checkOtaMasterActionButtons();
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Action buttons worked as expected";
+			result = "Fail";
+			commonMethod.captureScreenshot(testCaseName);
+			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+			e.getMessage();
+		} finally {
+			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+>>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
 	}
 }
