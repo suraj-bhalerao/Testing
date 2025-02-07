@@ -241,17 +241,37 @@ public class OtaPageTest extends TestBase {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}
-	
-	@Test(priority= 11)
+
+	@Test(priority = 11)
 	public void testCheckReportsButtons() {
 		boolean isChecked = otaPage.checkReportsButtons();
-		
-		if(!isChecked) {
+
+		if (!isChecked) {
 			System.err.println("Error in checking report buttons");
-		}else {
+		} else {
 			System.out.println("Checked the report buttons");
 		}
 	}
-	
-	// added new changes 
+
+	@Test(priority = 12)
+	public void testClickOtaMaster() {
+		String testCaseName = "Testing the OTA Master button";
+		String expectedUrl = ConfigProperties.getProperty("ota.master");
+		String actualUrl = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			actualUrl = otaPage.clickOtaMaster();
+			result = expectedUrl.equalsIgnoreCase(actualUrl) ? "Pass" : "Fail";
+		} catch (Exception e) {
+			actualUrl = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during OTA Master button test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedUrl, actualUrl, result);
+		}
+
+	}
 }

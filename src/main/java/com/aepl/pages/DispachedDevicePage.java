@@ -90,12 +90,18 @@ public class DispachedDevicePage {
 	public String clickChooseFile(String filePath) {
 		// Click on the element 'Choose File' and return the current
 		try {
+
 			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
 			ChooseFileBtn.click();
 			File file = new File(filePath);
 			System.out.println(file.getName());
 //		uploadFile(file);
 			return "";
+
+//			WebElement ChooseFileBtn= wait.until(ExpectedConditions.visibilityOfElementLocated(commonMethod.uploadFileAndGetFileName()));
+//			ChooseFileBtn.click();
+			return driver.getCurrentUrl();
+
 		} catch (Exception e) {
 			logger.error("Error while clicking on Choose File button.", e);
 			throw new RuntimeException("Failed to click on Choose File button", e);
