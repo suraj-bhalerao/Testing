@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +20,7 @@ import com.aepl.actions.CalendarActions;
 import com.aepl.actions.MouseActions;
 import com.aepl.util.CommonMethod;
 
-public class OtaPage {
+public class OtaPage extends MouseActions{
 
 	// Global variables
 	private WebDriver driver;
@@ -31,6 +32,7 @@ public class OtaPage {
 
 	// Constructor
 	public OtaPage(WebDriver driver) {
+		super(driver);
 		this.driver = driver;
 		this.commonMethod = new CommonMethod(driver);
 		this.calendarActions = new CalendarActions(driver);
@@ -62,8 +64,7 @@ public class OtaPage {
 	private By deleteButtonOfOta = By.xpath(
 			"//mat-icon[class=\"mat-icon notranslate mat-tooltip-trigger delete-icon material-icons mat-icon-no-color\"]");
 	private By dropdownOtaType = By.id("id=\"mat-select-6\"");
-	
-	
+
 	// Methods
 	public void clickNavBar() {
 		List<WebElement> navBarLinks = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(navBarLink));
@@ -278,7 +279,7 @@ public class OtaPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", buttonList.get(1));
 
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 
 			for (WebElement button : buttonList) {
 				if (button.getText().equalsIgnoreCase("OTA Master")) {
@@ -294,65 +295,74 @@ public class OtaPage {
 		return "link not found";
 	}
 
-	public String fillAndSubmitOtaForm() {
-		WebElement addButton = driver
-				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
-
-		// Update Button element when it is called
-		WebElement updateButton = driver
-				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
+	public String fillAndSubmitOtaForm(String action) {
+		WebElement toastConfirmation;
 		List<WebElement> inputFields = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allInputFields));
 
 		try {
+			// Fill input fields dynamically based on placeholders
 			for (WebElement inputField : inputFields) {
 				String placeholder = inputField.getDomAttribute("placeholder");
+				if (placeholder == null)
+					continue;
+
 				switch (placeholder) {
 				case "Please Enter OTA Command Name":
 					inputField.sendKeys("DEMO");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter OTA Command":
 					inputField.sendKeys("*GET#CIIP1#");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter Keyword":
-					inputField.sendKeys("CIP1");
-					Thread.sleep(1000);
+					inputField.sendKeys("CIIP1");
+					Thread.sleep(500);
 					break;
 				case "Please Enter Example":
 					inputField.sendKeys("*GET#Example#");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter Min Value":
 					inputField.sendKeys("0");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter Max Value":
 					inputField.sendKeys("1");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				default:
 					logger.warn("Unknown placeholder: " + placeholder);
 				}
 			}
-			Thread.sleep(2000);
-			addButton.click();
-			WebElement toastConfirmation = wait
-					.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
 
-			if (addButton.isDisplayed() && addButton.isEnabled()) {
+			// Locate buttons dynamically
+			By addButtonLocator = By.xpath("//button[@class='btn btn-outline-primary ng-star-inserted']");
+			By updateButtonLocator = By.xpath("//button[@class=\"btn btn-outline-primary ml-1 ng-star-inserted\"]");
+
+			boolean isAddButtonPresent = driver.findElements(addButtonLocator).size() > 0;
+			boolean isUpdateButtonPresent = driver.findElements(updateButtonLocator).size() > 0;
+
+			if ("add".equalsIgnoreCase(action) && isAddButtonPresent) {
+				WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(addButtonLocator));
 				addButton.click();
-				Thread.sleep(1000);
+				toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
 				return toastConfirmation.getText();
-			} else if (updateButton.isDisplayed() && updateButton.isEnabled()) {
+
+			} else if ("update".equalsIgnoreCase(action) && isUpdateButtonPresent) {
+				WebElement updateButton = wait.until(ExpectedConditions.elementToBeClickable(updateButtonLocator));
 				updateButton.click();
-				Thread.sleep(1000);
+				toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
 				return toastConfirmation.getText();
+			} else {
+				logger.warn("No valid button found to click for action: " + action);
+				return "No valid button found";
 			}
+
 		} catch (Exception e) {
 			logger.error("An error occurred while filling and submitting the OTA form.", e);
+			return "Error occurred";
 		}
-		return "No toast message found";
 	}
 
 	// Extra writed method.
@@ -364,29 +374,35 @@ public class OtaPage {
 	}
 
 	public void checkOtaMasterActionButtons() {
-		// step 1: search ota that is added
 		String searchInput = "CIIP1";
 		try {
 			commonMethod.checkSearchBox(searchInput);
-			Thread.sleep(1000);
-			// step 2: click on the edit button
+
 			WebElement editButton = wait.until(ExpectedConditions.visibilityOfElementLocated(editButtonOfOta));
 			editButton.click();
-			Thread.sleep(2000);
-			// step 3: edit the same ota
-			String updateMessage = fillAndSubmitOtaForm();
-			Thread.sleep(2000);
+
+			String updateMessage = fillAndSubmitOtaForm("update");
 			boolean isOtaUpdate = updateMessage.contains("Successfully updated.");
 			System.out.println("OTA UPDATED ? " + isOtaUpdate);
+
 			if (isOtaUpdate) {
 				System.out.println("OTA command updated successfully.");
 			} else {
 				System.out.println("OTA command not updated.");
 			}
-			// step 5: click on the delete button
-			mouseActions.moveToElement(driver.findElement(deleteButtonOfOta));
-			Thread.sleep(1000);
-			mouseActions.clickElement(driver.findElement(deleteButtonOfOta));
+
+			// Ensure delete button is located again
+			WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(deleteButtonOfOta));
+
+			System.out.println("Attempting to move to delete button...");
+			mouseActions.moveToElement(deleteButton);
+
+			System.out.println("Attempting to click delete button...");
+			mouseActions.clickElement(deleteButton);
+
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -394,11 +410,13 @@ public class OtaPage {
 
 	public void selectOtaTypeDropdown() {
 		// step 1: select the ota type dropdown
-		WebElement otaTypeDropdown = driver.findElement(dropdownOtaType);
+		WebElement otaTypeDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownOtaType));
 		otaTypeDropdown.click();
+
 		// step 2: click on the ota type : ALL
 		Select otaType = new Select(otaTypeDropdown);
 		otaType.selectByVisibleText("ALL");
+
 		// step 3: validate the pagination and count of ALL ota type
 		// step 4: click on the ota type : SET
 		// step 5: validate the pagination and count of SET ota type

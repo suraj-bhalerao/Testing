@@ -1,11 +1,15 @@
 package com.aepl.actions;
 
+import java.time.Duration;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MouseActions {
 	private WebDriver driver;
@@ -29,11 +33,9 @@ public class MouseActions {
 			logger.error("WebElement is null. Cannot perform moveToElement action.");
 			throw new IllegalArgumentException("WebElement cannot be null");
 		}
-
-		logger.info("Attempting to move to element: " + element);
 		try {
-			Thread.sleep(1000);
-			actions.moveToElement(element).build().perform();
+			new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(element));
+			actions.moveToElement(element).perform();
 			logger.info("Mouse moved to element successfully.");
 		} catch (Exception e) {
 			logger.error("Error occurred while moving to element: " + element, e);
@@ -48,7 +50,7 @@ public class MouseActions {
 
 		logger.info("Attempting to click element: " + element);
 		try {
-			Thread.sleep(1000);
+			new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(element));
 			actions.click(element).build().perform();
 			logger.info("Element clicked successfully.");
 		} catch (Exception e) {

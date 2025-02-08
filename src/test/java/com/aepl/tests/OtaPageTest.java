@@ -290,7 +290,7 @@ public class OtaPageTest extends TestBase {
 		logger.info("Executing test case: {}", testCaseName);
 
 		try {
-			actualResult = otaPage.fillAndSubmitOtaForm();
+			actualResult = otaPage.fillAndSubmitOtaForm("add");
 			Thread.sleep(2000);
 			result = actualResult.contains("success") ? "Pass" : "Fail";
 		} catch (Exception e) {
