@@ -1,5 +1,8 @@
 package com.aepl.tests;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -138,7 +141,11 @@ public class OtaPageTest extends TestBase {
 		boolean isChecked = false;
 
 		try {
-			isChecked = otaPage.checkSearchBoxAndTable();
+			String batchName = "SB_OTA_TEST";
+			List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
+					"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
+
+			isChecked = otaPage.checkSearchBoxAndTable(batchName, expectedHeaders);
 			actualResult = "Search box and the table is validate successfully";
 			result = isChecked ? "PASS" : "FAIL";
 		} catch (Exception e) {
@@ -284,6 +291,7 @@ public class OtaPageTest extends TestBase {
 
 		try {
 			actualResult = otaPage.fillAndSubmitOtaForm();
+			Thread.sleep(2000);
 			result = actualResult.contains("success") ? "Pass" : "Fail";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
@@ -304,7 +312,11 @@ public class OtaPageTest extends TestBase {
 		boolean isChecked = false;
 
 		try {
-			isChecked = otaPage.checkSearchBoxAndTable();
+			String batchName = "CIIP1";
+			List<String> expectedHeaders = Arrays.asList("OTA Command Name", "OTA Command", "Keyword", "Example", "Min",
+					"Max", "Action");
+
+			isChecked = otaPage.checkSearchBoxAndTable(batchName, expectedHeaders);
 			actualResult = "Search box and the table is validate successfully";
 			result = isChecked ? "PASS" : "FAIL";
 		} catch (Exception e) {
@@ -339,6 +351,50 @@ public class OtaPageTest extends TestBase {
 			e.getMessage();
 		} finally {
 			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 16)
+	public void testCheckPaginationOfOtaMaster() {
+		String testCaseName = "Testing the pagination";
+		String expectedResult = "Pagination should work correctly by navigating through pages";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.checkPagination();
+			actualResult = "Pagination worked as expected";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during pagination test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 17)
+	public void testSelectOtaTypeDropdown() {
+		String testCaseName = "Testing the OTA Type dropdown";
+		String expectedResult = "OTA Type dropdown should be selected successfully";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.selectOtaTypeDropdown();
+			actualResult = "OTA Type dropdown selected successfully";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during OTA Type dropdown test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}

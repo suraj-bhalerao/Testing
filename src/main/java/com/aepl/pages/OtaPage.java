@@ -12,6 +12,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aepl.actions.CalendarActions;
@@ -60,7 +61,9 @@ public class OtaPage {
 			.xpath("//mat-icon[@class=\"mat-icon notranslate mx-2 material-icons mat-icon-no-color\"]");
 	private By deleteButtonOfOta = By.xpath(
 			"//mat-icon[class=\"mat-icon notranslate mat-tooltip-trigger delete-icon material-icons mat-icon-no-color\"]");
-
+	private By dropdownOtaType = By.id("id=\"mat-select-6\"");
+	
+	
 	// Methods
 	public void clickNavBar() {
 		List<WebElement> navBarLinks = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(navBarLink));
@@ -112,18 +115,12 @@ public class OtaPage {
 		}
 	}
 
-	public boolean checkSearchBoxAndTable() {
-		logger.log(Level.INFO, "Trying to check the search box and table");
-		String batchName = "SB_OTA_TEST";
-		List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
-				"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
-
-		logger.log(Level.INFO, "Taking table heading before the search");
-
+	//
+	public boolean checkSearchBoxAndTable(String input, List<String> expectedHeaders) {
 		// this is to get the latest batch number of the ota table.
 		batchCount = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]")).getText();
 
-		return commonMethod.checkSearchBoxWithTableHeadings(batchName, expectedHeaders);
+		return commonMethod.checkSearchBoxWithTableHeadings(input, expectedHeaders);
 	}
 
 	public void checkActionButtons() {
@@ -300,15 +297,13 @@ public class OtaPage {
 	public String fillAndSubmitOtaForm() {
 		WebElement addButton = driver
 				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
-		WebElement toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
 
 		// Update Button element when it is called
 		WebElement updateButton = driver
 				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
+		List<WebElement> inputFields = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allInputFields));
 
 		try {
-			List<WebElement> inputFields = wait
-					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allInputFields));
 			for (WebElement inputField : inputFields) {
 				String placeholder = inputField.getDomAttribute("placeholder");
 				switch (placeholder) {
@@ -341,14 +336,17 @@ public class OtaPage {
 				}
 			}
 			Thread.sleep(2000);
+			addButton.click();
+			WebElement toastConfirmation = wait
+					.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
 
 			if (addButton.isDisplayed() && addButton.isEnabled()) {
 				addButton.click();
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				return toastConfirmation.getText();
-			}else {
+			} else if (updateButton.isDisplayed() && updateButton.isEnabled()) {
 				updateButton.click();
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				return toastConfirmation.getText();
 			}
 		} catch (Exception e) {
@@ -357,6 +355,7 @@ public class OtaPage {
 		return "No toast message found";
 	}
 
+	// Extra writed method.
 	public boolean checkSearchAndTableOfOtaMaster() {
 		String searchInput = "*GET#CIIP1#";
 		List<String> expectedHeaders = Arrays.asList("OTA Command Name", "OTA Command", "Keyword", "Example", "Min",
@@ -366,22 +365,23 @@ public class OtaPage {
 
 	public void checkOtaMasterActionButtons() {
 		// step 1: search ota that is added
-		String searchInput = "*GET#CIIP1#";
+		String searchInput = "CIIP1";
 		try {
 			commonMethod.checkSearchBox(searchInput);
 			Thread.sleep(1000);
 			// step 2: click on the edit button
 			WebElement editButton = wait.until(ExpectedConditions.visibilityOfElementLocated(editButtonOfOta));
 			editButton.click();
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			// step 3: edit the same ota
 			String updateMessage = fillAndSubmitOtaForm();
+			Thread.sleep(2000);
 			boolean isOtaUpdate = updateMessage.contains("Successfully updated.");
 			System.out.println("OTA UPDATED ? " + isOtaUpdate);
 			if (isOtaUpdate) {
-				logger.info("OTA command updated successfully.");
+				System.out.println("OTA command updated successfully.");
 			} else {
-				logger.warn("OTA command not updated.");
+				System.out.println("OTA command not updated.");
 			}
 			// step 5: click on the delete button
 			mouseActions.moveToElement(driver.findElement(deleteButtonOfOta));
@@ -392,15 +392,13 @@ public class OtaPage {
 		}
 	}
 
-	public void checkOtaMasterPagination() {
-		// step 1: check the pagination
-
-		// NOTE : you have to update the logic of the pagination firstly
-	}
-
 	public void selectOtaTypeDropdown() {
 		// step 1: select the ota type dropdown
+		WebElement otaTypeDropdown = driver.findElement(dropdownOtaType);
+		otaTypeDropdown.click();
 		// step 2: click on the ota type : ALL
+		Select otaType = new Select(otaTypeDropdown);
+		otaType.selectByVisibleText("ALL");
 		// step 3: validate the pagination and count of ALL ota type
 		// step 4: click on the ota type : SET
 		// step 5: validate the pagination and count of SET ota type

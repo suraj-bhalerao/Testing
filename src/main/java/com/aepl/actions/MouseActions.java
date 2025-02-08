@@ -8,8 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class MouseActions {
-	private final WebDriver driver;
-	private final Actions actions;
+	private WebDriver driver;
+	private Actions actions;
 
 	private static final Logger logger = LogManager.getLogger(MouseActions.class);
 
@@ -32,11 +32,11 @@ public class MouseActions {
 
 		logger.info("Attempting to move to element: " + element);
 		try {
+			Thread.sleep(1000);
 			actions.moveToElement(element).build().perform();
 			logger.info("Mouse moved to element successfully.");
 		} catch (Exception e) {
 			logger.error("Error occurred while moving to element: " + element, e);
-			throw e;
 		}
 	}
 
@@ -48,11 +48,11 @@ public class MouseActions {
 
 		logger.info("Attempting to click element: " + element);
 		try {
+			Thread.sleep(1000);
 			actions.click(element).build().perform();
 			logger.info("Element clicked successfully.");
 		} catch (Exception e) {
 			logger.error("Error occurred while clicking element: " + element, e);
-			throw e;
 		}
 	}
 
@@ -64,11 +64,11 @@ public class MouseActions {
 
 		logger.info("Attempting to double-click element: " + element);
 		try {
+			Thread.sleep(1000);
 			actions.doubleClick(element).build().perform();
 			logger.info("Element double-clicked successfully.");
 		} catch (Exception e) {
 			logger.error("Error occurred while double-clicking element: " + element, e);
-			throw e;
 		}
 	}
 
