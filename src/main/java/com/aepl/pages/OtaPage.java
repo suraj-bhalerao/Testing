@@ -7,38 +7,36 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aepl.actions.CalendarActions;
 import com.aepl.util.CommonMethod;
 
-public class OtaPage {
+public class OtaPage extends MouseActions{
 
 	// Global variables
 	private WebDriver driver;
 	private WebDriverWait wait;
 	private CommonMethod commonMethod;
 	private CalendarActions calendarActions;
-<<<<<<< HEAD
-=======
 	private MouseActions mouseActions;
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
+  
 	private static final Logger logger = LogManager.getLogger(OtaPage.class);
 
 	// Constructor
 	public OtaPage(WebDriver driver) {
+		super(driver);
 		this.driver = driver;
 		this.commonMethod = new CommonMethod(driver);
 		this.calendarActions = new CalendarActions(driver);
-<<<<<<< HEAD
-=======
 		this.mouseActions = new MouseActions(driver);
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
@@ -59,15 +57,13 @@ public class OtaPage {
 	private By batchSubmitBtn = By.xpath("//button[@class=\"btn-sm btn btn-outline-primary example-full-width\"]");
 	private By clearButton = By.xpath("//button[@class=\"btn-sm btn btn-outline-secondary example-full-width\"]");
 	public By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
-<<<<<<< HEAD
-=======
 	private By allInputFields = By.tagName("input");
 	private By toastMessageOfOtaAdd = By.xpath("//simple-snack-bar//span[text()='Success']");
 	private By editButtonOfOta = By
 			.xpath("//mat-icon[@class=\"mat-icon notranslate mx-2 material-icons mat-icon-no-color\"]");
 	private By deleteButtonOfOta = By.xpath(
 			"//mat-icon[class=\"mat-icon notranslate mat-tooltip-trigger delete-icon material-icons mat-icon-no-color\"]");
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
+	private By dropdownOtaType = By.id("id=\"mat-select-6\"");
 
 	// Methods
 	public void clickNavBar() {
@@ -120,18 +116,12 @@ public class OtaPage {
 		}
 	}
 
-	public boolean checkSearchBoxAndTable() {
-		logger.log(Level.INFO, "Trying to check the search box and table");
-		String batchName = "SB_OTA_TEST";
-		List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
-				"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
-
-		logger.log(Level.INFO, "Taking table heading before the search");
-
+	//
+	public boolean checkSearchBoxAndTable(String input, List<String> expectedHeaders) {
 		// this is to get the latest batch number of the ota table.
 		batchCount = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]")).getText();
 
-		return commonMethod.checkSearchBoxWithTableHeadings(batchName, expectedHeaders);
+		return commonMethod.checkSearchBoxWithTableHeadings(input, expectedHeaders);
 	}
 
 	public void checkActionButtons() {
@@ -283,17 +273,14 @@ public class OtaPage {
 
 	public String clickOtaMaster() {
 		try {
-<<<<<<< HEAD
-=======
 			driver.navigate().back();
 			Thread.sleep(1000);
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
 			List<WebElement> buttonList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(buttonsList));
 
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", buttonList.get(1));
 
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 
 			for (WebElement button : buttonList) {
 				if (button.getText().equalsIgnoreCase("OTA Master")) {
@@ -308,7 +295,6 @@ public class OtaPage {
 		}
 		return "link not found";
 	}
-<<<<<<< HEAD
 	
 	// all other methods here
 	public void addNewOta() {
@@ -341,69 +327,78 @@ public class OtaPage {
 		
 		// NOTE : you have to update the logic of the pagination firstly
 	}
-	
-=======
 
-	public String fillAndSubmitOtaForm() {
-		WebElement addButton = driver
-				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
-		WebElement toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
-
-		// Update Button element when it is called
-		WebElement updateButton = driver
-				.findElement(By.xpath("//button[@class=\"btn btn-outline-primary ng-star-inserted\"]"));
+	public String fillAndSubmitOtaForm(String action) {
+		WebElement toastConfirmation;
+		List<WebElement> inputFields = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allInputFields));
 
 		try {
-			List<WebElement> inputFields = wait
-					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allInputFields));
+			// Fill input fields dynamically based on placeholders
 			for (WebElement inputField : inputFields) {
 				String placeholder = inputField.getDomAttribute("placeholder");
+				if (placeholder == null)
+					continue;
+
 				switch (placeholder) {
 				case "Please Enter OTA Command Name":
 					inputField.sendKeys("DEMO");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter OTA Command":
 					inputField.sendKeys("*GET#CIIP1#");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter Keyword":
-					inputField.sendKeys("CIP1");
-					Thread.sleep(1000);
+					inputField.sendKeys("CIIP1");
+					Thread.sleep(500);
 					break;
 				case "Please Enter Example":
 					inputField.sendKeys("*GET#Example#");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter Min Value":
 					inputField.sendKeys("0");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				case "Please Enter Max Value":
 					inputField.sendKeys("1");
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					break;
 				default:
 					logger.warn("Unknown placeholder: " + placeholder);
 				}
 			}
-			Thread.sleep(2000);
 
-			if (addButton.isDisplayed() && addButton.isEnabled()) {
+			// Locate buttons dynamically
+			By addButtonLocator = By.xpath("//button[@class='btn btn-outline-primary ng-star-inserted']");
+			By updateButtonLocator = By.xpath("//button[@class=\"btn btn-outline-primary ml-1 ng-star-inserted\"]");
+
+			boolean isAddButtonPresent = driver.findElements(addButtonLocator).size() > 0;
+			boolean isUpdateButtonPresent = driver.findElements(updateButtonLocator).size() > 0;
+
+			if ("add".equalsIgnoreCase(action) && isAddButtonPresent) {
+				WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(addButtonLocator));
 				addButton.click();
-				Thread.sleep(2000);
+				toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
 				return toastConfirmation.getText();
-			}else {
+
+			} else if ("update".equalsIgnoreCase(action) && isUpdateButtonPresent) {
+				WebElement updateButton = wait.until(ExpectedConditions.elementToBeClickable(updateButtonLocator));
 				updateButton.click();
-				Thread.sleep(2000);
+				toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
 				return toastConfirmation.getText();
+			} else {
+				logger.warn("No valid button found to click for action: " + action);
+				return "No valid button found";
 			}
+
 		} catch (Exception e) {
 			logger.error("An error occurred while filling and submitting the OTA form.", e);
+			return "Error occurred";
 		}
-		return "No toast message found";
 	}
 
+	// Extra writed method.
 	public boolean checkSearchAndTableOfOtaMaster() {
 		String searchInput = "*GET#CIIP1#";
 		List<String> expectedHeaders = Arrays.asList("OTA Command Name", "OTA Command", "Keyword", "Example", "Min",
@@ -412,28 +407,35 @@ public class OtaPage {
 	}
 
 	public void checkOtaMasterActionButtons() {
-		// step 1: search ota that is added
-		String searchInput = "*GET#CIIP1#";
+		String searchInput = "CIIP1";
 		try {
 			commonMethod.checkSearchBox(searchInput);
-			Thread.sleep(1000);
-			// step 2: click on the edit button
+
 			WebElement editButton = wait.until(ExpectedConditions.visibilityOfElementLocated(editButtonOfOta));
 			editButton.click();
-			Thread.sleep(1000);
-			// step 3: edit the same ota
-			String updateMessage = fillAndSubmitOtaForm();
+
+			String updateMessage = fillAndSubmitOtaForm("update");
 			boolean isOtaUpdate = updateMessage.contains("Successfully updated.");
 			System.out.println("OTA UPDATED ? " + isOtaUpdate);
+
 			if (isOtaUpdate) {
-				logger.info("OTA command updated successfully.");
+				System.out.println("OTA command updated successfully.");
 			} else {
-				logger.warn("OTA command not updated.");
+				System.out.println("OTA command not updated.");
 			}
-			// step 5: click on the delete button
-			mouseActions.moveToElement(driver.findElement(deleteButtonOfOta));
-			Thread.sleep(1000);
-			mouseActions.clickElement(driver.findElement(deleteButtonOfOta));
+
+			// Ensure delete button is located again
+			WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(deleteButtonOfOta));
+
+			System.out.println("Attempting to move to delete button...");
+			mouseActions.moveToElement(deleteButton);
+
+			System.out.println("Attempting to click delete button...");
+			mouseActions.clickElement(deleteButton);
+
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -445,10 +447,15 @@ public class OtaPage {
 		// NOTE : you have to update the logic of the pagination firstly
 	}
 
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
 	public void selectOtaTypeDropdown() {
 		// step 1: select the ota type dropdown
+		WebElement otaTypeDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownOtaType));
+		otaTypeDropdown.click();
+
 		// step 2: click on the ota type : ALL
+		Select otaType = new Select(otaTypeDropdown);
+		otaType.selectByVisibleText("ALL");
+
 		// step 3: validate the pagination and count of ALL ota type
 		// step 4: click on the ota type : SET
 		// step 5: validate the pagination and count of SET ota type
@@ -456,7 +463,6 @@ public class OtaPage {
 		// step 7: validate the pagination and count of GET ota type
 		// step 8: click on the ota type : CLR
 		// step 9: validate the pagination and count of CLR ota type
-<<<<<<< HEAD
 		
 		// Thank You !!!
 	}
@@ -470,7 +476,6 @@ public class OtaPage {
 		 * to have multiple batches Min - 3 
 		 */
 		
-=======
 
 		// Thank You !!!
 	}
@@ -485,8 +490,7 @@ public class OtaPage {
 		 * idea is that run this code in loop thrice, make array of UIN in constants and
 		 * loop through it to have multiple batches Min - 3
 		 */
-
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
+    
 		// step 1 : input batch name - SB_OTA_TEST_MANUAL
 		// step 2 : input batch description - SB_OTA_TEST_MANUAL
 		// step 3 : select the batch type - Manual OTA
@@ -494,7 +498,6 @@ public class OtaPage {
 		// step 5 : enter in input box of search box and press enter
 		// step 6 : select the UIN from the table by clicking the checkbox
 		// step 7 : try for all UIN from the array
-<<<<<<< HEAD
 		// step 8 : call    selectOtaCommandsList();
 	}
 	
@@ -529,7 +532,6 @@ public class OtaPage {
 	/* After that validate the created at 05 Feb 2025 | 11:55:15 PM in this format.
 	 * then validate the batch breakdown and completed percentage and batch status
 	 * */
-=======
 		// step 8 : call selectOtaCommandsList();
 	}
 
@@ -573,5 +575,4 @@ public class OtaPage {
 	 * After that validate the created at 05 Feb 2025 | 11:55:15 PM in this format.
 	 * then validate the batch breakdown and completed percentage and batch status
 	 */
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
 }

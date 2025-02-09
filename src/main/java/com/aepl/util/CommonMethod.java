@@ -328,7 +328,7 @@ public class CommonMethod {
 
 		while (System.currentTimeMillis() < endTime) {
 			File[] files = downloadFolder
-					.listFiles((dir, name) -> name.startsWith(filePrefix) && name.endsWith(".xlsx"));
+					.listFiles((d, name) -> name.startsWith(filePrefix) && name.endsWith(".xlsx"));
 			if (files != null && files.length > 0) {
 				downloadedFile = files[0];
 				logger.info("File found: " + downloadedFile.getName());
