@@ -33,6 +33,17 @@ sleep 30
 # Git operations with wait intervals
 git add .
 sleep 20
-git commit -m "Suraj: Auto commit changes by shell"
+# Get the current user's name
+USER_NAME=$(git config user.name)
+ 
+# Get changed file names (limit to first 10 for readability)
+CHANGED_FILES=$(git diff --name-only | head -n 10 | tr '\n' ' ')
+ 
+# Generate dynamic commit message
+COMMIT_MESSAGE="Push by: $USER_NAME | Updated files: $CHANGED_FILES"
+ 
+# Commit changes with generated message
+echo "Committing changes with message: $COMMIT_MESSAGE"
+git commit -m "$COMMIT_MESSAGE"
 sleep 20
 git push -u main

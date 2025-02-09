@@ -279,9 +279,7 @@ public class OtaPageTest extends TestBase {
 			logger.info("Writing test results to Excel for {}", testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedUrl, actualUrl, result);
 		}
-<<<<<<< HEAD
 
-=======
 	}
 
 	@Test(priority = 13)
@@ -356,7 +354,6 @@ public class OtaPageTest extends TestBase {
 			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
->>>>>>> 83a3fa5fe0e80bce550fd50eae3ca8c088dccca2
 	}
 
 	@Test(priority = 16)
