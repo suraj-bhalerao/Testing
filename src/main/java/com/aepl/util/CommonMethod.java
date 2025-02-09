@@ -306,8 +306,14 @@ public class CommonMethod {
 		}
 	}
 
+	public void checkReportDownloadForAllbuttons(WebElement button) {
+		String downloadDirectory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
+		String expectedFileName = "Sample_Dispatch_Sheet.csv";
+		long timeoutInSeconds = 120;
+	}
+
 	public void reportDownloadButtons(WebElement button) {
-		String downloadDirectory = "C:\\Users\\Suraj Bhaleroa\\Downloads";
+		String downloadDirectory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
 		String filePrefix = "OverallBatchReport_export_";
 		long timeoutInSeconds = 60;
 
