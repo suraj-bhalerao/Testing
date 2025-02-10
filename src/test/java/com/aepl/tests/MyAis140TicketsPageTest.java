@@ -1883,5 +1883,353 @@ public class MyAis140TicketsPageTest extends TestBase {
 		System.out.println("Succesfully click on Device FOTA Status of Current Firmware Version option");
 	}
 
+	@Test(priority = 61)
+	public void ClickDeviceAssignedFWVer() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of Assigned Firmware Version option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceAssignedFWVer();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of Assigned Firmware Version option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of Assigned Firmware Version option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of Assigned Firmware Version option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of Assigned Firmware Version option");
+	}
+	
+	@Test(priority = 62)
+	public void ClickDeviceFOTAstatus() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of FOTA Status option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceFOTAStatus();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of FOTA Status option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of FOTA Status option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of FOTA Status option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of FOTA Status option");
+	}
+	
+	@Test(priority = 63)
+	public void ClickDeviceFOTAProgress() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of FOTA Progress option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceFOTAProgress();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of FOTA Progress in % option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of FOTA Progress in % option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of FOTA Progress in % option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of FOTA Progress in % option");
+	}
+	
+	@Test(priority = 64)
+	public void ClickDeviceOTAPriIP() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of OTA Primary IP option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceOTAPriIP();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of OTA Primary IP option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of OTA Primary IP option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of OTA Primary IP option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of OTA Primary IP option");
+	}
+	
+	@Test(priority = 65)
+	public void ClickDeviceOTAPriIPStatus() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of OTA Primary IP Status option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceOTAPriStatus();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of OTA Primary IP Status option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of OTA Primary IP Status option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of OTA Primary IP Status option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of OTA Primary IP Status option");
+	}
 
+	@Test(priority = 66)
+	public void ClickDeviceOTASecIP() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of OTA Secondary IP option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceOTASecIP();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of OTA Secondary IP option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of OTA Secondary IP option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of OTA Secondary IP option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of OTA Secondary IP option");
+	}
+	
+	@Test(priority = 67)
+	public void ClickDeviceOTASecIPStatus() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of OTA Secondary IP Status option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceOTASecStatus();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of OTA Secondary IP Status option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of OTA Secondary IP Status option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of OTA Secondary IP Status option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of OTA Secondary IP Status option");
+	}
+	
+	@Test(priority = 68)
+	public void ClickDeviceStateEnOTA() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of OTA Secondary IP Status option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceStateEnOTAStatus();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of State Enable OTA Status option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of State Enable OTA Status option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of State Enable OTA Status option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of State Enable OTA Status option");
+	}
+	
+	@Test(priority = 69)
+	public void ClickDeviceTicketStage2restriction() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of Remove Stage 2 Restrictrion option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceStage2Restriction();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of Remove Stage 2 Restrictrion option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of Remove Stage 2 Restrictrion option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of Remove Stage 2 Restrictrion option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of Remove Stage 2 Restrictrion option");
+	}
+	
+	@Test(priority = 70)
+	public void ClickDeviceTicketStage2restrictionRemark() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of Remove Stage 2 Restrictrion Remark option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceFOTASkipRemark();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of Remove Stage 2 Restrictrion Remark option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of Remove Stage 2 Restrictrion Remark option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of Remove Stage 2 Restrictrion Remark option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of Remove Stage 2 Restrictrion Remark option");
+	}
+
+	@Test(priority = 71)
+	public void ClickDeviceFOTASkipBy() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of Device FOTA Skip By User Name option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceFOTASkipBy();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of Device FOTA Skip By User Name option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of Device FOTA Skip By User Name option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of Device FOTA Skip By User Name option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of Device FOTA Skip By User Name option");
+	}
+	
+	@Test(priority = 72)
+	public void ClickRemoveStage2RestrictionButton() {
+		String testCaseName = "Test Click on Ticket details of Device FOTA Status of Remove Stage 2 Restriction Button option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.RemoveStage2RestrictionButton();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of Remove Stage 2 Restriction Button option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device FOTA Status of Remove Stage 2 Restriction Button option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device FOTA Status of Remove Stage 2 Restriction Button option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device FOTA Status of Remove Stage 2 Restriction Button option");
+	}
+
+	@Test(priority = 73)
+	public void ClickDeviceIgnOnOff() {
+		String testCaseName = "Test Click on Ticket details of Device Ticket Status of  Vehicle Ignition On option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.DeviceIgnOnOff();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of  Vehicle Ignition On option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Ticket Status of  Vehicle Ignition On option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device Ticket Status of  Vehicle Ignition On option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Ticket Status of  Vehicle Ignition On option");
+	}
+	
+	@Test(priority = 74)
+	public void ClickDeviceGSMNW() {
+		String testCaseName = "Test Click on Ticket details of Device Ticket Status of GSM N/W Available On option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.GSMNWAvailable();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of  GSM N/W Available option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Ticket Status of GSM N/W Available On option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device Ticket Status of GSM N/W Available option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Ticket Status of GSM N/W Available option");
+	}
 }

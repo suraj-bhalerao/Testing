@@ -80,17 +80,17 @@ public class DispachedDevicePage {
 		}
 	}
 	
-	public String clickChooseFile() {
-		// Click on the element 'Add Device Model' and return the current URL
-		try {
-			WebElement ChooseFileBtn= wait.until(ExpectedConditions.visibilityOfElementLocated(commonMethod.uploadFileAndGetFileName()));
-			ChooseFileBtn.click();
-			return driver.getCurrentUrl();
-		} catch (Exception e) {
-			logger.error("Error while clicking on Add Device Model button.", e);
-			throw new RuntimeException("Failed to click on Add Device Model button", e);
-		}
-	}
+//	public String clickChooseFile() {
+//		// Click on the element 'Add Device Model' and return the current URL
+//		try {
+//			WebElement ChooseFileBtn= wait.until(ExpectedConditions.visibilityOfElementLocated(commonMethod.uploadFileAndGetFileName()));
+//			ChooseFileBtn.click();
+//			return driver.getCurrentUrl();
+//		} catch (Exception e) {
+//			logger.error("Error while clicking on Add Device Model button.", e);
+//			throw new RuntimeException("Failed to click on Add Device Model button", e);
+//		}
+//	}
 	
 	public String uploadFile(String filePath) {
 //        return CommonMethod.uploadAndFetchFileName(filePath);

@@ -38,7 +38,7 @@ public class WebDriverFactory {
 	}
 	
 	private static WebDriver getChromeDriver() {
-	    String specificVersion = "133.0.6943.54"; 
+	    String specificVersion = "133.0.6943.54"; // 133.0.6943.54
 	    try {
 	        WebDriverManager.chromedriver().driverVersion(specificVersion).setup();
 	        logger.info("Setting up ChromeDriver version: " + specificVersion);
