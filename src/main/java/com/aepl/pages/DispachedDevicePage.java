@@ -15,10 +15,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aepl.actions.MouseActions;
 import com.aepl.util.CommonMethod;
 
 public class DispachedDevicePage {
@@ -27,6 +27,7 @@ public class DispachedDevicePage {
 	private final WebDriver driver;
 	private final WebDriverWait wait;
 	private CommonMethod commonMethod;
+	private MouseActions mouse;
 	private final Logger logger = LogManager.getLogger(DispachedDevicePage.class);
 
 	private final By dropDown = By.xpath("//span[@class='headers_custom color_3D5772']");
@@ -41,7 +42,7 @@ public class DispachedDevicePage {
 
 	public DispachedDevicePage(WebDriver driver) {
 		this.driver = driver;
-
+		this.mouse = new MouseActions(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		this.commonMethod = new CommonMethod(driver);
 		this.uploadFileAndGetFileName = new CommonMethod(driver);
@@ -91,14 +92,6 @@ public class DispachedDevicePage {
 	}
 
 	public void clickdownloadSample() {
-		// Click on the element 'Download Sample' and verify the download
-		try {
-			WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
-
-			commonMethod.checkReportDownloadForAllbuttons(downloadButton);
-			downloadButton.click();
-			wait.until(ExpectedConditions.invisibilityOf(downloadButton));
-	    // Click on the element 'Download Sample' and verify the download
 	    try {
 	        WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
 	        
@@ -111,87 +104,30 @@ public class DispachedDevicePage {
 	    }
 	}
 
-	public String clickChooseFileBtn() {
-		// Click on the element 'Add Device Model' and return the current URL
+	public void uploadFile(String dir , String filePrefix) throws AWTException {
 		try {
-			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
-			ChooseFileBtn.click();
-			return driver.getCurrentUrl();
+			WebElement chooseFile = driver.findElement(By.id("txtFileUpload"));
+			mouse.moveToElement(chooseFile);
+
+			mouse.clickElement(chooseFile);
+
+			Thread.sleep(3000);
+
+			StringSelection selection = new StringSelection(dir + File.separator +  filePrefix);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
+
+			Robot robot = new Robot();
+			robot.delay(2000);
+
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_V);
+			robot.keyRelease(KeyEvent.VK_V);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+
 		} catch (Exception e) {
-			logger.error("Error while downloading the sample report.", e);
-			throw new RuntimeException("Failed to download the sample report", e);
+
 		}
-	}
-
-
-	public void uploadFile(String fileInput) throws AWTException {
-		((WebElement) ChooseFile).click(); // Click "Choose File" button to open the file dialog
-		handleFileUpload(fileInput);
-		((WebElement) uploadButton).click(); // Click "Upload" button after selecting the file
-	}
-//	public String uploadFile(String filePath) {
-//		return commonMethod.uploadFileAndGetFileName(filePath);
-//	}
-
-
-	private void handleFileUpload(String fileInput) throws AWTException {
-		// Copy file path to clipboard
-		StringSelection selection = new StringSelection(fileInput);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
-
-		// Use Robot to paste file path and press Enter
-		Robot robot = new Robot();
-		robot.delay(2000);
-
-		robot.keyPress(KeyEvent.VK_CONTROL);
-		robot.keyPress(KeyEvent.VK_V);
-		robot.keyRelease(KeyEvent.VK_V);
-		robot.keyRelease(KeyEvent.VK_CONTROL);
-
-		robot.keyPress(KeyEvent.VK_ENTER);
-		robot.keyRelease(KeyEvent.VK_ENTER);
-	}
-
-//	public String uploadFile(String filePath) {
-//	    try {
-//	        logger.info("Starting file upload for: " + filePath);
-//
-//	        WebElement inputField = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
-//	        WebElement uploadBtn = wait.until(ExpectedConditions.elementToBeClickable(uploadButton));
-//
-//	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", inputField);
-//	        inputField.sendKeys(filePath);
-//	        logger.info("File path entered successfully.");
-//
-//	        if (!uploadBtn.isEnabled()) {
-//	            logger.warn("Upload button is disabled. Cannot proceed with file upload.");
-//	            return null;
-//	        }
-//
-//	        uploadBtn.click();
-//	        logger.info("Clicked on the upload button.");
-//
-//	        WebElement uploadedFileElement = wait.until(ExpectedConditions.visibilityOfElementLocated(uploadedFileName));
-//	        String uploadedFile = uploadedFileElement.getText();
-//	        logger.info("File uploaded successfully. Uploaded file name: " + uploadedFile);
-//
-//	        return uploadedFile;
-//	    } catch (Exception e) {
-//	        logger.error("Failed to upload file.", e);
-//	        return null;
-//	    }
-//	}
-
-//	public String clickChooseFileBtn() {
-//		// Click on the element 'Add Device Model' and return the current URL
-//		try {
-//			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
-//			ChooseFileBtn.click();
-//			return driver.getCurrentUrl();
-//		} catch (Exception e) {
-//			logger.error("Error while clicking on Choose File button.", e);
-//			throw new RuntimeException("Failed to click on Choose File button", e);
-//		}
-//	}
-
 }

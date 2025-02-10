@@ -24,7 +24,6 @@ public class DispatchedDevicePageTest extends TestBase {
 	private ExcelUtility excelUtility;
 	private CommonMethod commonMethod;
 	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet.xlsx");
-//		private By fileUploadPage = new FileUploadPage(driver);
 
 	@Override
 	@BeforeClass
@@ -132,86 +131,10 @@ public class DispatchedDevicePageTest extends TestBase {
 	}
 
 	@Test(priority = 6)
-	public void testFileUpload() throws AWTException {
-		DispachedDevicePage.uploadFile(fileInput);
+	public void testFileUpload() throws AWTException, InterruptedException {		
+        String directory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
+        String filePrefix = "Sample_Dispatch_Sheet";
+
+        dispatchedDevice.uploadFile( directory, filePrefix);
 	}
-
-//	@Test(priority = 6)
-//	public void testUploadFile() {
-//	    String testCaseName = "Test Upload File";
-//	    String filePath = "C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet.xlsx";
-//	    String result = "";
-//
-//	    logger.info("Executing test case: {}", testCaseName);
-//
-//	    try {
-//	        String uploadedFileName = dispatchedDevice.uploadFile(filePath);
-//	        result = (uploadedFileName != null && uploadedFileName.contains("Sample_Dispatch_Sheet")) ? "PASS" : "FAIL";
-//	        logger.info("Test case '{}' completed successfully. Uploaded file name: {}", testCaseName, uploadedFileName);
-//	    } catch (Exception e) {
-//	        logger.error("Error encountered in test case '{}'.", testCaseName, e);
-//	        result = "FAIL";
-//	    } finally {
-//	        excelUtility.writeTestDataToExcel(testCaseName, filePath, result.equals("PASS") ? "File uploaded successfully" : "File upload failed", result);
-//	    }
-//	}
-
-//	@Test(priority = 6)
-//	public void testclickChooseFileBtn() {
-//		String testCaseName = "Test Choose File Button";
-//		String expectedURL = ConfigProperties.getProperty("Add.Dispatch.Devices");
-//		String result = "";
-//
-//		logger.info("Executing test case: {}", testCaseName);
-//
-//		try {
-//			String actualURL = dispatchedDevice.clickChooseFileBtn();
-//			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
-//			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
-//					expectedURL, actualURL);
-//		} catch (Exception e) {
-//			logger.error("Error encountered in test case '{}'.", testCaseName, e);
-//			result = "FAIL";
-//		} finally {
-//			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
-//					result.equals("PASS") ? expectedURL : "Error occurred", result);
-//		}
-//	}
-	public void testclickChooseFileBtn() {
-		String testCaseName = "Test Choose File Button";
-		String expectedURL = ConfigProperties.getProperty("Add.Dispatch.Devices");
-		String result = "";
-
-		logger.info("Executing test case: {}", testCaseName);
-
-		try {
-			String actualURL = dispatchedDevice.clickChooseFileBtn();
-			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
-			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
-					expectedURL, actualURL);
-		} catch (Exception e) {
-			logger.error("Error encountered in test case '{}'.", testCaseName, e);
-			result = "FAIL";
-		} finally {
-			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
-					result.equals("PASS") ? expectedURL : "Error occurred", result);
-		}
-	}
-
-//	@Test(priority = 7)
-//	public void testFileUpload() {
-//		String filePath = "C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet (3).xlsx"; // Provide actual
-//																									// file path
-//		String uploadedFileName = dispatchedDevice.clickChooseFile(filePath);
-//
-//		// Printing the uploaded file name (no assertions)
-////	        System.out.println("Uploaded File Name: " + uploadedFileName);S
-//
-////	        String uploadedFile = dispatchedDevice.clickChooseFile(filePath);
-//
-//		if (uploadedFileName.contains("Sample_Dispatch_Sheet")) {
-//			System.out.println("File uploaded successfully");
-//		}
-//	}
-
 }
