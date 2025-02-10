@@ -50,7 +50,7 @@ public class TestBase {
 		logger.info("Navigated to: " + ConfigProperties.getProperty("base.url"));
 	}
 
-	@AfterClass
+//	@AfterClass
 	public void tearDown() {
 		if (driver != null) {
 			logger.info("Closing the browser after all test classes and suite.");
