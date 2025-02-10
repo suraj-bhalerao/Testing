@@ -60,8 +60,7 @@ public class OtaPage extends MouseActions{
 	public By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
 	private By allInputFields = By.tagName("input");
 	private By toastMessageOfOtaAdd = By.xpath("//simple-snack-bar//span[text()='Success']");
-	private By editButtonOfOta = By
-			.xpath("//mat-icon[@class=\"mat-icon notranslate mx-2 material-icons mat-icon-no-color\"]");
+	private By editButtonOfOta = By.xpath("//mat-icon[@class=\"mat-icon notranslate mx-2 material-icons mat-icon-no-color\"]");
 	private By deleteButtonOfOta = By.xpath(
 			"//mat-icon[class=\"mat-icon notranslate mat-tooltip-trigger delete-icon material-icons mat-icon-no-color\"]");
 	private By dropdownOtaType = By.id("id=\"mat-select-6\"");
@@ -398,7 +397,7 @@ public class OtaPage extends MouseActions{
 		try {
 			commonMethod.checkSearchBox(searchInput);
 
-			WebElement editButton = wait.until(ExpectedConditions.visibilityOfElementLocated(editButtonOfOta));
+			WebElement editButton = wait.until(ExpectedConditions.visibilityOfElementLocated(this.editButtonOfOta));
 			editButton.click();
 
 			String updateMessage = fillAndSubmitOtaForm("update");

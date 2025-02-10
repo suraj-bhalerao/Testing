@@ -3,14 +3,13 @@ package com.aepl.tests;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
+import org.apache.log4j.Level;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.aepl.base.TestBase;
 import com.aepl.pages.LoginPage;
 import com.aepl.pages.OtaPage;
-import com.aepl.util.CommonMethod;
 import com.aepl.util.ConfigProperties;
 import com.aepl.util.ExcelUtility;
 
@@ -18,15 +17,13 @@ public class OtaPageTest extends TestBase {
 	private LoginPage loginPage;
 	private ExcelUtility excelUtility;
 	private OtaPage otaPage;
-	private CommonMethod commonMethod;
 
 	@BeforeClass
 	public void setUp() {
 		super.setUp();
 		this.loginPage = new LoginPage(driver);
 		this.otaPage = new OtaPage(driver);
-		this.excelUtility = new ExcelUtility();
-		this.commonMethod = new CommonMethod(driver);
+		this.excelUtility = new ExcelUtility();	
 		excelUtility.initializeExcel("Ota_Page_Test");
 	}
 
@@ -54,7 +51,6 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			logger.warn("Error while clicking on the nav bar links", e);
 			actualURL = driver.getCurrentUrl();
-			commonMethod.captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
@@ -79,7 +75,6 @@ public class OtaPageTest extends TestBase {
 					expectedURL, actualURL);
 		} catch (Exception e) {
 			logger.error("Error encountered in test case '{}'.", testCaseName, e);
-			commonMethod.captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
@@ -101,7 +96,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error while checking buttons on the OTA page: ", e);
 		} finally {
 			logger.info("Writing test result to Excel for test case {} ", testCaseName);
@@ -123,7 +117,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during action buttons test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -151,7 +144,6 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Issue in the search box and the table heading";
 			result = isChecked ? "PASS" : "FAIL";
-			commonMethod.captureScreenshot(testCaseName);
 			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
 			e.getMessage();
 		} finally {
@@ -174,7 +166,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during pagination test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -197,7 +188,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during OTA Batch Report button test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -219,7 +209,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during OTA Batch Date Wise button test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -241,7 +230,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during table headings test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -273,7 +261,6 @@ public class OtaPageTest extends TestBase {
 			result = expectedUrl.equalsIgnoreCase(actualUrl) ? "Pass" : "Fail";
 		} catch (Exception e) {
 			actualUrl = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during OTA Master button test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -296,7 +283,6 @@ public class OtaPageTest extends TestBase {
 			result = actualResult.contains("success") ? "Pass" : "Fail";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during Add New OTA test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -323,7 +309,6 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Issue in the search box and the table heading";
 			result = isChecked ? "PASS" : "FAIL";
-			commonMethod.captureScreenshot(testCaseName);
 			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
 			e.getMessage();
 		} finally {
@@ -347,7 +332,6 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Action buttons worked as expected";
 			result = "Fail";
-			commonMethod.captureScreenshot(testCaseName);
 			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
 			e.getMessage();
 		} finally {
@@ -370,7 +354,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during pagination test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
@@ -392,7 +375,6 @@ public class OtaPageTest extends TestBase {
 			result = "Pass";
 		} catch (Exception e) {
 			actualResult = "Exception occurred: " + e.getMessage();
-			commonMethod.captureScreenshot(testCaseName);
 			logger.error("Error during OTA Type dropdown test: ", e);
 		} finally {
 			logger.info("Writing test results to Excel for {}", testCaseName);
