@@ -25,6 +25,7 @@ public class DispatchedDevicePageTest extends TestBase {
 	private CommonMethod commonMethod;
 	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet.xlsx");
 
+
 	@Override
 	@BeforeClass
 	public void setUp() {
@@ -65,6 +66,13 @@ public class DispatchedDevicePageTest extends TestBase {
 		logger.info("Successfully clicked on the Device Utility.");
 	}
 
+
+	@Test(priority = 3)
+	public void testClickOnDispatchedDevice() {
+		String testCaseName = "Test Dispatched Device Link";
+		String expectedURL = ConfigProperties.getProperty("device.model");
+
+
 	@Test(priority = 3)
 	public void testClickOnDispatchedDevice() {
 		String testCaseName = "Test Dispatched Device Link";
@@ -96,7 +104,11 @@ public class DispatchedDevicePageTest extends TestBase {
 		logger.info("Executing test case: {}", testCaseName);
 
 		try {
+
+			String actualURL = dispatchedDevice.clickDispatchedDevice();
+
 			String actualURL = dispatchedDevice.clickAddDispatchedDevice();
+
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
 					expectedURL, actualURL);
@@ -108,6 +120,22 @@ public class DispatchedDevicePageTest extends TestBase {
 					result.equals("PASS") ? expectedURL : "Error occurred", result);
 		}
 	}
+
+
+	@Test(priority = 4)
+	public void testClickAddDispatchedDevice() {
+		String testCaseName = "Test Add Dispatched Device Button";
+		String expectedURL = ConfigProperties.getProperty("Add.Dispatch.Devices");
+		String result = "";
+
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			String actualURL = dispatchedDevice.clickAddDispatchedDevice();
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
+					expectedURL, actualURL);
+
 
 	@Test(priority = 5)
 	public void testDownloadSample() {
@@ -121,10 +149,57 @@ public class DispatchedDevicePageTest extends TestBase {
 
 			result = "PASS";
 			logger.info("Test case '{}' completed successfully.", testCaseName);
+
 		} catch (Exception e) {
 			logger.error("Error encountered in test case '{}'.", testCaseName, e);
 			result = "FAIL";
 		} finally {
+
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
+					result.equals("PASS") ? expectedURL : "Error occurred", result);
+		}
+	}
+
+	@Test(priority = 5)
+	public void testDownloadSample() {
+		String testCaseName = "Test Download Sample";
+
+			excelUtility.writeTestDataToExcel(testCaseName, "Download Sample",
+					result.equals("PASS") ? "Sample downloaded successfully" : "Sample download failed", result);
+		}
+	}
+
+	@Test(priority = 6)
+	public void testFileUpload() throws AWTException {
+		DispachedDevicePage.uploadFile(fileInput);
+	}
+
+
+
+	public void testclickChooseFileBtn() {
+		String testCaseName = "Test Choose File Button";
+		String expectedURL = ConfigProperties.getProperty("Add.Dispatch.Devices");
+		String result = "";
+
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+
+			dispatchedDevice.clickdownloadSample();
+
+			result = "PASS";
+			logger.info("Test case '{}' completed successfully.", testCaseName);
+
+			String actualURL = dispatchedDevice.clickChooseFileBtn();
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
+					expectedURL, actualURL);
+
+		} catch (Exception e) {
+			logger.error("Error encountered in test case '{}'.", testCaseName, e);
+			result = "FAIL";
+		} finally {
+
 			excelUtility.writeTestDataToExcel(testCaseName, "Download Sample",
 					result.equals("PASS") ? "Sample downloaded successfully" : "Sample download failed", result);
 		}
@@ -136,5 +211,10 @@ public class DispatchedDevicePageTest extends TestBase {
         String filePrefix = "Sample_Dispatch_Sheet";
 
         dispatchedDevice.uploadFile( directory, filePrefix);
+	}
+
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
+					result.equals("PASS") ? expectedURL : "Error occurred", result);
+		}
 	}
 }

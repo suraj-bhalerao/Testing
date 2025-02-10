@@ -67,7 +67,6 @@ public class WebDriverFactory {
 			logger.error("Error initializing ChromeDriver version: " + specificVersion, e);
 			throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
 		}
-
 	}
 
 	private static WebDriver getFirefoxDriver() {

@@ -15,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -27,7 +28,7 @@ public class DispachedDevicePage {
 	private final WebDriver driver;
 	private final WebDriverWait wait;
 	private CommonMethod commonMethod;
-	private MouseActions mouse;
+
 	private final Logger logger = LogManager.getLogger(DispachedDevicePage.class);
 
 	private final By dropDown = By.xpath("//span[@class='headers_custom color_3D5772']");
@@ -42,7 +43,7 @@ public class DispachedDevicePage {
 
 	public DispachedDevicePage(WebDriver driver) {
 		this.driver = driver;
-		this.mouse = new MouseActions(driver);
+
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		this.commonMethod = new CommonMethod(driver);
 		this.uploadFileAndGetFileName = new CommonMethod(driver);
@@ -89,9 +90,23 @@ public class DispachedDevicePage {
 			logger.error("Error while clicking on Add Dispatched Device button.", e);
 			throw new RuntimeException("Failed to click on Add Dispatched Device button", e);
 		}
-	}
+  }
+
+	
+	public String uploadFile(String filePath) {
+//        return CommonMethod.uploadAndFetchFileName(filePath);
+		return "";
+    }
 	
 	public void clickdownloadSample() {
+		// Click on the element 'Download Sample' and verify the download
+		try {
+			WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
+
+			commonMethod.checkReportDownloadForAllbuttons(downloadButton);
+			downloadButton.click();
+			wait.until(ExpectedConditions.invisibilityOf(downloadButton));
+	    // Click on the element 'Download Sample' and verify the download
 	    try {
 	        WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
 	        
@@ -103,6 +118,7 @@ public class DispachedDevicePage {
 	        throw new RuntimeException("Failed to download the sample report", e);
 	    }
 	}
+
 
 	public void uploadFile(String dir , String filePrefix) throws AWTException {
 		try {
@@ -131,4 +147,46 @@ public class DispachedDevicePage {
 
 		}
 	}
+
+	public String clickChooseFileBtn() {
+		// Click on the element 'Add Device Model' and return the current URL
+		try {
+			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
+			ChooseFileBtn.click();
+			return driver.getCurrentUrl();
+		} catch (Exception e) {
+			logger.error("Error while downloading the sample report.", e);
+			throw new RuntimeException("Failed to download the sample report", e);
+		}
+	}
+
+
+	public void uploadFile(String fileInput) throws AWTException {
+		((WebElement) ChooseFile).click(); // Click "Choose File" button to open the file dialog
+		handleFileUpload(fileInput);
+		((WebElement) uploadButton).click(); // Click "Upload" button after selecting the file
+	}
+
+
+	private void handleFileUpload(String fileInput) throws AWTException {
+		// Copy file path to clipboard
+		StringSelection selection = new StringSelection(fileInput);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
+
+		// Use Robot to paste file path and press Enter
+		Robot robot = new Robot();
+		robot.delay(2000);
+
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_V);
+		robot.keyRelease(KeyEvent.VK_V);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+
+
+
 }
