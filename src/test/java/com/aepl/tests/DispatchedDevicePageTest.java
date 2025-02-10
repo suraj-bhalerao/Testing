@@ -177,6 +177,26 @@ public class DispatchedDevicePageTest extends TestBase {
 //					result.equals("PASS") ? expectedURL : "Error occurred", result);
 //		}
 //	}
+	public void testclickChooseFileBtn() {
+		String testCaseName = "Test Choose File Button";
+		String expectedURL = ConfigProperties.getProperty("Add.Dispatch.Devices");
+		String result = "";
+
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			String actualURL = dispatchedDevice.clickChooseFileBtn();
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Test case '{}' completed successfully. Expected URL: {}, Actual URL: {}", testCaseName,
+					expectedURL, actualURL);
+		} catch (Exception e) {
+			logger.error("Error encountered in test case '{}'.", testCaseName, e);
+			result = "FAIL";
+		} finally {
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
+					result.equals("PASS") ? expectedURL : "Error occurred", result);
+		}
+	}
 
 //	@Test(priority = 7)
 //	public void testFileUpload() {

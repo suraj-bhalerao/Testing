@@ -1,5 +1,8 @@
 package com.aepl.tests;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -138,7 +141,11 @@ public class OtaPageTest extends TestBase {
 		boolean isChecked = false;
 
 		try {
-			isChecked = otaPage.checkSearchBoxAndTable();
+			String batchName = "SB_OTA_TEST";
+			List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
+					"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
+
+			isChecked = otaPage.checkSearchBoxAndTable(batchName, expectedHeaders);
 			actualResult = "Search box and the table is validate successfully";
 			result = isChecked ? "PASS" : "FAIL";
 		} catch (Exception e) {
@@ -241,17 +248,155 @@ public class OtaPageTest extends TestBase {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}
-	
-	@Test(priority= 11)
+
+	@Test(priority = 11)
 	public void testCheckReportsButtons() {
 		boolean isChecked = otaPage.checkReportsButtons();
-		
-		if(!isChecked) {
+
+		if (!isChecked) {
 			System.err.println("Error in checking report buttons");
-		}else {
+		} else {
 			System.out.println("Checked the report buttons");
 		}
 	}
-	
-	// added new changes 
+
+	@Test(priority = 12)
+	public void testClickOtaMaster() {
+		String testCaseName = "Testing the OTA Master button";
+		String expectedUrl = ConfigProperties.getProperty("ota.master");
+		String actualUrl = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			actualUrl = otaPage.clickOtaMaster();
+			result = expectedUrl.equalsIgnoreCase(actualUrl) ? "Pass" : "Fail";
+		} catch (Exception e) {
+			actualUrl = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during OTA Master button test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedUrl, actualUrl, result);
+		}
+
+	}
+
+	@Test(priority = 13)
+	public void testAddNewOta() {
+		String testCaseName = "Testing the Add New OTA functionality";
+		String expectedResult = "OTA form should be filled and submitted successfully";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			actualResult = otaPage.fillAndSubmitOtaForm("add");
+			Thread.sleep(2000);
+			result = actualResult.contains("success") ? "Pass" : "Fail";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during Add New OTA test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 14)
+	public void testCheckSearchAndTableOfOtaMaster() {
+		String testCaseName = "Testing search box and table headers of OTA Master";
+		String expectedResult = "Search box and the table is validate successfully";
+		String actualResult = "";
+		String result = "";
+		boolean isChecked = false;
+
+		try {
+			String batchName = "CIIP1";
+			List<String> expectedHeaders = Arrays.asList("OTA Command Name", "OTA Command", "Keyword", "Example", "Min",
+					"Max", "Action");
+
+			isChecked = otaPage.checkSearchBoxAndTable(batchName, expectedHeaders);
+			actualResult = "Search box and the table is validate successfully";
+			result = isChecked ? "PASS" : "FAIL";
+		} catch (Exception e) {
+			actualResult = "Issue in the search box and the table heading";
+			result = isChecked ? "PASS" : "FAIL";
+			commonMethod.captureScreenshot(testCaseName);
+			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+			e.getMessage();
+		} finally {
+			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 15)
+	public void testCheckOtaMasterActionButtons() {
+		String testCaseName = "Testing the action buttons of OTA Master";
+		String expectedResult = "Action buttons should work correctly";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			actualResult = "Action buttons worked as expected";
+			otaPage.checkOtaMasterActionButtons();
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Action buttons worked as expected";
+			result = "Fail";
+			commonMethod.captureScreenshot(testCaseName);
+			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+			e.getMessage();
+		} finally {
+			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 16)
+	public void testCheckPaginationOfOtaMaster() {
+		String testCaseName = "Testing the pagination";
+		String expectedResult = "Pagination should work correctly by navigating through pages";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.checkPagination();
+			actualResult = "Pagination worked as expected";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during pagination test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
+
+	@Test(priority = 17)
+	public void testSelectOtaTypeDropdown() {
+		String testCaseName = "Testing the OTA Type dropdown";
+		String expectedResult = "OTA Type dropdown should be selected successfully";
+		String actualResult = "";
+		String result = "Fail";
+		logger.info("Executing test case: {}", testCaseName);
+
+		try {
+			otaPage.selectOtaTypeDropdown();
+			actualResult = "OTA Type dropdown selected successfully";
+			result = "Pass";
+		} catch (Exception e) {
+			actualResult = "Exception occurred: " + e.getMessage();
+			commonMethod.captureScreenshot(testCaseName);
+			logger.error("Error during OTA Type dropdown test: ", e);
+		} finally {
+			logger.info("Writing test results to Excel for {}", testCaseName);
+			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
+		}
+	}
 }

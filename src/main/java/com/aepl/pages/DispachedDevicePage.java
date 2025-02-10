@@ -98,17 +98,41 @@ public class DispachedDevicePage {
 			commonMethod.checkReportDownloadForAllbuttons(downloadButton);
 			downloadButton.click();
 			wait.until(ExpectedConditions.invisibilityOf(downloadButton));
+	    // Click on the element 'Download Sample' and verify the download
+	    try {
+	        WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
+	        
+	        commonMethod.checkReportDownloadForAllbuttons(downloadButton);
+	        downloadButton.click();
+	        wait.until(ExpectedConditions.invisibilityOf(downloadButton));
+	    } catch (Exception e) {
+	        logger.error("Error while downloading the sample report.", e);
+	        throw new RuntimeException("Failed to download the sample report", e);
+	    }
+	}
+
+	public String clickChooseFileBtn() {
+		// Click on the element 'Add Device Model' and return the current URL
+		try {
+			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
+			ChooseFileBtn.click();
+			return driver.getCurrentUrl();
 		} catch (Exception e) {
 			logger.error("Error while downloading the sample report.", e);
 			throw new RuntimeException("Failed to download the sample report", e);
 		}
 	}
 
+
 	public void uploadFile(String fileInput) throws AWTException {
 		((WebElement) ChooseFile).click(); // Click "Choose File" button to open the file dialog
 		handleFileUpload(fileInput);
 		((WebElement) uploadButton).click(); // Click "Upload" button after selecting the file
 	}
+//	public String uploadFile(String filePath) {
+//		return commonMethod.uploadFileAndGetFileName(filePath);
+//	}
+
 
 	private void handleFileUpload(String fileInput) throws AWTException {
 		// Copy file path to clipboard
