@@ -1,5 +1,8 @@
 package com.aepl.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -36,19 +39,37 @@ public class WebDriverFactory {
 		logger.info(browserName + " WebDriver initialized.");
 		return driver;
 	}
-	
+
 	private static WebDriver getChromeDriver() {
-	    String specificVersion = "133.0.6943.54"; // 133.0.6943.54
-	    try {
-	        WebDriverManager.chromedriver().driverVersion(specificVersion).setup();
-	        logger.info("Setting up ChromeDriver version: " + specificVersion);
-	        return new ChromeDriver();
-	    } catch (Exception e) {
-	        logger.error("Error initializing ChromeDriver version: " + specificVersion, e);
-	        throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
-	    }
+		String specificVersion = "133.0.6943.54";
+		try {
+			ChromeOptions options = new ChromeOptions();
+
+			options.addArguments("--allow-running-insecure-content");
+			options.addArguments("--safebrowsing-disable-download-protection");
+			options.addArguments("--disable-popup-blocking");
+
+			Map<String, Object> prefs = new HashMap<>();
+			prefs.put("download.default_directory", "C:\\Users\\Suraj Bhaleroa\\Downloads");
+			prefs.put("download.prompt_for_download", false);
+			prefs.put("download.directory_upgrade", true);
+			prefs.put("safebrowsing.enabled", true);
+			prefs.put("profile.default_content_settings.popups", 0);
+
+			options.setExperimentalOption("prefs", prefs);
+
+			WebDriverManager.chromedriver().driverVersion(specificVersion).setup();
+			logger.info("Setting up ChromeDriver version: " + specificVersion);
+
+			return new ChromeDriver(options);
+
+		} catch (Exception e) {
+			logger.error("Error initializing ChromeDriver version: " + specificVersion, e);
+			throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
+		}
+
 	}
-	
+
 	private static WebDriver getFirefoxDriver() {
 		WebDriverManager.firefoxdriver().setup();
 		return new FirefoxDriver();
@@ -58,30 +79,29 @@ public class WebDriverFactory {
 		WebDriverManager.iedriver().setup();
 		return new InternetExplorerDriver();
 	}
-	
+
 	private static WebDriver getEdgeDriver() {
 		WebDriverManager.edgedriver().setup();
 		return new EdgeDriver();
 	}
-	
+
 	private static WebDriver getBraveDriver() {
-	    try {
-	        WebDriverManager.chromedriver().setup();
-	        logger.info("Setting up Brave Browser WebDriver.");
+		try {
+			WebDriverManager.chromedriver().setup();
+			logger.info("Setting up Brave Browser WebDriver.");
 
-	        String braveExecutablePath = "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe";
+			String braveExecutablePath = "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe";
 
-	        ChromeOptions options = new ChromeOptions();
-	        options.setBinary(braveExecutablePath);
-	        options.addArguments("--remote-allow-origins=*"); 
-	        options.addArguments("--start-maximized"); 
+			ChromeOptions options = new ChromeOptions();
+			options.setBinary(braveExecutablePath);
+			options.addArguments("--remote-allow-origins=*");
+			options.addArguments("--start-maximized");
 
-	        return new ChromeDriver(options);
-	    } catch (Exception e) {
-	        logger.error("Error initializing Brave WebDriver", e);
-	        throw new RuntimeException("Failed to initialize Brave WebDriver.", e);
-	    }
+			return new ChromeDriver(options);
+		} catch (Exception e) {
+			logger.error("Error initializing Brave WebDriver", e);
+			throw new RuntimeException("Failed to initialize Brave WebDriver.", e);
+		}
 	}
-
 
 }
