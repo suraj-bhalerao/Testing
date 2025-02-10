@@ -1,5 +1,10 @@
 package com.aepl.pages;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.time.Duration;
 import java.util.List;
@@ -7,6 +12,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -28,11 +34,14 @@ public class DispachedDevicePage {
 	private final By AddDispatchedDevice = By.xpath("//button[contains(.,'Add Dispatched Device')]");
 	private final By ChooseFile = By.id("txtFileUpload");
 	private CommonMethod uploadFileAndGetFileName;
-	private final By downloadReportButton = By.xpath("//button[contains(.,'Download Sample')]");
+	private final By downloadSampleButton = By.xpath("//button[contains(.,'Download Sample')]");
+	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet.xlsx");
+	private By uploadButton = By.id("txtFileUpload");
+	private By uploadedFileName = By.id("Sample_Dispatch_Sheet (3).xlsx");
 
 	public DispachedDevicePage(WebDriver driver) {
 		this.driver = driver;
-		
+
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		this.commonMethod = new CommonMethod(driver);
 		this.uploadFileAndGetFileName = new CommonMethod(driver);
@@ -81,29 +90,84 @@ public class DispachedDevicePage {
 		}
 	}
 
-	public void downloadAndVerifyReport() {
-		WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadReportButton));
-		commonMethod.checkReportDownloadForAllbuttons(downloadButton);
-		
-	}
-
-	public String clickChooseFile(String filePath) {
-		// Click on the element 'Choose File' and return the current
+	public void clickdownloadSample() {
+		// Click on the element 'Download Sample' and verify the download
 		try {
-			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
-			ChooseFileBtn.click();
-			File file = new File(filePath);
-			System.out.println(file.getName());
-//		uploadFile(file);
-			return "";
+			WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
+
+			commonMethod.checkReportDownloadForAllbuttons(downloadButton);
+			downloadButton.click();
+			wait.until(ExpectedConditions.invisibilityOf(downloadButton));
 		} catch (Exception e) {
-			logger.error("Error while clicking on Choose File button.", e);
-			throw new RuntimeException("Failed to click on Choose File button", e);
+			logger.error("Error while downloading the sample report.", e);
+			throw new RuntimeException("Failed to download the sample report", e);
 		}
 	}
 
-	public String uploadFile(String filePath) {
-		return commonMethod.uploadFileAndGetFileName(filePath);
+	public void uploadFile(String fileInput) throws AWTException {
+		((WebElement) ChooseFile).click(); // Click "Choose File" button to open the file dialog
+		handleFileUpload(fileInput);
+		((WebElement) uploadButton).click(); // Click "Upload" button after selecting the file
 	}
+
+	private void handleFileUpload(String fileInput) throws AWTException {
+		// Copy file path to clipboard
+		StringSelection selection = new StringSelection(fileInput);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
+
+		// Use Robot to paste file path and press Enter
+		Robot robot = new Robot();
+		robot.delay(2000);
+
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_V);
+		robot.keyRelease(KeyEvent.VK_V);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+//	public String uploadFile(String filePath) {
+//	    try {
+//	        logger.info("Starting file upload for: " + filePath);
+//
+//	        WebElement inputField = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
+//	        WebElement uploadBtn = wait.until(ExpectedConditions.elementToBeClickable(uploadButton));
+//
+//	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", inputField);
+//	        inputField.sendKeys(filePath);
+//	        logger.info("File path entered successfully.");
+//
+//	        if (!uploadBtn.isEnabled()) {
+//	            logger.warn("Upload button is disabled. Cannot proceed with file upload.");
+//	            return null;
+//	        }
+//
+//	        uploadBtn.click();
+//	        logger.info("Clicked on the upload button.");
+//
+//	        WebElement uploadedFileElement = wait.until(ExpectedConditions.visibilityOfElementLocated(uploadedFileName));
+//	        String uploadedFile = uploadedFileElement.getText();
+//	        logger.info("File uploaded successfully. Uploaded file name: " + uploadedFile);
+//
+//	        return uploadedFile;
+//	    } catch (Exception e) {
+//	        logger.error("Failed to upload file.", e);
+//	        return null;
+//	    }
+//	}
+
+//	public String clickChooseFileBtn() {
+//		// Click on the element 'Add Device Model' and return the current URL
+//		try {
+//			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
+//			ChooseFileBtn.click();
+//			return driver.getCurrentUrl();
+//		} catch (Exception e) {
+//			logger.error("Error while clicking on Choose File button.", e);
+//			throw new RuntimeException("Failed to click on Choose File button", e);
+//		}
+//	}
 
 }

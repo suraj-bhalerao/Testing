@@ -41,9 +41,9 @@ public class CommonMethod {
 	public By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
 
 	public By eyeActionButton = By.xpath("//tbody/tr[1]/td[9]/mat-icon[1]");
-	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet (3).xlsx");
+	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet.xlsx");
 	private By uploadButton = By.id("txtFileUpload");
-	private By uploadedFileName = By.id("Sample_Dispatch_Sheet (3).xlsx");
+	private By uploadedFileName = By.id("Sample_Dispatch_Sheet.xlsx");
 
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
@@ -294,7 +294,7 @@ public class CommonMethod {
 
 	public void checkReportDownloadForAllbuttons(WebElement button) {
 		String downloadDirectory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
-		String expectedFileName = "Sample_Dispatch_Sheet.csv"; 
+		String expectedFileName = "Sample_Dispatch_Sheet.csv";
 		long timeoutInSeconds = 120;
 
 		if (button.isEnabled()) {
@@ -313,7 +313,7 @@ public class CommonMethod {
 				break;
 			}
 			try {
-				Thread.sleep(1000); 
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
