@@ -7,33 +7,37 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aepl.actions.CalendarActions;
 import com.aepl.actions.MouseActions;
 import com.aepl.util.CommonMethod;
 
-public class OtaPage {
+public class OtaPage extends MouseActions{
 
 	// Global variables
 	private WebDriver driver;
 	private WebDriverWait wait;
 	private CommonMethod commonMethod;
 	private CalendarActions calendarActions;
-	private MouseActions mouseAction;
+	private MouseActions mouseActions;
+  
 	private static final Logger logger = LogManager.getLogger(OtaPage.class);
 
 	// Constructor
 	public OtaPage(WebDriver driver) {
+		super(driver);
 		this.driver = driver;
 		this.commonMethod = new CommonMethod(driver);
 		this.calendarActions = new CalendarActions(driver);
-		this.mouseAction = new MouseActions(driver);
+		this.mouseActions = new MouseActions(driver);
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
@@ -53,7 +57,13 @@ public class OtaPage {
 	private By batchIdTo = By.id("toBatchId");
 	private By batchSubmitBtn = By.xpath("//button[@class=\"btn-sm btn btn-outline-primary example-full-width\"]");
 	private By clearButton = By.xpath("//button[@class=\"btn-sm btn btn-outline-secondary example-full-width\"]");
-	private By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
+	public By reportButton = By.xpath("//button[@class=\"btn-sm btn example-full-width float-right\"]");
+	private By allInputFields = By.tagName("input");
+	private By toastMessageOfOtaAdd = By.xpath("//simple-snack-bar//span[text()='Success']");
+	private By editButtonOfOta = By.xpath("//mat-icon[@class=\"mat-icon notranslate mx-2 material-icons mat-icon-no-color\"]");
+	private By deleteButtonOfOta = By.xpath(
+			"//mat-icon[class=\"mat-icon notranslate mat-tooltip-trigger delete-icon material-icons mat-icon-no-color\"]");
+	private By dropdownOtaType = By.id("id=\"mat-select-6\"");
 
 	// Methods
 	public void clickNavBar() {
@@ -106,17 +116,12 @@ public class OtaPage {
 		}
 	}
 
-	public boolean checkSearchBoxAndTable() {
-		logger.log(Level.INFO, "Trying to check the search box and table");
-		String batchName = "SB_OTA_TEST";
-		List<String> expectedHeaders = Arrays.asList("Batch ID", "Batch Name", "Batch Description", "Created By",
-				"Created At", "Batch Breakdown", "Completed Percentage", "Batch Status", "Action");
-
-		logger.log(Level.INFO, "Taking table heading before the search");
-
+	//
+	public boolean checkSearchBoxAndTable(String input, List<String> expectedHeaders) {
+		// this is to get the latest batch number of the ota table.
 		batchCount = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]")).getText();
 
-		return commonMethod.checkSearchBoxWithTableHeadings(batchName, expectedHeaders);
+		return commonMethod.checkSearchBoxWithTableHeadings(input, expectedHeaders);
 	}
 
 	public void checkActionButtons() {
@@ -238,25 +243,21 @@ public class OtaPage {
 	public boolean checkReportsButtons() {
 		logger.info("Starting to check report buttons.");
 
-		List<WebElement> reportButtons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(reportButton));
-		logger.info("Found " + reportButtons.size() + " report buttons.");
-
 		try {
+			List<WebElement> reportButtons = wait
+					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(reportButton));
+			logger.info("Found " + reportButtons.size() + " report buttons.");
+
 			for (WebElement button : reportButtons) {
 				if (button.isEnabled() && button.isDisplayed()) {
-					logger.info("Button is enabled and displayed. Moving to the button.");
-					mouseAction.moveToElement(button);
-					logger.info("Moved to the button. Clicking the button.");
-					mouseAction.clickElement(button);
-					logger.info("Clicked the button successfully.");
 					Thread.sleep(2000);
-					try {
-						commonMethod.checkReportDownloadForAllbuttons(button);
-						Thread.sleep(2000);
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
+					System.out.println("Button text: " + button.getText());
+					if (button.getText().contains("Batch Summary Report")) {
+						commonMethod.reportDownloadButtons(button);
+						return true;
+					} else {
+						logger.warn("Button text does not match the expected value.");
 					}
-					return true;
 				} else {
 					logger.warn("Button is either not enabled or not displayed.");
 				}
@@ -264,7 +265,188 @@ public class OtaPage {
 		} catch (Exception e) {
 			logger.error("An error occurred while checking report buttons.", e);
 		}
+
 		logger.info("Finished checking report buttons. No clickable button found.");
+		driver.navigate().back();
 		return false;
 	}
+
+	public String clickOtaMaster() {
+		try {
+			driver.navigate().back();
+			Thread.sleep(1000);
+			List<WebElement> buttonList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(buttonsList));
+
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", buttonList.get(1));
+
+			Thread.sleep(1000);
+
+			for (WebElement button : buttonList) {
+				if (button.getText().equalsIgnoreCase("OTA Master")) {
+					button.click();
+					logger.info("Clicked on the OTA Master button");
+					System.out.println("Navigated to URL: " + driver.getCurrentUrl());
+					return driver.getCurrentUrl();
+				}
+			}
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		return "link not found";
+	}
+	
+	// all other methods here
+	public void addNewOta() {
+		// Add all types of all ota one by one like 
+		/*
+		 *  *SET#Example# /
+		 	*SET#Example#VAL# /
+		 	*SET#Example#VAL#VAL /
+		 	*GET#Example# /
+		 	*CLR#Example#
+		 * */
+	}
+	
+	public void checkSearchAndTable() {
+		// step 1: search ota that is added
+		// step 2: check the table
+		
+	}
+
+	public String fillAndSubmitOtaForm(String action) {
+		WebElement toastConfirmation;
+		List<WebElement> inputFields = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allInputFields));
+
+		try {
+			// Fill input fields dynamically based on placeholders
+			for (WebElement inputField : inputFields) {
+				String placeholder = inputField.getDomAttribute("placeholder");
+				if (placeholder == null)
+					continue;
+
+				switch (placeholder) {
+				case "Please Enter OTA Command Name":
+					inputField.sendKeys("DEMO");
+					Thread.sleep(500);
+					break;
+				case "Please Enter OTA Command":
+					inputField.sendKeys("*GET#CIIP1#");
+					Thread.sleep(500);
+					break;
+				case "Please Enter Keyword":
+					inputField.sendKeys("CIIP1");
+					Thread.sleep(500);
+					break;
+				case "Please Enter Example":
+					inputField.sendKeys("*GET#Example#");
+					Thread.sleep(500);
+					break;
+				case "Please Enter Min Value":
+					inputField.sendKeys("0");
+					Thread.sleep(500);
+					break;
+				case "Please Enter Max Value":
+					inputField.sendKeys("1");
+					Thread.sleep(500);
+					break;
+				default:
+					logger.warn("Unknown placeholder: " + placeholder);
+				}
+			}
+
+			// Locate buttons dynamically
+			By addButtonLocator = By.xpath("//button[@class='btn btn-outline-primary ng-star-inserted']");
+			By updateButtonLocator = By.xpath("//button[@class=\"btn btn-outline-primary ml-1 ng-star-inserted\"]");
+
+			boolean isAddButtonPresent = driver.findElements(addButtonLocator).size() > 0;
+			boolean isUpdateButtonPresent = driver.findElements(updateButtonLocator).size() > 0;
+
+			if ("add".equalsIgnoreCase(action) && isAddButtonPresent) {
+				WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(addButtonLocator));
+				addButton.click();
+				toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
+				return toastConfirmation.getText();
+
+			} else if ("update".equalsIgnoreCase(action) && isUpdateButtonPresent) {
+				WebElement updateButton = wait.until(ExpectedConditions.elementToBeClickable(updateButtonLocator));
+				updateButton.click();
+				toastConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessageOfOtaAdd));
+				return toastConfirmation.getText();
+			} else {
+				logger.warn("No valid button found to click for action: " + action);
+				return "No valid button found";
+			}
+
+		} catch (Exception e) {
+			logger.error("An error occurred while filling and submitting the OTA form.", e);
+			return "Error occurred";
+		}
+	}
+
+	// Extra writed method.
+	public boolean checkSearchAndTableOfOtaMaster() {
+		String searchInput = "*GET#CIIP1#";
+		List<String> expectedHeaders = Arrays.asList("OTA Command Name", "OTA Command", "Keyword", "Example", "Min",
+				"Max", "Action");
+		return commonMethod.checkSearchBoxWithTableHeadings(searchInput, expectedHeaders);
+	}
+
+	public void checkOtaMasterActionButtons() {
+		String searchInput = "CIIP1";
+		try {
+			commonMethod.checkSearchBox(searchInput);
+
+			WebElement editButton = wait.until(ExpectedConditions.visibilityOfElementLocated(this.editButtonOfOta));
+			editButton.click();
+
+			String updateMessage = fillAndSubmitOtaForm("update");
+			boolean isOtaUpdate = updateMessage.contains("Successfully updated.");
+			System.out.println("OTA UPDATED ? " + isOtaUpdate);
+
+			if (isOtaUpdate) {
+				System.out.println("OTA command updated successfully.");
+			} else {
+				System.out.println("OTA command not updated.");
+			}
+
+			// Ensure delete button is located again
+			WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(deleteButtonOfOta));
+
+			System.out.println("Attempting to move to delete button...");
+			mouseActions.moveToElement(deleteButton);
+
+			System.out.println("Attempting to click delete button...");
+			mouseActions.clickElement(deleteButton);
+
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void selectOtaTypeDropdown() {
+		// step 1: select the ota type dropdown
+		WebElement otaTypeDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownOtaType));
+		otaTypeDropdown.click();
+
+		// step 2: click on the ota type : ALL
+		Select otaType = new Select(otaTypeDropdown);
+		otaType.selectByVisibleText("ALL");
+
+		// step 3: validate the pagination and count of ALL ota type
+		// step 4: click on the ota type : SET
+		// step 5: validate the pagination and count of SET ota type
+		// step 6: click on the ota type : GET
+		// step 7: validate the pagination and count of GET ota type
+		// step 8: click on the ota type : CLR
+		// step 9: validate the pagination and count of CLR ota type
+		
+		// Thank You !!!
+		
+		
+	}
+
 }

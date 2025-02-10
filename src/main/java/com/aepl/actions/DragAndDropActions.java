@@ -20,7 +20,6 @@ public class DragAndDropActions {
 		this.actions = new Actions(this.driver);
 	}
 
-
 	public void dragAndDrop(WebElement source, WebElement target) {
 		if (source == null || target == null) {
 			logger.error("Source or target element cannot be null");

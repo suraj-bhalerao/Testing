@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -91,17 +92,16 @@ public class DispachedDevicePage {
 	}
 
 	public void clickdownloadSample() {
-		// Click on the element 'Download Sample' and verify the download
-		try {
-			WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
-
-			commonMethod.checkReportDownloadForAllbuttons(downloadButton);
-			downloadButton.click();
-			wait.until(ExpectedConditions.invisibilityOf(downloadButton));
-		} catch (Exception e) {
-			logger.error("Error while downloading the sample report.", e);
-			throw new RuntimeException("Failed to download the sample report", e);
-		}
+	    try {
+	        WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
+	        
+	        commonMethod.checkReportDownloadForAllbuttons(downloadButton);
+	        downloadButton.click();
+	        wait.until(ExpectedConditions.invisibilityOf(downloadButton));
+	    } catch (Exception e) {
+	        logger.error("Error while downloading the sample report.", e);
+	        throw new RuntimeException("Failed to download the sample report", e);
+	    }
 	}
 
 	public void uploadFile(String dir , String filePrefix) throws AWTException {
@@ -130,6 +130,4 @@ public class DispachedDevicePage {
 		} catch (Exception e) {
 
 		}
-	}
-
 }

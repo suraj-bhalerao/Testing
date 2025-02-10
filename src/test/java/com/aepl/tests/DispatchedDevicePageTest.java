@@ -24,7 +24,6 @@ public class DispatchedDevicePageTest extends TestBase {
 	private ExcelUtility excelUtility;
 	private CommonMethod commonMethod;
 	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet.xlsx");
-//		private By fileUploadPage = new FileUploadPage(driver);
 
 	@Override
 	@BeforeClass
