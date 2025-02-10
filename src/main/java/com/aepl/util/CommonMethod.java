@@ -2,6 +2,8 @@ package com.aepl.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -39,10 +41,9 @@ public class CommonMethod {
 	public By tableHeadings = By.xpath("//table[@id='DataTables_Table_0']//th");
 
 	public By eyeActionButton = By.xpath("//tbody/tr[1]/td[9]/mat-icon[1]");
-	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet (3).xlsx");
-    private By uploadButton = By.id("txtFileUpload");
-    private By uploadedFileName = By.id("Sample_Dispatch_Sheet (3).xlsx");
-
+	private By fileInput = By.id("C:\\Users\\Dhananjay Jagtap\\Downloads\\Sample_Dispatch_Sheet.xlsx");
+	private By uploadButton = By.id("txtFileUpload");
+	private By uploadedFileName = By.id("Sample_Dispatch_Sheet.xlsx");
 
 	public void captureScreenshot(String testCaseName) {
 		if (driver == null) {
@@ -73,7 +74,7 @@ public class CommonMethod {
 			search.clear();
 			search.sendKeys(input);
 			search.sendKeys(Keys.ENTER);
-			
+
 			logger.info("Waiting for the table to update...");
 			Thread.sleep(2000);
 			search.clear();
@@ -86,18 +87,12 @@ public class CommonMethod {
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
 
-			List<String> actualHeaderTexts = actualHeaderElements
-					.stream()
-					.map(WebElement::getText)
-					.map(String::trim)
+			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
 					.map(String::toLowerCase)
 //					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
 					.collect(Collectors.toList());
 
-			List<String> normalizedExpectedHeaders = expectedHeaders
-					.stream()
-					.map(String::trim)
-					.map(String::toLowerCase)
+			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
 //					.peek(header -> System.out.println("Expected Header: " + header)) 
 					.collect(Collectors.toList());
 
@@ -113,26 +108,20 @@ public class CommonMethod {
 			throw new RuntimeException("Validation failed due to an exception", e);
 		}
 	}
-	
-	// Only for table to have only headings not the search box 
+
+	// Only for table to have only headings not the search box
 	public boolean checkTableHeadings(List<String> expectedHeaders) {
 		try {
-			
+
 			List<WebElement> actualHeaderElements = wait
 					.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableHeadings));
 
-			List<String> actualHeaderTexts = actualHeaderElements
-					.stream()
-					.map(WebElement::getText)
-					.map(String::trim)
+			List<String> actualHeaderTexts = actualHeaderElements.stream().map(WebElement::getText).map(String::trim)
 					.map(String::toLowerCase)
 //					.peek(header -> System.out.println("Actual Header: " + header)) 																				// headers
 					.collect(Collectors.toList());
 
-			List<String> normalizedExpectedHeaders = expectedHeaders
-					.stream()
-					.map(String::trim)
-					.map(String::toLowerCase)
+			List<String> normalizedExpectedHeaders = expectedHeaders.stream().map(String::trim).map(String::toLowerCase)
 //					.peek(header -> System.out.println("Expected Header: " + header)) 
 					.collect(Collectors.toList());
 
@@ -146,6 +135,20 @@ public class CommonMethod {
 		} catch (Exception e) {
 			logger.error("Exception during search or validation process", e);
 			throw new RuntimeException("Validation failed due to an exception", e);
+		}
+	}
+
+	// Only for the search box field
+	public void checkSearchBox(String input) {
+		try {
+			WebElement search = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
+			search.click();
+			search.clear();
+			search.sendKeys(input);
+			search.sendKeys(Keys.ENTER);
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -160,14 +163,14 @@ public class CommonMethod {
 			js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", eyeButton);
 
 			Thread.sleep(1000);
-			
+
 			eye.click();
 			logger.info("Page validation successful. Navigating back.");
-			
+
 			driver.navigate().back();
-			
+
 			wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
-			
+
 			logger.info("Navigated back to the original page.");
 		} catch (Exception e) {
 			logger.error("An error occurred while interacting with the eye action button.", e);
@@ -261,7 +264,6 @@ public class CommonMethod {
 			return false;
 		}
 	}
-	
 
 	// Highlight some element on the page
 	public void highlightElement(WebElement element, String color) {
@@ -270,42 +272,92 @@ public class CommonMethod {
 	}
 
 	public String uploadFileAndGetFileName(String filePath) {
-        try {
-            logger.info("Starting file upload for: " + filePath);
+		try {
+			logger.info("Starting file upload for: " + filePath);
 
-            // Locate elements
-            WebElement inputField = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
-            WebElement uploadBtn = wait.until(ExpectedConditions.elementToBeClickable(uploadButton));
+			WebElement inputField = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
+			WebElement uploadBtn = wait.until(ExpectedConditions.elementToBeClickable(uploadButton));
 
-            // Scroll into view and enter file path
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", inputField);
-            inputField.sendKeys(filePath);
-            logger.info("File path entered successfully.");
+			((JavascriptExecutor) driver)
+					.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", inputField);
+			inputField.sendKeys(filePath);
+			logger.info("File path entered successfully.");
 
-            // Check if upload button is enabled
-            if (!uploadBtn.isEnabled()) {
-                logger.warn("Upload button is disabled. Cannot proceed with file upload.");
-                return null;
-            }
+			if (!uploadBtn.isEnabled()) {
+				logger.warn("Upload button is disabled. Cannot proceed with file upload.");
+				return null;
+			}
 
-            // Click the upload button
-            uploadBtn.click();
-            logger.info("Clicked on the upload button.");
+			uploadBtn.click();
+			logger.info("Clicked on the upload button.");
 
-            // Wait for the upload to complete
-            Thread.sleep(5000);
+			Thread.sleep(5000);
 
-            // Retrieve uploaded file name
-            WebElement uploadedFileElement = wait.until(ExpectedConditions.visibilityOfElementLocated(uploadedFileName));
-            String uploadedFile = uploadedFileElement.getText();
-            logger.info("File uploaded successfully. Uploaded file name: " + uploadedFile);
-            
-            return uploadedFile;
+			WebElement uploadedFileElement = wait
+					.until(ExpectedConditions.visibilityOfElementLocated(uploadedFileName));
+			String uploadedFile = uploadedFileElement.getText();
+			logger.info("File uploaded successfully. Uploaded file name: " + uploadedFile);
 
-        } catch (Exception e) {
-            logger.error("Failed to upload file.", e);
-            return null;
-        }
-    }
+			return uploadedFile;
+
+		} catch (Exception e) {
+			logger.error("Failed to upload file.", e);
+			return null;
+		}
+	}
+
+	public void checkReportDownloadForAllbuttons(WebElement button) {
+		String downloadDirectory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
+		String expectedFileName = "Sample_Dispatch_Sheet.csv";
+		long timeoutInSeconds = 120;
+	}
+
+	public void reportDownloadButtons(WebElement button) {
+		String downloadDirectory = "C:\\Users\\Suraj Bhalerao\\Downloads";
+		String filePrefix = "OverallBatchReport_export_";
+		long timeoutInSeconds = 30;
+
+		if (button.isEnabled()) {
+			button.click();
+			logger.info("Clicked on the report button, waiting for the file to be downloaded...");
+		}
+
+		File downloadFolder = new File(downloadDirectory);
+		long endTime = System.currentTimeMillis() + timeoutInSeconds * 1000;
+		File downloadedFile = null;
+
+		while (System.currentTimeMillis() < endTime) {
+			File[] files = downloadFolder
+					.listFiles((d, name) -> name.startsWith(filePrefix) && name.endsWith(".xlsx"));
+			if (files != null && files.length > 0) {
+				downloadedFile = files[0];
+				logger.info("File found: " + downloadedFile.getName());
+				break;
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+
+		if (downloadedFile == null) {
+			logger.error("File was not downloaded within the timeout.");
+			throw new AssertionError("File not downloaded.");
+		}
+
+		try {
+			long fileSize = Files.size(Paths.get(downloadedFile.getAbsolutePath()));
+			if (fileSize > 0) {
+				logger.info("File download successful. File size: " + fileSize + " bytes.");
+			} else {
+				logger.error("Downloaded file is empty.");
+				throw new AssertionError("Downloaded file is empty.");
+			}
+		} catch (IOException e) {
+			logger.error("Error while checking file size.", e);
+			throw new RuntimeException("Error while verifying downloaded file.");
+		}
+	}
 
 }

@@ -4,7 +4,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.aepl.base.TestBase;
-import com.aepl.pages.ChangeMobilePage;
 import com.aepl.pages.DeviceDashboardPage;
 import com.aepl.pages.LoginPage;
 import com.aepl.util.ConfigProperties;
@@ -15,7 +14,7 @@ public class DeviceDashboardPageTest extends TestBase {
 	private LoginPage loginPage;
 	private ExcelUtility excelUtility;
 	private DeviceDashboardPage DeviceDashboard;
-	
+
 	@Override
 	@BeforeClass
 	public void setUp() {
@@ -26,18 +25,18 @@ public class DeviceDashboardPageTest extends TestBase {
 		excelUtility.initializeExcel("Device_ashboard_Test");
 	}
 
-	
 	@Test(priority = 1)
 	public void testLogin() {
 		String testCaseName = "Login Test In Device Dashboard";
 		try {
 			logger.info("Executing Login: " + testCaseName);
-			loginPage.enterUsername(ConfigProperties.getProperty("valid.username")).enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
+			loginPage.enterUsername(ConfigProperties.getProperty("valid.username"))
+					.enterPassword(ConfigProperties.getProperty("valid.password")).clickLogin();
 		} catch (Exception e) {
 			e.printStackTrace();
-}
+		}
 	}
-	
+
 	@Test(priority = 2)
 	public void testKPICards() {
 		String testCaseName = "Test KPI Cards";
@@ -45,7 +44,7 @@ public class DeviceDashboardPageTest extends TestBase {
 		String actualURL = "";
 		String result;
 		logger.info("checking the KPI Cards");
-	
+
 		try {
 			logger.info("Trying to check kpi cards on dashboard");
 			DeviceDashboard.CheckKPICard();
@@ -57,18 +56,18 @@ public class DeviceDashboardPageTest extends TestBase {
 			logger.warn("Error");
 			e.printStackTrace();
 			actualURL = driver.getCurrentUrl();
-//			captureScreenshot(testCaseName);
+			// captureScreenshot(testCaseName);
 			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
 		}
 		logger.info("Successfully checked kpi cards");
-				
-		}
+
+	}
 
 	@Test(priority = 3)
-	
-	public void TestDeviceModelWise () {
-		
+
+	public void TestDeviceModelWise() {
+
 		String testCaseName = "Test Device Model Wise buttons";
 		String expectedURL = ConfigProperties.getProperty("dashboard.url");
 		String result = "";
@@ -82,45 +81,19 @@ public class DeviceDashboardPageTest extends TestBase {
 					expectedURL, actualURL);
 		} catch (Exception e) {
 			logger.error("Error encountered in test case '{}'.", testCaseName, e);
-//			captureScreenshot(testCaseName);
+			// captureScreenshot(testCaseName);
 			result = "FAIL";
 		} finally {
 			excelUtility.writeTestDataToExcel(testCaseName, expectedURL,
 					result.equals("PASS") ? expectedURL : "Error occurred", result);
 		}
-		
+
 	}
+
 	@Test(priority = 4)
 	public void testGraphEnability() {
 		String testCaseName = "Testing the graph enability";
-		
-		
-	}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
-	
-	
-	
-}
 
+	}
+
+}
