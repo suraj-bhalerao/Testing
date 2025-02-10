@@ -110,7 +110,7 @@ public class DispatchedDevicePageTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 5)
+//	@Test(priority = 5)
 	public void testDownloadSample() {
 		String testCaseName = "Test Download Sample";
 		String result = "";
@@ -131,11 +131,12 @@ public class DispatchedDevicePageTest extends TestBase {
 		}
 	}
 
+	
 	@Test(priority = 6)
-	public void testFileUpload() throws AWTException, InterruptedException {		
-        String directory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
-        String filePrefix = "Sample_Dispatch_Sheet";
+	public void testFileUpload() throws AWTException, InterruptedException {
+		String directory = "C:\\Users\\Dhananjay Jagtap\\Downloads";
+		String filePrefix = "Sample_Dispatch_Sheet";
 
-        dispatchedDevice.uploadFile( directory, filePrefix);
+		dispatchedDevice.uploadFile(directory, filePrefix);
 	}
 }

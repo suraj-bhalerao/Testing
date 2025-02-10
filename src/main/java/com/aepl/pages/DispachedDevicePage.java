@@ -104,7 +104,7 @@ public class DispachedDevicePage {
 		}
 	}
 
-	public void uploadFile(String dir , String filePrefix) throws AWTException {
+	public void uploadFile(String dir, String filePrefix) throws AWTException {
 		try {
 			WebElement chooseFile = driver.findElement(By.id("txtFileUpload"));
 			mouse.moveToElement(chooseFile);
@@ -113,7 +113,7 @@ public class DispachedDevicePage {
 
 			Thread.sleep(3000);
 
-			StringSelection selection = new StringSelection(dir + File.separator +  filePrefix);
+			StringSelection selection = new StringSelection(dir + File.separator + filePrefix);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
 
 			Robot robot = new Robot();
