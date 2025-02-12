@@ -18,10 +18,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.gson.Gson;
@@ -135,13 +137,25 @@ public class MyAis140TicketsPage {
 	private By fotasecip = By.id("mat-input-71");
 	private By fotasecipstatus = By.id("mat-input-72");
 	private By stateenableota = By.id("mat-input-73");
-	private By Reason2skipstage= By.id("mat-input-74");
+	private By Reason2skipstage= By.id("mat-select-value-23");
 	private By Remark2skipstage= By.id("mat-input-75");
-	private By skippedby= By.id("mat-input-76");
-	
+	private By skippedby= By.id("mat-input-74");
+	private By selectskipstage2= By.id("mat-option-190");
+	private By removestage2restriction= By.xpath("/html/body/app-root/app-my-activations-details-page/div/form/div/div[7]/div/div[2]/div[25]/div[4]/button");
+	private By VehicleIgnitionOn = By.xpath("//*[@id=\"mat-select-value-1\"]");
+	private By VehicleIgnitionOnOption = By.xpath("//*[@id=\"mat-option-15\"]/span");
+	private By Remarkforsubstage1 = By.id("mat-input-2");
+	private By overallticketstatus = By.xpath("//*[@id=\"mat-select-18\"]/div/div[2]/div");
+	private By inprogressstatus = By.xpath("//*[@id=\"mat-option-146\"]/span");
+	private By updatebutton = By.xpath("/html/body/app-root/app-my-activations-details-page/div/form/div/div[8]/div/div[2]/div[61]/button");
+	private By gsmnw = By.id("mat-select-value-3");
+	private By gsmnwoption = By.xpath("//*[@id=\"mat-option-33\"]/span");
+	private By Remarkforsubstage2 = By.id("mat-input-4");
+	private By gpsfix = By.xpath("//*[@id=\"mat-select-4\"]/div/div[2]/div");
+	private By gpsfixoption = By.xpath("//*[@id=\"mat-option-51\"]/span");
+	private By Remarkforsubstage3 = By.id("mat-input-6");
 
 
-	
 	public String generateRandomString(int length) {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();
@@ -663,7 +677,7 @@ public class MyAis140TicketsPage {
 	public String DeviceIMEINumber() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement deviceIMEIElement = wait.until(ExpectedConditions.visibilityOfElementLocated(IMEINumber));
 			js.executeScript("arguments[0].click();", deviceIMEIElement);
 			String inputValue = deviceIMEIElement.getAttribute("value");   
@@ -699,7 +713,7 @@ public class MyAis140TicketsPage {
 	public String DeviceModel() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement deviceModelElement = wait.until(ExpectedConditions.visibilityOfElementLocated(DeviceModel));
 			js.executeScript("arguments[0].click();", deviceModelElement);
 			String inputValue = deviceModelElement.getAttribute("value");   
@@ -717,7 +731,7 @@ public class MyAis140TicketsPage {
 	public String DeviceMake() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement deviceMakeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(DeviceMake));
 			js.executeScript("arguments[0].click();", deviceMakeElement);
 			String inputValue = deviceMakeElement.getAttribute("value");   
@@ -735,7 +749,7 @@ public class MyAis140TicketsPage {
 	public String DevicePriOprName() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement devicePriOprNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(primaryOperatorName));
 			js.executeScript("arguments[0].click();", devicePriOprNameElement);
 			String inputValue = devicePriOprNameElement.getAttribute("value");   
@@ -789,7 +803,7 @@ public class MyAis140TicketsPage {
 	public String DeviceSecOprNumber() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement deviceSecOprNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(secondaryOperatorNumber));
 			js.executeScript("arguments[0].click();", deviceSecOprNumberElement);
 			String inputValue = deviceSecOprNumberElement.getAttribute("value");   
@@ -889,7 +903,7 @@ public class MyAis140TicketsPage {
 	public String VehicleOwnerPOADocNumber() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement VehicleOwnerPOADOCNumberElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerPOAdocnumber));
 			js.executeScript("arguments[0].click();", VehicleOwnerPOADOCNumberElement);
 			String inputValue = VehicleOwnerPOADOCNumberElement.getAttribute("value");   
@@ -940,7 +954,7 @@ public class MyAis140TicketsPage {
 	public String VehicleOwnerAddress() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,400)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement VehicleOwnerAddressElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehicleOwnerAddress));
 			js.executeScript("arguments[0].click();", VehicleOwnerAddressElement);
 			String inputValue = VehicleOwnerAddressElement.getAttribute("value");   
@@ -957,7 +971,7 @@ public class MyAis140TicketsPage {
 	public void ClickVehicleInformation() {
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,400)");
+//			js.executeScript("window.scrollBy(0,100)");
 			// Wait for the elements to be clickable
 			List<WebElement> vehicleList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(DeviceInfo));
 			int indexToClick = 3; // Change this to the desired index
@@ -985,7 +999,7 @@ public class MyAis140TicketsPage {
 	public String VehicleModel() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement VehicleModelElement = wait.until(ExpectedConditions.visibilityOfElementLocated(vehiclemodel));
 			js.executeScript("arguments[0].click();", VehicleModelElement);
 			String inputValue = VehicleModelElement.getAttribute("value");   
@@ -1183,7 +1197,7 @@ public class MyAis140TicketsPage {
 	public String VehicleIGNSatus() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement VehicleIGNStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(ignstatus));
 			js.executeScript("arguments[0].click();", VehicleIGNStatusElement);
 			String inputValue = VehicleIGNStatusElement.getAttribute("value");   
@@ -1229,7 +1243,7 @@ public class MyAis140TicketsPage {
 	public String VehicleDealerCode() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement DealerCodeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealercode));
 			js.executeScript("arguments[0].click();", DealerCodeElement);
 			String inputValue = DealerCodeElement.getAttribute("value");   
@@ -1248,7 +1262,7 @@ public class MyAis140TicketsPage {
 	public String VehicleDealerEmail() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement DealerEmailElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealeremail));
 			js.executeScript("arguments[0].click();", DealerEmailElement);
 			String inputValue = DealerEmailElement.getAttribute("value");   
@@ -1385,7 +1399,7 @@ public class MyAis140TicketsPage {
 	public String VehicleFOTABatchID() { 
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
-			js.executeScript("window.scrollBy(0,100)");
+//			js.executeScript("window.scrollBy(0,100)");
 			WebElement FoatBatchIDElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dealercode));
 			js.executeScript("arguments[0].click();", FoatBatchIDElement);
 			String inputValue = FoatBatchIDElement.getAttribute("value");   
@@ -1549,7 +1563,7 @@ public class MyAis140TicketsPage {
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
 //			js.executeScript("window.scrollBy(0,100)");
-			WebElement OTAStateEnStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(fotasecipstatus));
+			WebElement OTAStateEnStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(stateenableota));
 			js.executeScript("arguments[0].click();", OTAStateEnStatusElement);
 			String inputValue = OTAStateEnStatusElement.getAttribute("value");   
 			
@@ -1557,9 +1571,191 @@ public class MyAis140TicketsPage {
 			System.out.println("\u001B[1m\u001B[35mDevice Enable OTA Status :\u001B[0m " + inputValue);
 			js.executeScript("arguments[0].style.border='5px solid yellow';", OTAStateEnStatusElement);
 			} catch (Exception e) {
-			logger.error("Error while interacting with  Device FOTA Status Information for Device Enable OTA Statu.", e);
-			throw new RuntimeException("Failed to read  Device FOTA Status Information for Device Enable OTA Statu.", e);
+			logger.error("Error while interacting with  Device FOTA Status Information for Device Enable OTA Status.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Device Enable OTA Status.", e);
 		}
 		return "inputValue";
 	}
+	
+	public String DeviceStage2Restriction() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement OTAStateEnStatusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(Reason2skipstage));
+			js.executeScript("arguments[0].click();", OTAStateEnStatusElement);
+			
+			
+			WebElement stage2SkipElement = wait.until(ExpectedConditions.visibilityOfElementLocated(selectskipstage2));
+			js.executeScript("arguments[0].click();", stage2SkipElement);
+			String inputValue = stage2SkipElement.getAttribute("value");			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mStage 2 Restriction Remove :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", OTAStateEnStatusElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for Stage 2 Restriction Remove.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Stage 2 Restriction Remove.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceFOTASkipRemark() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement FOTASkipRemarkElement = wait.until(ExpectedConditions.visibilityOfElementLocated(Remark2skipstage));
+			FOTASkipRemarkElement.sendKeys("Skip FOTA & Remove Stage 2 Restriction");
+			js.executeScript("arguments[0].click();", FOTASkipRemarkElement);
+			String inputValue = FOTASkipRemarkElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDevice FOTA Skip Remark :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", FOTASkipRemarkElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for Device FOTA Skip Remark.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Device FOTA Skip Remark.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceFOTASkipBy() { 
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement FOTASkipByElement = wait.until(ExpectedConditions.visibilityOfElementLocated(skippedby));
+			js.executeScript("arguments[0].click();", FOTASkipByElement);
+			String inputValue = FOTASkipByElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mDevice FOTA Skip By User Name :\u001B[0m " + inputValue);
+			js.executeScript("arguments[0].style.border='5px solid yellow';", FOTASkipByElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for Device FOTA Skip By User Name.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Device FOTA Skip By User Name.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String RemoveStage2RestrictionButton() {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+//			js.executeScript("window.scrollBy(0,100)");
+			WebElement Removestage2resElement = wait.until(ExpectedConditions.visibilityOfElementLocated(removestage2restriction));
+			js.executeScript("arguments[0].click();", Removestage2resElement);
+//			String inputValue = Removestage2resElement.getAttribute("value");   
+			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mRemove Stage 2 Restriction Button Clicked :\u001B[0m " );
+			js.executeScript("arguments[0].style.border='5px solid yellow';", Removestage2resElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Device FOTA Status Information for Remove Stage 2 Restriction Button option.", e);
+			throw new RuntimeException("Failed to read  Device FOTA Status Information for Remove Stage 2 Restriction Button option.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String DeviceIgnOnOff() { 
+		try {
+			Thread.sleep(4000);
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,100)");
+			WebElement IgnOnOffElement = wait.until(ExpectedConditions.visibilityOfElementLocated(VehicleIgnitionOn));
+			js.executeScript("arguments[0].click();", IgnOnOffElement);
+			wait.until(ExpectedConditions.elementToBeClickable(IgnOnOffElement));
+			System.out.println("\u001B[1m\u001B[35mStage 1 of 1st substage dropdown is Clicked :\u001B[0m " );
+			
+			Thread.sleep(2000);
+			// Locate the dropdown element
+	        WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOfElementLocated(VehicleIgnitionOnOption));
+	        js.executeScript("arguments[0].click();", dropdownElement);
+
+	        WebElement Substage1RemarkElement = wait.until(ExpectedConditions.visibilityOfElementLocated(Remarkforsubstage1));
+	        js.executeScript("arguments[0].click();", Substage1RemarkElement);
+	        Substage1RemarkElement.sendKeys("Vehicle Ignition On continue to next stage");
+			
+	        WebElement OverAllTicketStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(overallticketstatus));
+	        js.executeScript("arguments[0].click();", OverAllTicketStatus);
+	        
+	        WebElement inprogressTicketStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(inprogressstatus));
+	        js.executeScript("arguments[0].click();", inprogressTicketStatus);
+	     
+	        WebElement ClickUpdatebtn = wait.until(ExpectedConditions.visibilityOfElementLocated(updatebutton));
+	        js.executeScript("arguments[0].click();", ClickUpdatebtn);
+	        
+			String inputValue = IgnOnOffElement.getAttribute("value");			
+			// Print Ticket Information
+			System.out.println("\u001B[1m\u001B[35mStage 1 of 1st substage is Completed :\u001B[0m ");
+			js.executeScript("arguments[0].style.border='5px solid yellow';", IgnOnOffElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Stage 1 of 1st substage dropdown is Clicked.", e);
+			throw new RuntimeException("Failed to read  Stage 1 of 1st substage dropdown is Clicked.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String GSMNWAvailable() { 
+		try {
+			Thread.sleep(4000);
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,-100)");
+			WebElement GSMNWElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gsmnw));
+			js.executeScript("arguments[0].click();", GSMNWElement);
+			wait.until(ExpectedConditions.elementToBeClickable(GSMNWElement));
+			System.out.println("\u001B[1m\u001B[35mStage 1 of 2nd substage dropdown is Clicked :\u001B[0m " );
+			
+			Thread.sleep(2000);
+			// Locate the dropdown element
+	        WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gsmnwoption));
+	        js.executeScript("arguments[0].click();", dropdownElement);
+
+	        WebElement Substage2RemarkElement = wait.until(ExpectedConditions.visibilityOfElementLocated(Remarkforsubstage2));
+	        js.executeScript("arguments[0].click();", Substage2RemarkElement);
+	        Substage2RemarkElement.sendKeys("GSM Network Available continue to next stage");
+	     
+	        WebElement ClickUpdatebtn = wait.until(ExpectedConditions.visibilityOfElementLocated(updatebutton));
+	        js.executeScript("arguments[0].click();", ClickUpdatebtn);
+	        
+			String inputValue = GSMNWElement.getDomAttribute("value");			
+			// Print Ticket Information
+//			System.out.println("\u001B[1m\u001B[35mStage 2 Restriction Remove :\u001B[0m ");
+			js.executeScript("arguments[0].style.border='5px solid yellow';", GSMNWElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Stage 1 of 2nd substage dropdown is Clicked.", e);
+			throw new RuntimeException("Failed to read  Stage 1 of 2nd substage dropdown is Clicked.", e);
+		}
+		return "inputValue";
+	}
+	
+	public String GPSFixAvailable() { 
+		try {
+			Thread.sleep(4000);
+			JavascriptExecutor js = (JavascriptExecutor) driver;	
+			js.executeScript("window.scrollBy(0,-100)");
+			WebElement GSMNWElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gpsfix));
+			js.executeScript("arguments[0].click();", GSMNWElement);
+			wait.until(ExpectedConditions.elementToBeClickable(GSMNWElement));
+			System.out.println("\u001B[1m\u001B[35mStage 1 of 2nd substage dropdown is Clicked :\u001B[0m " );
+			
+			Thread.sleep(2000);
+			// Locate the dropdown element
+	        WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gpsfixoption));
+	        js.executeScript("arguments[0].click();", dropdownElement);
+
+	        WebElement Substage2RemarkElement = wait.until(ExpectedConditions.visibilityOfElementLocated(Remarkforsubstage3));
+	        js.executeScript("arguments[0].click();", Substage2RemarkElement);
+	        Substage2RemarkElement.sendKeys("GPS Fix Available continue to next stage");
+	     
+	        WebElement ClickUpdatebtn = wait.until(ExpectedConditions.visibilityOfElementLocated(updatebutton));
+	        js.executeScript("arguments[0].click();", ClickUpdatebtn);
+	        
+			String inputValue = GSMNWElement.getDomAttribute("value");			
+			// Print Ticket Information
+//			System.out.println("\u001B[1m\u001B[35mStage 2 Restriction Remove :\u001B[0m ");
+			js.executeScript("arguments[0].style.border='5px solid yellow';", GSMNWElement);
+			} catch (Exception e) {
+			logger.error("Error while interacting with  Stage 1 of 3rd substage dropdown is Clicked.", e);
+			throw new RuntimeException("Failed to read  Stage 1 of 3rd substage dropdown is Clicked.", e);
+		}
+		return "inputValue";
+	}
+	
 }
