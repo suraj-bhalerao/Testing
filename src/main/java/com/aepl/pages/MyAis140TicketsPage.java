@@ -151,8 +151,11 @@ public class MyAis140TicketsPage {
 	private By gsmnw = By.id("mat-select-value-3");
 	private By gsmnwoption = By.xpath("//*[@id=\"mat-option-33\"]/span");
 	private By Remarkforsubstage2 = By.id("mat-input-4");
-	private By gpsfix = By.xpath("//*[@id=\"mat-select-4\"]/div/div[2]/div");	
-	
+	private By gpsfix = By.xpath("//*[@id=\"mat-select-4\"]/div/div[2]/div");
+	private By gpsfixoption = By.xpath("//*[@id=\"mat-option-51\"]/span");
+	private By Remarkforsubstage3 = By.id("mat-input-6");
+
+
 	public String generateRandomString(int length) {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();
@@ -1711,13 +1714,13 @@ public class MyAis140TicketsPage {
 	        WebElement ClickUpdatebtn = wait.until(ExpectedConditions.visibilityOfElementLocated(updatebutton));
 	        js.executeScript("arguments[0].click();", ClickUpdatebtn);
 	        
-			String inputValue = GSMNWElement.getAttribute("value");			
+			String inputValue = GSMNWElement.getDomAttribute("value");			
 			// Print Ticket Information
 //			System.out.println("\u001B[1m\u001B[35mStage 2 Restriction Remove :\u001B[0m ");
 			js.executeScript("arguments[0].style.border='5px solid yellow';", GSMNWElement);
 			} catch (Exception e) {
-			logger.error("Error while interacting with  Stage 1 of 1st substage dropdown is Clicked.", e);
-			throw new RuntimeException("Failed to read  Stage 1 of 1st substage dropdown is Clicked.", e);
+			logger.error("Error while interacting with  Stage 1 of 2nd substage dropdown is Clicked.", e);
+			throw new RuntimeException("Failed to read  Stage 1 of 2nd substage dropdown is Clicked.", e);
 		}
 		return "inputValue";
 	}
@@ -1727,19 +1730,19 @@ public class MyAis140TicketsPage {
 			Thread.sleep(4000);
 			JavascriptExecutor js = (JavascriptExecutor) driver;	
 			js.executeScript("window.scrollBy(0,-100)");
-			WebElement GSMNWElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gsmnw));
+			WebElement GSMNWElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gpsfix));
 			js.executeScript("arguments[0].click();", GSMNWElement);
 			wait.until(ExpectedConditions.elementToBeClickable(GSMNWElement));
 			System.out.println("\u001B[1m\u001B[35mStage 1 of 2nd substage dropdown is Clicked :\u001B[0m " );
 			
 			Thread.sleep(2000);
 			// Locate the dropdown element
-	        WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gsmnwoption));
+	        WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOfElementLocated(gpsfixoption));
 	        js.executeScript("arguments[0].click();", dropdownElement);
 
-	        WebElement Substage2RemarkElement = wait.until(ExpectedConditions.visibilityOfElementLocated(Remarkforsubstage2));
+	        WebElement Substage2RemarkElement = wait.until(ExpectedConditions.visibilityOfElementLocated(Remarkforsubstage3));
 	        js.executeScript("arguments[0].click();", Substage2RemarkElement);
-	        Substage2RemarkElement.sendKeys("GSM Network Available continue to next stage");
+	        Substage2RemarkElement.sendKeys("GPS Fix Available continue to next stage");
 	     
 	        WebElement ClickUpdatebtn = wait.until(ExpectedConditions.visibilityOfElementLocated(updatebutton));
 	        js.executeScript("arguments[0].click();", ClickUpdatebtn);
@@ -1749,8 +1752,8 @@ public class MyAis140TicketsPage {
 //			System.out.println("\u001B[1m\u001B[35mStage 2 Restriction Remove :\u001B[0m ");
 			js.executeScript("arguments[0].style.border='5px solid yellow';", GSMNWElement);
 			} catch (Exception e) {
-			logger.error("Error while interacting with  Stage 1 of 1st substage dropdown is Clicked.", e);
-			throw new RuntimeException("Failed to read  Stage 1 of 1st substage dropdown is Clicked.", e);
+			logger.error("Error while interacting with  Stage 1 of 3rd substage dropdown is Clicked.", e);
+			throw new RuntimeException("Failed to read  Stage 1 of 3rd substage dropdown is Clicked.", e);
 		}
 		return "inputValue";
 	}

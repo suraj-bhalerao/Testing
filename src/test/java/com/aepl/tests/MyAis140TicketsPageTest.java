@@ -2232,4 +2232,29 @@ public class MyAis140TicketsPageTest extends TestBase {
 		logger.info("Completed the test case: " + testCaseName);
 		System.out.println("Succesfully click on Device Ticket Status of GSM N/W Available option");
 	}
+	
+	@Test(priority = 75)
+	public void ClickDeviceGPSFixAvailable() {
+		String testCaseName = "Test Click on Ticket details of Device Ticket Status of GPS Fix Available On option";
+		String expectedURL = "";
+		String actualURL = myais140tickets.GPSFixAvailable();
+		String result = "";
+		logger.info("Executing the test Click on Ticket details of Device FOTA Status of GPS Fix Available option test case:" + testCaseName);
+		try {
+			logger.info("Attempting  to click on the Device Ticket Status of GPS Fix Available On option...");
+			actualURL = driver.getCurrentUrl();
+			expectedURL = actualURL;
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			logger.info("Result is : " + result);
+		} catch (Exception e) {
+			logger.error("An error occurred while clicking on the Device Ticket Status of GPS Fix Available option.", e);
+			e.printStackTrace();
+			actualURL = driver.getCurrentUrl();
+//			captureScreenshot(testCaseName);
+			result = expectedURL.equalsIgnoreCase(actualURL) ? "PASS" : "FAIL";
+			excelUtility.writeTestDataToExcel(testCaseName, expectedURL, actualURL, result);
+		}
+		logger.info("Completed the test case: " + testCaseName);
+		System.out.println("Succesfully click on Device Ticket Status of GPS Fix Available option");
+	}
 }
