@@ -26,9 +26,6 @@ public class WebDriverFactory {
 		case "firefox":
 			driver = getFirefoxDriver();
 			break;
-		case "internet explorer":
-			driver = getInternetExplorerDriver();
-			break;
 		case "edge":
 			driver = getEdgeDriver();
 		case "brave":
@@ -72,11 +69,6 @@ public class WebDriverFactory {
 	private static WebDriver getFirefoxDriver() {
 		WebDriverManager.firefoxdriver().setup();
 		return new FirefoxDriver();
-	}
-
-	private static WebDriver getInternetExplorerDriver() {
-		WebDriverManager.iedriver().setup();
-		return new InternetExplorerDriver();
 	}
 
 	private static WebDriver getEdgeDriver() {

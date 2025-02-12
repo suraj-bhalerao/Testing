@@ -92,19 +92,19 @@ public class DispachedDevicePage {
 	}
 
 	public void clickdownloadSample() {
-	    try {
-	        WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
-	        
-	        commonMethod.checkReportDownloadForAllbuttons(downloadButton);
-	        downloadButton.click();
-	        wait.until(ExpectedConditions.invisibilityOf(downloadButton));
-	    } catch (Exception e) {
-	        logger.error("Error while downloading the sample report.", e);
-	        throw new RuntimeException("Failed to download the sample report", e);
-	    }
+		try {
+			WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
+
+			commonMethod.checkReportDownloadForAllbuttons(downloadButton);
+			downloadButton.click();
+			wait.until(ExpectedConditions.invisibilityOf(downloadButton));
+		} catch (Exception e) {
+			logger.error("Error while downloading the sample report.", e);
+			throw new RuntimeException("Failed to download the sample report", e);
+		}
 	}
 
-	public void uploadFile(String dir , String filePrefix) throws AWTException {
+	public void uploadFile(String dir, String filePrefix) throws AWTException {
 		try {
 			WebElement chooseFile = driver.findElement(By.id("txtFileUpload"));
 			mouse.moveToElement(chooseFile);
@@ -113,7 +113,7 @@ public class DispachedDevicePage {
 
 			Thread.sleep(3000);
 
-			StringSelection selection = new StringSelection(dir + File.separator +  filePrefix);
+			StringSelection selection = new StringSelection(dir + File.separator + filePrefix);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
 
 			Robot robot = new Robot();
@@ -130,4 +130,5 @@ public class DispachedDevicePage {
 		} catch (Exception e) {
 
 		}
+	}
 }

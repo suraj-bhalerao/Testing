@@ -8,7 +8,6 @@
     </Properties>
 
     <Appenders>
-        <!-- Console Appender for logging to the console -->
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${logPattern}" />
         </Console>
