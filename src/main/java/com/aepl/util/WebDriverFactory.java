@@ -26,9 +26,6 @@ public class WebDriverFactory {
 		case "firefox":
 			driver = getFirefoxDriver();
 			break;
-		case "internet explorer":
-			driver = getInternetExplorerDriver();
-			break;
 		case "edge":
 			driver = getEdgeDriver();
 		case "brave":
@@ -67,7 +64,10 @@ public class WebDriverFactory {
 			logger.error("Error initializing ChromeDriver version: " + specificVersion, e);
 			throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
 		}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 35336fbdc489443293ee6f604547c1488bc47f04
 	}
 
 	private static WebDriver getFirefoxDriver() {
@@ -75,11 +75,14 @@ public class WebDriverFactory {
 		return new FirefoxDriver();
 	}
 
+<<<<<<< HEAD
 	private static WebDriver getInternetExplorerDriver() {
 		WebDriverManager.iedriver().setup();
 		return new InternetExplorerDriver();
 	}
 
+=======
+>>>>>>> 35336fbdc489443293ee6f604547c1488bc47f04
 	private static WebDriver getEdgeDriver() {
 		WebDriverManager.edgedriver().setup();
 		return new EdgeDriver();
