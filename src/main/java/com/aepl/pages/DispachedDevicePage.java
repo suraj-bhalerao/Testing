@@ -12,7 +12,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -90,46 +89,6 @@ public class DispachedDevicePage {
 			throw new RuntimeException("Failed to click on Add Dispatched Device button", e);
 		}
 	}
-<<<<<<< HEAD
-	
-	public void clickdownloadSample() {
-	    try {
-	        WebElement downloadButton = wait.until(ExpectedConditions.visibilityOfElementLocated(downloadSampleButton));
-	        
-	        commonMethod.checkReportDownloadForAllbuttons(downloadButton);
-	        downloadButton.click();
-	        wait.until(ExpectedConditions.invisibilityOf(downloadButton));
-	    } catch (Exception e) {
-	        logger.error("Error while downloading the sample report.", e);
-	        throw new RuntimeException("Failed to download the sample report", e);
-	    }
-	}
-
-	public void uploadFile(String dir , String filePrefix) throws AWTException {
-		try {
-			WebElement chooseFile = driver.findElement(By.id("txtFileUpload"));
-			mouse.moveToElement(chooseFile);
-
-			mouse.clickElement(chooseFile);
-
-			Thread.sleep(3000);
-
-			StringSelection selection = new StringSelection(dir + File.separator +  filePrefix);
-			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
-
-			Robot robot = new Robot();
-			robot.delay(2000);
-
-			robot.keyPress(KeyEvent.VK_CONTROL);
-			robot.keyPress(KeyEvent.VK_V);
-			robot.keyRelease(KeyEvent.VK_V);
-			robot.keyRelease(KeyEvent.VK_CONTROL);
-
-			robot.keyPress(KeyEvent.VK_ENTER);
-			robot.keyRelease(KeyEvent.VK_ENTER);
-
-		} catch (Exception e) {
-=======
 
 	public void clickdownloadSample() {
 		try {
@@ -168,7 +127,6 @@ public class DispachedDevicePage {
 			robot.keyRelease(KeyEvent.VK_ENTER);
 
 		} catch (Exception e) {
->>>>>>> 35336fbdc489443293ee6f604547c1488bc47f04
 
 		}
 	}

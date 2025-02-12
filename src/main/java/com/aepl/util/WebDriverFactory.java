@@ -10,7 +10,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -64,10 +63,6 @@ public class WebDriverFactory {
 			logger.error("Error initializing ChromeDriver version: " + specificVersion, e);
 			throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
 		}
-<<<<<<< HEAD
-
-=======
->>>>>>> 35336fbdc489443293ee6f604547c1488bc47f04
 	}
 
 	private static WebDriver getFirefoxDriver() {
@@ -75,14 +70,6 @@ public class WebDriverFactory {
 		return new FirefoxDriver();
 	}
 
-<<<<<<< HEAD
-	private static WebDriver getInternetExplorerDriver() {
-		WebDriverManager.iedriver().setup();
-		return new InternetExplorerDriver();
-	}
-
-=======
->>>>>>> 35336fbdc489443293ee6f604547c1488bc47f04
 	private static WebDriver getEdgeDriver() {
 		WebDriverManager.edgedriver().setup();
 		return new EdgeDriver();
