@@ -19,6 +19,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aepl.actions.MouseActions;
 import com.aepl.util.CommonMethod;
 
 public class DispachedDevicePage {
@@ -27,6 +28,7 @@ public class DispachedDevicePage {
 	private final WebDriver driver;
 	private final WebDriverWait wait;
 	private CommonMethod commonMethod;
+
 	private final Logger logger = LogManager.getLogger(DispachedDevicePage.class);
 
 	private final By dropDown = By.xpath("//span[@class='headers_custom color_3D5772']");
@@ -89,18 +91,7 @@ public class DispachedDevicePage {
 			throw new RuntimeException("Failed to click on Add Dispatched Device button", e);
 		}
   }
-	
-//	public String clickChooseFile() {
-//		// Click on the element 'Add Device Model' and return the current URL
-//		try {
-//			WebElement ChooseFileBtn= wait.until(ExpectedConditions.visibilityOfElementLocated(commonMethod.uploadFileAndGetFileName()));
-//			ChooseFileBtn.click();
-//			return driver.getCurrentUrl();
-//		} catch (Exception e) {
-//			logger.error("Error while clicking on Add Device Model button.", e);
-//			throw new RuntimeException("Failed to click on Add Device Model button", e);
-//		}
-//	}
+
 	
 	public String uploadFile(String filePath) {
 //        return CommonMethod.uploadAndFetchFileName(filePath);
@@ -128,6 +119,35 @@ public class DispachedDevicePage {
 	    }
 	}
 
+
+	public void uploadFile(String dir , String filePrefix) throws AWTException {
+		try {
+			WebElement chooseFile = driver.findElement(By.id("txtFileUpload"));
+			mouse.moveToElement(chooseFile);
+
+			mouse.clickElement(chooseFile);
+
+			Thread.sleep(3000);
+
+			StringSelection selection = new StringSelection(dir + File.separator +  filePrefix);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
+
+			Robot robot = new Robot();
+			robot.delay(2000);
+
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_V);
+			robot.keyRelease(KeyEvent.VK_V);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+
+		} catch (Exception e) {
+
+		}
+	}
+
 	public String clickChooseFileBtn() {
 		// Click on the element 'Add Device Model' and return the current URL
 		try {
@@ -146,9 +166,6 @@ public class DispachedDevicePage {
 		handleFileUpload(fileInput);
 		((WebElement) uploadButton).click(); // Click "Upload" button after selecting the file
 	}
-//	public String uploadFile(String filePath) {
-//		return commonMethod.uploadFileAndGetFileName(filePath);
-//	}
 
 
 	private void handleFileUpload(String fileInput) throws AWTException {
@@ -169,46 +186,7 @@ public class DispachedDevicePage {
 		robot.keyRelease(KeyEvent.VK_ENTER);
 	}
 
-//	public String uploadFile(String filePath) {
-//	    try {
-//	        logger.info("Starting file upload for: " + filePath);
-//
-//	        WebElement inputField = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
-//	        WebElement uploadBtn = wait.until(ExpectedConditions.elementToBeClickable(uploadButton));
-//
-//	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", inputField);
-//	        inputField.sendKeys(filePath);
-//	        logger.info("File path entered successfully.");
-//
-//	        if (!uploadBtn.isEnabled()) {
-//	            logger.warn("Upload button is disabled. Cannot proceed with file upload.");
-//	            return null;
-//	        }
-//
-//	        uploadBtn.click();
-//	        logger.info("Clicked on the upload button.");
-//
-//	        WebElement uploadedFileElement = wait.until(ExpectedConditions.visibilityOfElementLocated(uploadedFileName));
-//	        String uploadedFile = uploadedFileElement.getText();
-//	        logger.info("File uploaded successfully. Uploaded file name: " + uploadedFile);
-//
-//	        return uploadedFile;
-//	    } catch (Exception e) {
-//	        logger.error("Failed to upload file.", e);
-//	        return null;
-//	    }
-//	}
 
-//	public String clickChooseFileBtn() {
-//		// Click on the element 'Add Device Model' and return the current URL
-//		try {
-//			WebElement ChooseFileBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(ChooseFile));
-//			ChooseFileBtn.click();
-//			return driver.getCurrentUrl();
-//		} catch (Exception e) {
-//			logger.error("Error while clicking on Choose File button.", e);
-//			throw new RuntimeException("Failed to click on Choose File button", e);
-//		}
-//	}
+
 
 }

@@ -1744,7 +1744,7 @@ public class MyAis140TicketsPage {
 	        WebElement ClickUpdatebtn = wait.until(ExpectedConditions.visibilityOfElementLocated(updatebutton));
 	        js.executeScript("arguments[0].click();", ClickUpdatebtn);
 	        
-			String inputValue = GSMNWElement.getAttribute("value");			
+			String inputValue = GSMNWElement.getDomAttribute("value");			
 			// Print Ticket Information
 //			System.out.println("\u001B[1m\u001B[35mStage 2 Restriction Remove :\u001B[0m ");
 			js.executeScript("arguments[0].style.border='5px solid yellow';", GSMNWElement);

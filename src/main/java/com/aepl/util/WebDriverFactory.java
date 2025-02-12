@@ -41,16 +41,6 @@ public class WebDriverFactory {
 	}
 
 	private static WebDriver getChromeDriver() {
-// 	    String specificVersion = "133.0.6943.54"; // 133.0.6943.54
-// 	    try {
-// 	        WebDriverManager.chromedriver().driverVersion(specificVersion).setup();
-// 	        logger.info("Setting up ChromeDriver version: " + specificVersion);
-// 	        return new ChromeDriver();
-// 	    } catch (Exception e) {
-// 	        logger.error("Error initializing ChromeDriver version: " + specificVersion, e);
-// 	        throw new RuntimeException("Failed to initialize ChromeDriver version: " + specificVersion, e);
-// 	    }
-    
 		String specificVersion = "133.0.6943.54";
 		try {
 			ChromeOptions options = new ChromeOptions();

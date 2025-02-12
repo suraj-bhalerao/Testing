@@ -3,7 +3,9 @@ package com.aepl.tests;
 import java.util.Arrays;
 import java.util.List;
 
+
 import org.apache.log4j.Level;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -144,10 +146,14 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Issue in the search box and the table heading";
 			result = isChecked ? "PASS" : "FAIL";
+
+//			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+
 			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+
 			e.getMessage();
 		} finally {
-			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+//			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}
@@ -309,10 +315,17 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Issue in the search box and the table heading";
 			result = isChecked ? "PASS" : "FAIL";
+
+//			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+			e.getMessage();
+		} finally {
+//			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+
 			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
 			e.getMessage();
 		} finally {
 			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}
@@ -332,10 +345,17 @@ public class OtaPageTest extends TestBase {
 		} catch (Exception e) {
 			actualResult = "Action buttons worked as expected";
 			result = "Fail";
+
+//			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
+			e.getMessage();
+		} finally {
+//			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+
 			logger.log(Level.INFO, "Facing issue in the search box and table heading of the {} ", testCaseName);
 			e.getMessage();
 		} finally {
 			logger.log(Level.INFO, "Writing data to the excel file for testcase {}", testCaseName);
+
 			excelUtility.writeTestDataToExcel(testCaseName, expectedResult, actualResult, result);
 		}
 	}
