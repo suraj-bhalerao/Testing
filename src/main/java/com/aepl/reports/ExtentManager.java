@@ -25,7 +25,7 @@ public class ExtentManager {
         ExtentSparkReporter sparkReporter = new ExtentSparkReporter(filePath);
         sparkReporter.config().setDocumentTitle("Automation Test Report");
         sparkReporter.config().setReportName("Test Execution Report");
-        sparkReporter.config().setTheme(com.aventstack.extentreports.reporter.configuration.Theme.DARK); 
+        sparkReporter.config().setTheme(com.aventstack.extentreports.reporter.configuration.Theme.STANDARD); 
 
         extent = new ExtentReports();
         extent.attachReporter(sparkReporter);

@@ -191,7 +191,7 @@ public class OtaPage extends MouseActions{
 				// From Date
 				calendarActions.selectDate(calendar, "31-01-2025");
 				logger.info("Selected the date from the calendar");
-
+				
 				// To Date
 				calendarActions.selectDate(calendar, "03-02-2025");
 				logger.info("Selected the date from the calendar");
